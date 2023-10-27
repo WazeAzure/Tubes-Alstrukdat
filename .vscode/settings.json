@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "pcolor.h": "c",
+        "wordmachine.h": "c"
+    }
+}
