@@ -123,11 +123,15 @@ void WordToChar(Word str, char* arr_str){
 
 void readWord(Word *input, char MARK) {
     int i;
-    START(MARK);
-    IgnoreBlanks(MARK);
+    if(currentChar == '\0'){
+        START(MARK);
+        IgnoreBlanks(MARK);
+        i = 0;
+    } else {
+        i = 1;
+    }
 
     (*input).Length = 0;
-    i = 0;
 
     while ((currentChar != MARK) && (i < NMax)) {
         (*input).TabWord[i] = currentChar;

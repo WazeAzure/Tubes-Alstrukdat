@@ -19,6 +19,15 @@ void START(char MARK)
                  Jika currentChar = MARK maka EOP akan menyala (true) */
 
        /* Algoritma */
+       // if(currentChar != '\0'){
+       //        printf("called\n");
+       //        fgetc(pita);
+       //        fgetc(pita);
+       //        currentChar = '\0';
+       // }
+       
+       // printf("Start called\n");
+       // if(currentChar == '\0') printf("asdas %c\n", currentChar);
        pita = stdin;
        ADV(MARK);
 }
@@ -35,8 +44,15 @@ void ADV(char MARK)
        /* Algoritma */
        retval = fscanf(pita, "%c", &currentChar);
        EOP = (currentChar == MARK);
-       if (EOP)
+       // printf("EOP %d\n", EOP);
+       // if(currentChar == '\n') printf("newline detected\n");
+       // if(currentChar == '\0') printf("end of \\0 detected\n");
+       // printf("cc --> %c\n", currentChar);
+       if (EOP && currentChar != '\n')
        {
-              fclose(pita);
+              fgetc(pita);
+              // fclose(pita);
+              // printf("closed\n");
+              
        }
 }

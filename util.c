@@ -93,6 +93,36 @@ void loadConfigFile(){
     readFile(kicauan);
     readFile(balasan);
     readFile(utas);
-    
 }
 
+ void readCommandMain(Word* input){
+    Word sentence;
+    START(';');
+    readWord(&sentence, ';');
+    printf("%s\n", sentence.TabWord);
+    // printf("%s\n", sentence.TabWord);
+
+    // int idx = 0;
+    // Word w;
+    // int i=0, j =0;
+    // while(sentence.TabWord[i] != '\0'){
+    //     if(sentence.TabWord[i] == ' '){
+    //         w.TabWord[j] = '\0';
+    //         j = 0;
+    //         input[idx] = w;
+    //         idx++;
+    //     } else {
+    //         w.TabWord[j] = sentence.TabWord[i];
+    //         j++;
+    //     }
+    //     i++;
+    //     printf("%d \n", i);
+    // }
+
+    // printWord(input[0]);
+    // endl;
+    // printWord(input[1]);
+    // endl;
+    // printWord(input[2]);
+    // endl;
+ }
