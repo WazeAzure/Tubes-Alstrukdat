@@ -29,6 +29,19 @@ void printWelcomeBanner(){
     );
 }
 
+void printExitBanner(){
+    printf(
+" __________________\n"
+"< Come Back Later! >\n"
+" ------------------\n"
+"        \\   ^__^\n"
+"         \\  (oo)\\_______\n"
+"            (__)\\       )\\/\\ \n"
+"                ||----w |\n"
+"                ||     ||\n"
+    );
+}
+
 boolean isFolderExist(Word foldername){
     struct stat st;
 
@@ -95,29 +108,43 @@ void loadConfigFile(){
     readFile(utas);
 }
 
- void readCommandMain(Word* input){
+void readCommandMain(Word* input){
+    printf("> ");
     Word sentence;
-    START(';');
+    // printf("current char %c\n", currentChar);
     readWord(&sentence, ';');
-    printf("%s\n", sentence.TabWord);
+    // printf("%s\n", sentence.TabWord);
     // printf("%s\n", sentence.TabWord);
 
-    // int idx = 0;
-    // Word w;
-    // int i=0, j =0;
-    // while(sentence.TabWord[i] != '\0'){
-    //     if(sentence.TabWord[i] == ' '){
-    //         w.TabWord[j] = '\0';
-    //         j = 0;
-    //         input[idx] = w;
-    //         idx++;
-    //     } else {
-    //         w.TabWord[j] = sentence.TabWord[i];
-    //         j++;
-    //     }
-    //     i++;
-    //     printf("%d \n", i);
-    // }
+    int idx = 0;
+    int i=0, j =0;
+    boolean loop = true;
+    while(loop){
+        if(sentence.TabWord[i] == '\0') loop = false;
+        if(sentence.TabWord[i] == ' '){
+            input[idx].Length = j;
+            input[idx].TabWord[j] = '\0';
+            j = 0;
+            idx++;
+            i++;
+        }
+        
+        if(idx == 0){
+            input[0].TabWord[j] = sentence.TabWord[i];
+        } else if(idx == 1){
+            input[1].TabWord[j] = sentence.TabWord[i];
+        } else {
+            input[2].TabWord[j] = sentence.TabWord[i]; 
+        }
+
+        j++;
+        i++;
+    }
+
+    input[idx].Length = j;
+    input[idx].TabWord[j] = '\0';
+
+    // printf("%d\n", idx);
 
     // printWord(input[0]);
     // endl;
@@ -125,4 +152,35 @@ void loadConfigFile(){
     // endl;
     // printWord(input[2]);
     // endl;
- }
+}
+
+int strLen(char str[]){
+    int i=0;
+    while(str[i] != '\0'){
+        i++;
+    }
+    return i;
+}
+
+
+
+
+boolean strCompare(char str1[], char str2[]){
+    printf("%s\n", str1);
+    printf("%s\n", str2);
+    
+    int i=0;
+    int len1 = strLen(str1);
+    int len2 = strLen(str2);
+
+    printf("arr s1 s2 - %d %d\n", len1, len2);
+
+    if(len1 != len2) return false;
+
+    while(i < len1){
+        if(str1[i] != str2[i]) return false;
+        i++;
+    }
+
+    return true;
+}
