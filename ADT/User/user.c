@@ -19,7 +19,7 @@ void createFoto(int nRows, int nCols, FOTO *m){
 	}
 }
 
-/* *** Selektor "Dunia FOTO" *** */
+/* *** Selektor "FOTO" *** */
 boolean isFotoIdxValid(int i, int j){
 /* Mengirimkan true jika i, j adalah index yang valid untuk matriks apa pun */
     return (i >= 0 && i < 5 && j >=0 && j < 5);
@@ -89,7 +89,9 @@ void readFoto(FOTO *m){
             }
 
             // Cek apakah input baris valid
-            if (!isLineValid(line)) {
+            if (line.Length == 0) {
+                return;
+            } else if (!isLineValid(line)) {
                 printf("Masukkan Tidak valid, coba lagi!\n\n");
                 break;
             } else {

@@ -12,7 +12,7 @@ int CounterUser = 0;
 
 USER user[20];
 
-// Inisialisasi user;
+// Inisialisasi user, (kayanya ini nanti mending di main)
 // int i;
 // for (i = 0; i < 20; i++) {
 //     user[i].id = i;

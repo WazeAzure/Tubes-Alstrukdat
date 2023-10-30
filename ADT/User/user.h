@@ -10,7 +10,7 @@ typedef struct {
     char ASCII;
 } SYMBOL;
 
-// ADT FOTO (FOTO)
+// ADT FOTO (Matrix)
 typedef int IdxType; /* Index baris, kolom */
 typedef SYMBOL ElType;
 typedef struct {
@@ -25,7 +25,7 @@ typedef struct {
     int hp;
     Word weton;
     boolean privacy;
-    // adt matriks
+    FOTO foto;
 } PROFILE;
 
 // ADT User
@@ -50,7 +50,7 @@ typedef struct {
 #define COL_EFF(F) (F).colEff
 #define ELMT(F, i, j) (F).mem[(i)][(j)]
 
-// PROFILE
+// USER
 #define ID(u) (u).id
 #define NAMA(u) (u).nama
 #define SANDI(u) (u).sandi
@@ -59,11 +59,12 @@ typedef struct {
 // #define daftarteman
 // #define draft kicauan
 
-// USER
+// PROFILE
 #define BIO(u) (u).profile.bio
 #define HP(u) (u).profile.hp
 #define WETON(u) (u).profile.weton
 #define PRIVACY(u) (u).profile.privacy
+#define FOTO(u) (u).profile.foto
 
 // PRIMITIF ADT FOTO
 void createFoto(int nRows, int nCols, FOTO *m);
