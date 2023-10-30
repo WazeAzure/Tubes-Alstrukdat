@@ -55,11 +55,11 @@ void copyFoto(FOTO mIn, FOTO *mOut){
 /* ********** KELOMPOK BACA/TULIS ********** */
 boolean isLineValid(Word line) {
 // Mengecek apakah baris masukan foto valid atau tidak.
-    if (line.Length != 10) {
+    if (line.Length != 19) {
         return false;
     } else {
         int i;
-        for (i = 0; i < 10; i += 2) {
+        for (i = 0; i < 10; i += 4) {
             if (line.TabWord[i] != 'R' && line.TabWord[i] != 'G' && line.TabWord[i] != 'B') {
                 return false;
             }
@@ -82,27 +82,20 @@ void readFoto(FOTO *m){
     boolean finish = false;
     while (!finish) {
         for (i = 0; i < 5; i++) {
-            printf("%d\n", i);
-            // Baca baris
-            // if (i != 4){
-            //     readWord(&line, '\n');
-            // } else {
-            //     readWord(&line, ';');
-            // }
-            readWord(&line, ';');
-            printf("%d\n", line.Length);
+            if (i != 4){
+                readWord(&line, '\n');
+            } else {
+                readWord(&line, ';');
+            }
 
             // Cek apakah input baris valid
             if (!isLineValid(line)) {
                 printf("Masukkan Tidak valid, coba lagi!\n\n");
-                // for (j = 0; j <= line.Length; j++) {
-                //     line.TabWord[i] = '';
-                // }
                 break;
             } else {
                 for (j = 0; j < 5; j++) {
-                    COLOR(ELMT(temp, i, j)) = line.TabWord[2*j];
-                    ASCII(ELMT(temp, i, j)) = line.TabWord[2*j+1];
+                    COLOR(ELMT(temp, i, j)) = line.TabWord[4*j];
+                    ASCII(ELMT(temp, i, j)) = line.TabWord[4*j+2];
                 }
                 if (i == 4) {
                     finish = true;
