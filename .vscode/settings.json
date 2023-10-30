@@ -2,6 +2,7 @@
     "files.associations": {
         "stdio.h": "c",
         "pcolor.h": "c",
-        "wordmachine.h": "c"
+        "wordmachine.h": "c",
+        "globalvar.h": "c"
     }
 }
