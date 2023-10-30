@@ -19,7 +19,6 @@ typedef struct {
     int jumlah_teman;
     // daftar permintaan pertemanan
     // daftar draft kicauan
-
 } USER;
 
 #endif
