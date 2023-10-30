@@ -8,16 +8,21 @@
 
 typedef struct {
     int index; // index dari 1,...
-    Word utas;
+    Word utasan;
     DATETIME time;
 } UTAS;
 
 typedef struct {
+    int IDKicauan;
     int IDUtas; 
     Node child; 
 } MAINUTAS;
 
-void CreateUtas(UTAS *utas, int index, Word input, DATETIME time);
+void CreateMainUtas(MAINUTAS *parent, int IDKicauan, int IDUtas, Node child);
+
+void CetakMainUtas(MAINUTAS *parent);
+
+void CreateUtas(UTAS *utas, int index, Word utasan, DATETIME time);
 
 void ReadUtas(UTAS utas);
 
@@ -26,5 +31,8 @@ void CetakUtas(UTAS *utas);
 void SambungUtas(int IDUtas,int index, UTAS *utas);
 
 void HapusUtas(int IDUtas,int index, UTAS *utas); 
+
+
+
 
 #endif

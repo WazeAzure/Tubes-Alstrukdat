@@ -35,10 +35,10 @@ typedef struct {
     Word kata_sandi;
     PROFILE profile;
     int jumlah_teman;
-<<<<<<< HEAD
+
     // daftar permintaan pertemanan
     // daftar draft kicauan
-=======
+
     // daftar permintaan pertemanan (belum)
     // daftar draft kicauan (belum)
 
