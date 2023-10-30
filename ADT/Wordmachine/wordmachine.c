@@ -128,7 +128,8 @@ void readWord(Word *input, char MARK) {
         IgnoreBlanks(MARK);
         i = 0;
     } else {
-        i = 1;
+        START(MARK);
+        i = 0;
     }
 
     (*input).Length = 0;
