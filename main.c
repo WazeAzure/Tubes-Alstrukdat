@@ -16,17 +16,17 @@ int main(){
     Word input[3];
     readCommandMain(input);
 
-    // char command[2][100] = {"TUTUP_APLIKASI", "DAFTAR"};
-    printf("asdasdasdas\n");
-    // while(input[0].TabWord != command[0]){
-    //     if(input[0].TabWord == command[1]){
+    char command[2][100] = {"TUTUP_APLIKASI", "DAFTAR"};
+    printf("succeed to pass readCommand \n");
+    while(!strCompare(input[0].TabWord, command[0])){
+        if(input[0].TabWord == command[1]){
+            printf("called DAFTAR\n");
+        }
 
-    //     }
-    //     readCommandMain(input);
-    //     break;
-    // }
+        readCommandMain(input);
+    }
 
-
+    printExitBanner();
 
     return 0;
 }
