@@ -35,12 +35,12 @@ typedef struct {
     Word kata_sandi;
     PROFILE profile;
     int jumlah_teman;
-    // daftar permintaan pertemanan
-    // daftar draft kicauan
+    // daftar permintaan pertemanan (belum)
+    // daftar draft kicauan (belum)
 
 } USER;
 
-// SELEKTOR
+// SELEKTOR //
 // SYMBOl
 #define COLOR(s) (s).color
 #define ASCII(s) (s).ASCII
