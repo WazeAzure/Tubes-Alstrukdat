@@ -7,40 +7,7 @@
 #include "ADT/Wordmachine/wordmachine.h"
 
 #define endl printf("\n")
-void printWelcomeBanner(){
-    // clear screen
-    system("clear");
 
-    // welcome message
-    printf(
-"        \n"
-" _______                       _______   __           \t\t ⠀⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣶⣶⡿⢋\n"
-"|       \\                     |       \\ |  \\          \t\t ⠀⣿⣿⣦⣄⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋\n"
-"| $$$$$$$\\ __    __   ______  | $$$$$$$\\ \\$$  ______  \t\t ⠀⠹⣿⣿⣿⣿⣶⣤⣤⣤⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀\n"
-"| $$__/ $$|  \\  |  \\ /      \\ | $$__/ $$|  \\ /      \\ \t\t ⠀⣄⣈⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀\n"
-"| $$    $$| $$  | $$|  $$$$$$\\| $$    $$| $$|  $$$$$$\\ \t\t ⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀\n"
-"| $$$$$$$\\| $$  | $$| $$   \\$$| $$$$$$$\\| $$| $$   \\$$ \t\t ⠀⠀⣀⣉⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀\n"
-"| $$__/ $$| $$__/ $$| $$      | $$__/ $$| $$| $$      \t\t ⠀⠀⠘⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀\n"
-"| $$    $$ \\$$    $$| $$      | $$    $$| $$| $$      \t\t ⠀⠀⠀⠀⠀⢉⣩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀\n"
-" \\$$$$$$$   \\$$$$$$  \\$$       \\$$$$$$$  \\$$ \\$$      \t\t ⠒⠶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀\n"
-"                                                      \t\t ⠀⠀⠀⠉⠙⠛⠛⠛⠛⠛⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-"                                                      \t\t\n"
-"                                                      \t\t\n"
-    );
-}
-
-void printExitBanner(){
-    printf(
-" __________________\n"
-"< Come Back Later! >\n"
-" ------------------\n"
-"        \\   ^__^\n"
-"         \\  (oo)\\_______\n"
-"            (__)\\       )\\/\\ \n"
-"                ||----w |\n"
-"                ||     ||\n"
-    );
-}
 
 boolean isFolderExist(Word foldername){
     struct stat st;
@@ -60,7 +27,7 @@ boolean isFolderExist(Word foldername){
     }
 }
 
-void readFile(Word FileName){
+boolean readFile(Word FileName){
     char filename[FileName.Length];
     WordToChar(FileName, filename);
 
@@ -70,10 +37,11 @@ void readFile(Word FileName){
         printf("file opened \'%s\'\n", filename);
     } else {
         printf("file \'%s\' not exist\n", filename);
-        return;
+        return false;
     }
 
     fclose(f_pengguna); // tutup file pengguna
+    return true;
 }
 
 void loadConfigFile(){
@@ -82,9 +50,9 @@ void loadConfigFile(){
     readWord(&foldername, '\n');
 
     // <-- berikan pengecekkan folder
-    if(!isFolderExist(foldername)){
-        // end of function
-        return;
+    while(!isFolderExist(foldername)){
+        printf("Silahkan masukan folder konfigurasi untuk dimuat: ");
+        readWord(&foldername, '\n');
     }
 
     char char_pengguna[] = "/pengguna.config";
@@ -102,10 +70,15 @@ void loadConfigFile(){
     balasan = ConcatWord(foldername, balasan);
     utas = ConcatWord(foldername, utas);
 
-    readFile(pengguna);
-    readFile(kicauan);
-    readFile(balasan);
-    readFile(utas);
+    boolean stat1 = readFile(pengguna);
+    boolean stat2 = readFile(kicauan);
+    boolean stat3 = readFile(balasan);
+    boolean stat4 = readFile(utas);
+
+    if(!(stat1 && stat2 && stat3 && stat4)){
+        printf("Mohon pastikan semua file ada.\n");
+        exit(1);
+    }
 }
 
 void readCommandMain(Word* input){
@@ -162,18 +135,15 @@ int strLen(char str[]){
     return i;
 }
 
-
-
-
 boolean strCompare(char str1[], char str2[]){
-    printf("%s\n", str1);
-    printf("%s\n", str2);
+    // printf("%s\n", str1);
+    // printf("%s\n", str2);
     
     int i=0;
     int len1 = strLen(str1);
     int len2 = strLen(str2);
 
-    printf("arr s1 s2 - %d %d\n", len1, len2);
+    // printf("arr s1 s2 - %d %d\n", len1, len2);
 
     if(len1 != len2) return false;
 
@@ -183,4 +153,51 @@ boolean strCompare(char str1[], char str2[]){
     }
 
     return true;
+}
+
+/* SECTION PRINT PRINT-AN AJA */
+
+void printWelcomeBanner(){
+    // clear screen
+    system("clear");
+
+    // welcome message
+    printf(
+"        \n"
+" _______                       _______   __           \t\t ⠀⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣶⣶⡿⢋\n"
+"|       \\                     |       \\ |  \\          \t\t ⠀⣿⣿⣦⣄⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋\n"
+"| $$$$$$$\\ __    __   ______  | $$$$$$$\\ \\$$  ______  \t\t ⠀⠹⣿⣿⣿⣿⣶⣤⣤⣤⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀\n"
+"| $$__/ $$|  \\  |  \\ /      \\ | $$__/ $$|  \\ /      \\ \t\t ⠀⣄⣈⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀\n"
+"| $$    $$| $$  | $$|  $$$$$$\\| $$    $$| $$|  $$$$$$\\ \t\t ⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀\n"
+"| $$$$$$$\\| $$  | $$| $$   \\$$| $$$$$$$\\| $$| $$   \\$$ \t\t ⠀⠀⣀⣉⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀\n"
+"| $$__/ $$| $$__/ $$| $$      | $$__/ $$| $$| $$      \t\t ⠀⠀⠘⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀\n"
+"| $$    $$ \\$$    $$| $$      | $$    $$| $$| $$      \t\t ⠀⠀⠀⠀⠀⢉⣩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀\n"
+" \\$$$$$$$   \\$$$$$$  \\$$       \\$$$$$$$  \\$$ \\$$      \t\t ⠒⠶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀\n"
+"                                                      \t\t ⠀⠀⠀⠉⠙⠛⠛⠛⠛⠛⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+"                                                      \t\t\n"
+"                                                      \t\t\n"
+    );
+}
+
+void printExitBanner(){
+    printf(
+" __________________\n"
+"< Come Back Later! >\n"
+" ------------------\n"
+"        \\   ^__^\n"
+"         \\  (oo)\\_______\n"
+"            (__)\\       )\\/\\ \n"
+"                ||----w |\n"
+"                ||     ||\n"
+    );
+}
+
+void printErrMessage(Word w){
+    if(strCompare(w.TabWord, "DAFTAR")){
+        printf("Anda sudah masuk. Keluar terlebih dahulu untuk melakukan daftar.\n");
+    } else if(strCompare(w.TabWord, "MASUK")){
+        printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
+    } else if(strCompare(w.TabWord, "MUAT")){
+        printf("Anda harus keluar terlebih dahulu untuk melakukan pemuatan.\n");
+    }
 }

@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "../Wordmachine/charmachine.h"
+#include "../Wordmachine/wordmachine.h"
+
 #include "../Datetime/datetime.h"
 #include "../Datetime/time.c"
 #include "../Datetime/datetime.c"
@@ -21,8 +24,6 @@ void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author){
     kicauan->idAuthor = idAuthor;
     kicauan->daftar_balasan = NULL;
     kicauan->daftar_utas = NULL;
-
-
 }
 
 void showKicauanContent(KICAUAN kicauan){
@@ -44,5 +45,16 @@ void showKicauanContent(KICAUAN kicauan){
     }
     if(kicauan.daftar_utas == NULL){
         printf("daftar utas kosong\n");
+    }
+}
+
+
+void kicau(){
+    printf("Masukkan kicauan:\n");
+    Word teks;
+    readWord(&teks, ';');
+
+    if(teks.Length == 0){
+        printf("Kicauan tidak boleh hanya berisi spasi!");
     }
 }

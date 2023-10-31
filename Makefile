@@ -58,5 +58,5 @@ wordmachine: $(OBJ_CHAR) $(OBJ_WORD)
 	$(CC) $(CFLAGS) -o $@ $^ 
 
 
-edbert: $(OBJ_LIB) util.c main.c
-	$(CC) $(CFLAGS) -o $@  main.c $(SRC_LIB)
+edbert: $(OBJ_LIB) util.c main.c globalVar.h globalVar.c
+	$(CC) $(CFLAGS) -o $@  main.c globalVar.c $(SRC_LIB)

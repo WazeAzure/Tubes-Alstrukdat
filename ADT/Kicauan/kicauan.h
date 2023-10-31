@@ -11,6 +11,11 @@
 
 typedef struct {
     int id;
+    BALASAN *list_balasan;
+} PairBalasan;
+
+typedef struct {
+    int id;
     int like;
     int idAuthor;
     int inc_balasan;
@@ -19,7 +24,7 @@ typedef struct {
     DATETIME timeCreated;
 
     // list of daftar balasan
-    BALASAN *daftar_balasan;
+    PairBalasan *daftar_balasan;
 
     // list of daftar utas
     UTAS *daftar_utas;

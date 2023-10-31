@@ -37,7 +37,7 @@ int GetMaxDay(int M, int Y);
 /* 2. Jika angka tahun itu tidak habis dibagi 400 tetapi habis dibagi 100, maka tahun itu sudah pasti bukan merupakan tahun kabisat. */
 /* 3. Jika angka tahun itu tidak habis dibagi 400, tidak habis dibagi 100 akan tetapi habis dibagi 4, maka tahun itu merupakan tahun kabisat. */
 /* 4. Jika angka tahun tidak habis dibagi 400, tidak habis dibagi
-boolean IsDATETIMEValid(int D, int M, int Y, int h, int m, int s);
+boolean IsDATETIMEValid(int D, int M, int Y, int h, int m, int s); */
 /* Mengirim true jika D,M,Y,h,m,s dapat membentuk D yang valid */
 /* dipakai untuk mentest SEBELUM membentuk sebuah DATETIME */
 
