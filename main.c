@@ -1,7 +1,12 @@
 #include "util.c"
 #include "globalVar.h"
-// daftar fungsi
+
+// daftar fungsi header
+#include "ADT/User/user.h"
 #include "ADT/Kicauan/kicauan.h"
+
+// daftar fungsi C
+#include "ADT/User/user.c"
 
 
 int main(){
@@ -38,10 +43,12 @@ int main(){
             if(strCompare(input[0].TabWord, command[0])){
                 // DAFTAR
                 printf("called %s\n", command[0]);
+                daftar();
             }
             else if(strCompare(input[0].TabWord, command[1])){
                 // MASUK
                 printf("called %s\n", command[1]);
+                masuk();
             }
             else if(strCompare(input[0].TabWord, command[27])){
                 // SIMPAN
@@ -59,6 +66,7 @@ int main(){
             if(strCompare(input[0].TabWord, command[2])){
                 // KELUAR
                 printf("called %s\n", command[2]);
+                keluar();
             }
             else if(strCompare(input[0].TabWord, command[3])){
                 // TUTUP_PROGRAM
@@ -69,6 +77,7 @@ int main(){
             else if(strCompare(input[0].TabWord, command[4])){
                 // GANTI_PROFIL
                 printf("called %s\n", command[4]);
+                ganti_profile();
             }
             else if(strCompare(input[0].TabWord, command[5])){
                 // LIHAT_PROFIL

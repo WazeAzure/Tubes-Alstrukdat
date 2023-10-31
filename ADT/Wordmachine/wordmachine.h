@@ -54,8 +54,11 @@ Word CharToWord(char str[]);
 
 void WordToChar(Word str, char* arr_str);
 
+int WordToInt(Word w);
+
 void readWord(Word *input, char MARK);
 
 void printWord(Word word);
+
 
 #endif
