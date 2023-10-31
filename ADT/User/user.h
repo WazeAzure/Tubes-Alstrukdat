@@ -57,7 +57,7 @@ typedef struct {
 // USER
 #define ID(u) (u).id
 #define NAMA(u) (u).nama
-#define SANDI(u) (u).sandi
+#define SANDI(u) (u).kata_sandi
 #define JUMLAH_TEMAN(u) (u).jumlah_teman
 #define PROFILE(u) (u).profile
 // #define daftarteman
@@ -106,7 +106,7 @@ void displayFoto(FOTO m);
 /* Proses: Menulis nilai setiap elemen m ke layar dengan traversal per baris dan per kolom */
 
 
-/* (BAKAL DI PINDAH KE FOLDER SECTION)
+
 // Fungsi dan Prosedur
 // PENGGUNA
 void daftar();
@@ -152,7 +152,7 @@ boolean isHpValid();
 // fungsi yang mengecek apakah masukan nomor HP valid yaitu integer dengan panjang berapapun.
 // return boolean.
 
-boolean isWetonValid(weton);
+boolean isWetonValid(Word weton);
 // fungsi yang mengecek apakah masukan weton valid.
 // return boolean.
 
@@ -165,5 +165,5 @@ void showFotoProfil(int id);
 void readFotoProfil();
 // I.S. Login.
 // F.S. membaca masukan ubah foto profil akun CurrentUserId.
-*/
+
 #endif

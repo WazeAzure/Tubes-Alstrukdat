@@ -18,3 +18,5 @@ USER user[20];
 //     user[i].id = i;
 //     user[i].jumlah_teman = 0;
 // }
+
+boolean DaftarPertemanan[20][20];

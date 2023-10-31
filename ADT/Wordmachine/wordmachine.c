@@ -113,6 +113,15 @@ Word CharToWord(char str[]){
     return w;
 }
 
+int WordToInt(Word w){
+    int sum = 0;
+    int i=0;
+    for(i=0; i<w.Length;i++){
+        sum = (sum * 10) + (w.TabWord[i] - '0');
+    }
+    return sum;
+}
+
 void WordToChar(Word str, char* arr_str){
     int i;
     for(i=0; i<str.Length; i++){

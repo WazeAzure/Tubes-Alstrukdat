@@ -3,6 +3,7 @@
         "stdio.h": "c",
         "pcolor.h": "c",
         "wordmachine.h": "c",
-        "globalvar.h": "c"
+        "globalvar.h": "c",
+        "user.h": "c"
     }
 }

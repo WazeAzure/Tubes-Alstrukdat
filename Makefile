@@ -44,11 +44,13 @@ $(TEST_RESULTS): $(TESTS_DIR)/%.result: $(TESTS_DIR)/%.in $(TESTS_DIR)/%.out mfo
 
 # UNIT TEST Wordmachine
 
-SRC_LIB = $(SRC_CHAR) $(SRC_WORD)
+SRC_LIB = $(SRC_CHAR) $(SRC_WORD) $(SRC_PCOLOR)
 OBJ_LIB = $(SRC_LIB:.c=.o)
 
 SRC_CHAR = ADT/Wordmachine/charmachine.c
 SRC_WORD = ADT/Wordmachine/wordmachine.c
+
+SRC_PCOLOR = ADT/pcolor/pcolor.c
 
 OBJ_CHAR = $(SRC_CHAR:.c=.o)
 OBJ_WORD = $(SRC_WORD:.c=.o)
@@ -58,5 +60,5 @@ wordmachine: $(OBJ_CHAR) $(OBJ_WORD)
 	$(CC) $(CFLAGS) -o $@ $^ 
 
 
-edbert: $(OBJ_LIB) util.c main.c globalVar.h globalVar.c
+edbert: $(OBJ_LIB) util.c main.c globalVar.h globalVar.c 
 	$(CC) $(CFLAGS) -o $@  main.c globalVar.c $(SRC_LIB)
