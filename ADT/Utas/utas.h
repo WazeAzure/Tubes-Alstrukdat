@@ -2,9 +2,6 @@
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
 
-#include "../Linkedlist/listlinier.h"
-#include "../Listdin/listdin.h"
-
 #ifndef _UTAS_H
 #define _UTAS_H
 
