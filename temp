@@ -1,0 +1,58 @@
+
+procedure insertFirst(input/output l:List, input x:ElType)
+	KAMUS LOKAL
+	p : Address
+	new : Address
+
+	ALGORITMA
+	
+	p <- FIRST(l)
+	new <- newNode(x)
+	
+	if (new != NIL) then
+		if (isEmpty(p)) then
+			FIRST(l) <- new
+			LAST(l) <- new
+		else 
+			new^.next <- p
+			FIRST(l) <- new
+
+procedure insertLast(input/output l:List, input x:ElType)
+	KAMUS LOKAL
+	p : Address
+	new : Address
+
+	ALGORITMA
+	p <- LAST(l)
+	new <- newNode(x)
+	
+	if (new != NIL) then
+		if (isEmpty(p)) then
+			LAST(l) <- new
+			FIRST(l) <- new
+		else
+			p^.next <- new
+			LAST(l) <- new
+
+function search(l:List, x:ElType) -> boolean
+	KAMUS LOKAL
+	p : Address
+	isFound : boolean
+	ALGORITMA
+	p <- FIRST(l)
+	isFound <- true
+
+	if (isEmpty(p)) then
+		isFound <- false
+	
+	if (isFound and p != dummy) then
+		if (p^.info = x) then
+			isFound <- true
+		p <- p^.next
+	
+	if (isFound and p = LAST(l)) then
+		isFound <- false
+
+	-> isFound
+
+f
