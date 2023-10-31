@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "datetime.h"
 #include "time.h"
+#include <time.h>
 // #include "time.c"
 
 boolean isLeapYear(int Y){
@@ -168,4 +169,14 @@ DATETIME DATETIMEPrevNDetik(DATETIME D, int N){
 
 long int DATETIMEDurasi(DATETIME DAw, DATETIME DAkh){
     return (DATETIMEToDetik(DAkh) - DATETIMEToDetik(DAw));
+}
+
+long long int getCurrentTime(){
+    // output dalam UNIX Timestamp
+    time_t current_time = time(NULL);
+    if(current_time == ((time_t) - 1)){
+        perror("current_time error");
+        return 1;
+    }
+    return (long long int) current_time;
 }
