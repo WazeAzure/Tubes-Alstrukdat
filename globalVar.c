@@ -8,7 +8,7 @@ int CounterUser = 0;
 
 // Teman teman
 
-KICAUAN *kicauan = NULL;
+AddressKicauan ListKicauan = NULL;
 
 USER user[20];
 

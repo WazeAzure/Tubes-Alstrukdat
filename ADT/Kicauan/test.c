@@ -17,10 +17,10 @@ int main(){
     }
     Author.Length = len;
 
-    KICAUAN kicau;
-    CreateKicauan(&kicau, 1, Author);
+    kicau(Author);
 
-    printf("%d\n", kicau.id);
-    showKicauanContent(kicau);
+    printf("daftar kicauan\n");
+    showAllListKicauan();
+
     return 0;
 }
