@@ -36,13 +36,16 @@ typedef struct {
     PROFILE profile;
     int jumlah_teman;
 
-    // daftar permintaan pertemanan
-    // daftar draft kicauan
-
     // daftar permintaan pertemanan (belum)
     // daftar draft kicauan (belum)
 
 } USER;
+
+#define maxUser 20
+// ADT ListUser (List Statik)
+typedef struct {
+    USER user[maxUser];
+} ListUser;
 
 // SELEKTOR //
 // SYMBOl
@@ -50,18 +53,10 @@ typedef struct {
 #define ASCII(s) (s).ASCII
 
 // FOTO
-#define ROW_EFF(F) (F).rowEff
-#define COL_EFF(F) (F).colEff
-#define ELMT(F, i, j) (F).mem[(i)][(j)]
+#define FOTO_ROW_EFF(F) (F).rowEff
+#define FOTO_COL_EFF(F) (F).colEff
+#define FOTO_ELMT(F, i, j) (F).mem[(i)][(j)]
 
-// USER
-#define ID(u) (u).id
-#define NAMA(u) (u).nama
-#define SANDI(u) (u).kata_sandi
-#define JUMLAH_TEMAN(u) (u).jumlah_teman
-#define PROFILE(u) (u).profile
-// #define daftarteman
-// #define draft kicauan
 
 // PROFILE
 #define BIO(u) (u).profile.bio
@@ -69,6 +64,20 @@ typedef struct {
 #define WETON(u) (u).profile.weton
 #define PRIVACY(u) (u).profile.privacy
 #define FOTO(u) (u).profile.foto
+
+// USER
+#define USER_ID(u) (u).id
+#define USER_NAMA(u) (u).nama
+#define SANDI(u) (u).kata_sandi
+#define JUMLAH_TEMAN(u) (u).jumlah_teman
+#define PROFILE(u) (u).profile
+// #define daftarteman
+// #define draft kicauan
+
+// ListUser
+
+
+
 
 // PRIMITIF ADT FOTO
 void createFoto(int nRows, int nCols, FOTO *m);

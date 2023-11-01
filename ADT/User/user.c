@@ -13,15 +13,15 @@ void createFoto(int nRows, int nCols, FOTO *m){
 /* Membentuk sebuah FOTO "kosong" yang siap diisi berukuran nRow x nCol di "ujung kiri" memori */
 /* I.S. nRow dan nCol adalah valid untuk memori matriks yang dibuat */
 /* F.S. Matriks m sesuai dengan definisi di atas terbentuk dan Set Default Foto */
-    ROW_EFF(*m) = nRows;
-	COL_EFF(*m) = nCols;
+    FOTO_ROW_EFF(*m) = nRows;
+	FOTO_COL_EFF(*m) = nCols;
 
     // Set Default Foto
 	IdxType i, j;
 	for(i=0;i<nRows;i++){
 		for(j=0;j<nCols;j++){
-			COLOR(ELMT(*m, i, j)) = 'R';
-            ASCII(ELMT(*m, i, j)) = '*';
+			COLOR(FOTO_ELMT(*m, i, j)) = 'R';
+            ASCII(FOTO_ELMT(*m, i, j)) = '*';
 		}
 	}
 }
@@ -35,11 +35,11 @@ boolean isFotoIdxValid(int i, int j){
 /* *** Selektor: Untuk sebuah matriks m yang terdefinisi: *** */
 IdxType getLastIdxRow(FOTO m){
 /* Mengirimkan Index baris terbesar m */
-    return ROW_EFF(m) - 1;
+    return FOTO_ROW_EFF(m) - 1;
 }
 IdxType getLastIdxCol(FOTO m){
 /* Mengirimkan Index kolom terbesar m */
-    return COL_EFF(m) -1;
+    return FOTO_COL_EFF(m) -1;
 }
 boolean isIdxEff(FOTO m, IdxType i, IdxType j){
 /* Mengirimkan true jika i, j adalah Index efektif bagi m */
@@ -49,12 +49,12 @@ boolean isIdxEff(FOTO m, IdxType i, IdxType j){
 /* ********** Assignment  FOTO ********** */
 void copyFoto(FOTO mIn, FOTO *mOut){
 /* Melakukan assignment mOut <- mIn */
-    createFoto(ROW_EFF(mIn), COL_EFF(mIn), mOut);
+    createFoto(FOTO_ROW_EFF(mIn), FOTO_COL_EFF(mIn), mOut);
 
 	IdxType i=0, j=0;
-	for(i=0; i<ROW_EFF(mIn); i++){
-		for(j=0; j<COL_EFF(mIn); j++){
-			ELMT(*mOut, i, j) = ELMT(mIn, i, j);
+	for(i=0; i<FOTO_ROW_EFF(mIn); i++){
+		for(j=0; j<FOTO_COL_EFF(mIn); j++){
+			FOTO_ELMT(*mOut, i, j) = FOTO_ELMT(mIn, i, j);
 		}
 	}
 }
@@ -103,8 +103,8 @@ void readFoto(FOTO *m){
                 break;
             } else {
                 for (j = 0; j < 5; j++) {
-                    COLOR(ELMT(temp, i, j)) = line.TabWord[4*j];
-                    ASCII(ELMT(temp, i, j)) = line.TabWord[4*j+2];
+                    COLOR(FOTO_ELMT(temp, i, j)) = line.TabWord[4*j];
+                    ASCII(FOTO_ELMT(temp, i, j)) = line.TabWord[4*j+2];
                 }
                 if (i == 4) {
                     finish = true;
@@ -122,27 +122,27 @@ void displayFoto(FOTO m){
    dipisahkan sebuah spasi. Baris terakhir tidak diakhiri dengan newline */
 /* Proses: Menulis nilai setiap elemen m ke layar dengan traversal per baris dan per kolom */
     IdxType i=0, j=0;
-	for(i=0;i<ROW_EFF(m);i++){
-		for(j=0;j<COL_EFF(m)-1;j++){
-			if (COLOR(ELMT(m, i, j)) == 'R') {
-                print_red(ASCII(ELMT(m, i, j)));
+	for(i=0;i<FOTO_ROW_EFF(m);i++){
+		for(j=0;j<FOTO_COL_EFF(m)-1;j++){
+			if (COLOR(FOTO_ELMT(m, i, j)) == 'R') {
+                print_red(ASCII(FOTO_ELMT(m, i, j)));
                 printf(" ");
-            } else if (COLOR(ELMT(m, i, j)) == 'G') {
-                print_green(ASCII(ELMT(m, i, j)));
+            } else if (COLOR(FOTO_ELMT(m, i, j)) == 'G') {
+                print_green(ASCII(FOTO_ELMT(m, i, j)));
                 printf(" ");
-            } else if (COLOR(ELMT(m, i, j)) == 'B') {
-                print_blue(ASCII(ELMT(m, i, j)));
+            } else if (COLOR(FOTO_ELMT(m, i, j)) == 'B') {
+                print_blue(ASCII(FOTO_ELMT(m, i, j)));
                 printf(" ");
             }
 		}
-        if (COLOR(ELMT(m, i, COL_EFF(m)-1)) == 'R') {
-            print_red(ASCII(ELMT(m, i, COL_EFF(m)-1)));
+        if (COLOR(FOTO_ELMT(m, i, FOTO_COL_EFF(m)-1)) == 'R') {
+            print_red(ASCII(FOTO_ELMT(m, i, FOTO_COL_EFF(m)-1)));
             printf("\n");
-        } else if (COLOR(ELMT(m, i, COL_EFF(m)-1)) == 'G') {
-            print_green(ASCII(ELMT(m, i, COL_EFF(m)-1)));
+        } else if (COLOR(FOTO_ELMT(m, i, FOTO_COL_EFF(m)-1)) == 'G') {
+            print_green(ASCII(FOTO_ELMT(m, i, FOTO_COL_EFF(m)-1)));
             printf("\n");
-        } else if (COLOR(ELMT(m, i, COL_EFF(m)-1)) == 'B') {
-            print_blue(ASCII(ELMT(m, i, COL_EFF(m)-1)));
+        } else if (COLOR(FOTO_ELMT(m, i, FOTO_COL_EFF(m)-1)) == 'B') {
+            print_blue(ASCII(FOTO_ELMT(m, i, FOTO_COL_EFF(m)-1)));
             printf("\n");
         }
 	}
@@ -210,7 +210,6 @@ boolean isWetonValid(Word weton){
 // fungsi yang mengecek apakah masukan weton valid.
 // return boolean.
     printWord(weton);
-    endl;
     return true;
 }
 
@@ -239,7 +238,7 @@ void daftar(){
         printf("\n\n");
 
         // Add user
-        NAMA(user[CounterUser]) = nama;
+        USER_NAMA(user[CounterUser]) = nama;
         SANDI(user[CounterUser]) = sandi;
         CounterUser++;
 
