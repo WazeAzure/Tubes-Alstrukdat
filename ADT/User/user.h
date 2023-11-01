@@ -24,7 +24,7 @@ typedef struct {
     Word bio;
     int hp;
     Word weton;
-    boolean privacy;
+    boolean privacy; // true jika private, false jika public.
     FOTO foto;
 } PROFILE;
 
@@ -45,6 +45,7 @@ typedef struct {
 // ADT ListUser (List Statik)
 typedef struct {
     USER user[maxUser];
+    int CounterUser;
 } ListUser;
 
 // SELEKTOR //
@@ -75,9 +76,8 @@ typedef struct {
 // #define draft kicauan
 
 // ListUser
-
-
-
+#define USER(lu, idx) (lu).user[idx]
+#define COUNTER_USER(lu) (lu).CounterUser
 
 // PRIMITIF ADT FOTO
 void createFoto(int nRows, int nCols, FOTO *m);
@@ -114,7 +114,12 @@ void displayFoto(FOTO m);
    dipisahkan sebuah spasi. Baris terakhir tidak diakhiri dengan newline */
 /* Proses: Menulis nilai setiap elemen m ke layar dengan traversal per baris dan per kolom */
 
+// PRIMITIF ADT ListUser
+void createListUser(ListUser * u);
+// Inisialisasi ListUser, membentuk List user dengan tiap id user = index dan jumlah teman = 0.
 
+void addUser(ListUser * u, Word nama, Word sandi);
+// menambahkan user ke list u.
 
 // Fungsi dan Prosedur
 // PENGGUNA
@@ -149,7 +154,7 @@ void atur_jenis_akun();
 void ubah_foto_profil();
 // Mengubah foto profil.
 
-void showCurrentUser();
+void showUser(int id);
 // I.S. Sudah login.
 // F.S. Menampilkan informasi-informasi akun CurrentUserId.
 
@@ -157,9 +162,14 @@ boolean isBioValid(Word bio);
 // fungsi yang mengecek apakah masukan bio valid.
 // return boolean.
 
-boolean isHpValid();
+boolean isHpValid(Word hp);
 // fungsi yang mengecek apakah masukan nomor HP valid yaitu integer dengan panjang berapapun.
 // return boolean.
+
+void toLowerCase(Word* input);
+// Mengubah input menjadi lowercase.
+
+boolean strCompare(char str1[], char str2[]);
 
 boolean isWetonValid(Word weton);
 // fungsi yang mengecek apakah masukan weton valid.
@@ -170,9 +180,5 @@ boolean isPrivat(int id);
 
 void showFotoProfil(int id);
 // Menampilkan foto profil akun dengan id (id).
-
-void readFotoProfil();
-// I.S. Login.
-// F.S. membaca masukan ubah foto profil akun CurrentUserId.
 
 #endif

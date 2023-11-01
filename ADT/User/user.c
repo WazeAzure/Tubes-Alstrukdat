@@ -96,9 +96,7 @@ void readFoto(FOTO *m){
             }
 
             // Cek apakah input baris valid
-            if (line.Length == 0) {
-                return;
-            } else if (!isLineValid(line)) {
+            if (!isLineValid(line)) {
                 printf("Masukkan Tidak valid, coba lagi!\n\n");
                 break;
             } else {
@@ -151,18 +149,31 @@ void displayFoto(FOTO m){
 
 // Fungsi dan Prosedur
 
-void showCurrentUser(){
-// I.S. Sudah login.
-// F.S. Menampilkan informasi-informasi akun CurrentUserId.
-    printf("user\t: %d\n", CurrentUserId);
+void toLowerCase(Word* input) {
+// Mengubah input menjadi lowercase.
+    int i;
+    for (i = 0; i < input->Length; i++) {
+        if (input->TabWord[i] >= 65 && input->TabWord[i] <= 95) {
+            input->TabWord[i] += 32;
+        }
+    }
 }
 
- int userId(Word nama) {
+void showUser(int id){
+// I.S. Sudah login.
+// F.S. Menampilkan informasi-informasi akun CurrentUserId.
+    printf(" | Nama\t\t: %s\n", USER_NAMA(USER(user, id)).TabWord);
+    printf(" | Bio Akun\t: %s\n", BIO(USER(user, id)).TabWord);
+    printf(" | No HP\t: %d\n", HP(USER(user, id)));
+    printf(" | Weton\t: %s\n", WETON(USER(user, id)).TabWord);
+}
+
+int userId(Word nama) {
 // Fungsi yang return ID dari user dengan nama (nama) atau -1 jika tidak ada/nama berupa string kosong.
     int i;
     if (nama.Length != 0) {
-        for (i = 0 ; i < CounterUser; i++) {
-            if (strCompare(user[i].nama.TabWord, nama.TabWord)) {
+        for (i = 0 ; i < COUNTER_USER(user); i++) {
+            if (strCompare(USER(user, i).nama.TabWord, nama.TabWord)) {
                 return i;
             }
         }
@@ -173,8 +184,9 @@ void showCurrentUser(){
 boolean isNamaValid(Word nama){
 // Fungsi yang mengecek apakah nama yang dimasukkan belum terdaftar (valid);
     int i;
-    for (i = 0; i < CounterUser; i++) {
-        if (strCompare(nama.TabWord, user[i].nama.TabWord)){
+    if (nama.Length == 0) return false;
+    for (i = 0; i < COUNTER_USER(user); i++) {
+        if (strCompare(nama.TabWord, USER(user, i).nama.TabWord)){
             return false;
         }
     }
@@ -184,7 +196,7 @@ boolean isNamaValid(Word nama){
 boolean isSandiValid(Word nama, Word sandi){
 // Fungsi yang mengecek apakah sandi sesuai untuk nama yang dimasukkan.
     int id = userId(nama);
-    return strCompare(user[id].kata_sandi.TabWord, sandi.TabWord);
+    return strCompare(USER(user, id).kata_sandi.TabWord, sandi.TabWord);
 }
 
 boolean isBioValid(Word bio){
@@ -196,7 +208,7 @@ boolean isBioValid(Word bio){
 boolean isHpValid(Word hp){
 // fungsi yang mengecek apakah masukan nomor HP valid yaitu integer dengan panjang berapapun.
 // return boolean.
-    if(hp.Length == 0) return false;
+    if(hp.Length == 0) return true;
     
     int i=0;
     while(hp.TabWord[i]){
@@ -209,13 +221,39 @@ boolean isHpValid(Word hp){
 boolean isWetonValid(Word weton){
 // fungsi yang mengecek apakah masukan weton valid.
 // return boolean.
-    printWord(weton);
-    return true;
+    if (weton.Length == 0) {
+        return true;
+    } else {
+        char listWeton[5][7] = {"pahing", "kliwon", "wage", "pon", "legi"};
+        int i;
+        for (i = 0; i < 5; i++) {
+            if (strCompare(weton.TabWord, listWeton[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+void createListUser(ListUser * u) {
+// Inisialisasi ListUser, membentuk List user dengan tiap id user = index dan jumlah teman = 0.
+    int i;
+    for (i = 0; i < 20; i++) {
+        USER_ID(USER(*u, i)) = i;
+        JUMLAH_TEMAN(USER(*u, i)) = 0;
+    }
+}
+
+void addUser(ListUser * u, Word nama, Word sandi){
+// menambahkan user ke list u.
+    USER_NAMA(USER(*u, COUNTER_USER(*u))) = nama;
+    SANDI(USER(*u, COUNTER_USER(*u))) = sandi;
+    COUNTER_USER(*u)++;
 }
 
 void daftar(){
 //  Membaca nama pengguna baru dengan mesin kata.
-    if (CounterUser < 20){ // Cek apakah jumlah pengguna maximum.
+    if (COUNTER_USER(user) < 20){ // Cek apakah jumlah pengguna maximum.
         Word nama, sandi;
         
         // membaca nama pengguna baru
@@ -224,8 +262,12 @@ void daftar(){
         printf("\n");
 
         // Handle kasus nama sudah terdaftar, loop sampai nama valid.
-        while (!isNamaValid(nama)){
-            printf("Wah, sayang sekali nama tersebut telah diambil.\n\n");
+        while (!isNamaValid(nama) || nama.Length == 0){
+            if (nama.Length == 0) {
+                printf("Nama tidak boleh kosong, isi kembali!\n\n");
+            } else {
+                printf("Wah, sayang sekali nama tersebut telah diambil.\n\n");
+            }
             printf("Masukkan nama: \n");
             readWord(&nama, ';');
             printf("\n");
@@ -238,9 +280,7 @@ void daftar(){
         printf("\n\n");
 
         // Add user
-        USER_NAMA(user[CounterUser]) = nama;
-        SANDI(user[CounterUser]) = sandi;
-        CounterUser++;
+        addUser(&user, nama, sandi);
 
         // Sukses daftar
         printf("Pengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
@@ -296,7 +336,8 @@ void ganti_profile(){
     Word bio, weton, inputHP;
     long long HP;
 
-    showCurrentUser();
+    showUser(CurrentUserId);
+    printf("\n\n");
 
     // Update Bio.
     printf("Masukkan Bio Akun: \n");
@@ -307,8 +348,8 @@ void ganti_profile(){
         readWord(&bio, ';');
         printf("\n\n");
     }
-    if (BIO(user[CurrentUserId]).Length != 0) {
-        BIO(user[CurrentUserId]) = bio;
+    if (bio.Length != 0) {
+        BIO(USER(user, CurrentUserId)) = bio;
     }
 
     // Update No HP
@@ -324,41 +365,103 @@ void ganti_profile(){
         readWord(&inputHP, ';');
         printf("\n\n");
     }
-
-    HP = WordToInt(inputHP);
-    HP(user[CurrentUserId]) = HP;
+    if (inputHP.Length > 0) { // Update jika tidak Word Kosong.
+        HP = WordToInt(inputHP);
+        HP(USER(user, CurrentUserId)) = HP;
+    }
 
     // Update Weton
-    printWord(weton);
-
-    if (BIO(user[CurrentUserId]).Length != 0) {
-        BIO(user[CurrentUserId]) = bio;
+    printf("Masukkan Weton: \n");
+    readWord(&weton, ';');
+    toLowerCase(&weton);
+    while(!isWetonValid(weton)) {
+        printf("Weton anda tidak valid.\n\n");
+        printf("Masukkan Weton: \n");
+        readWord(&weton, ';');
+        toLowerCase(&weton);
+        printf("\n\n");
+    }
+    if (weton.Length != 0) {
+        WETON(USER(user, CurrentUserId)) = weton;
     }
     
+    // Pesan Berhasil
+    printf("Profil Anda sudah berhasil diperbarui!\n\n");
 }
 
 void lihat_profil(Word nama){
-// Melihat profile akun dengan nama (nama).
+    // Melihat profile akun dengan nama (nama) jika akun publik.
+
+    // Cek apakah nama terdaftar.
+    if (isNamaValid(nama)) {
+        printf("tes");
+        return;
+    } else { // Nama terdaftar
+        // nanti harus cek juga teman atau bukan //
+        int id = userId(nama);
+        if (PRIVACY(USER(user, id))) {
+            printf("Wah, akun %s diprivat nih. Ikuti dulu yuk untuk bisa melihat profil %s!\n\n", nama.TabWord, nama.TabWord);
+        } else {
+            showUser(id);
+            printf("\n\n");
+            printf("Foto profil: \n");
+            showFotoProfil(id);
+            printf("\n\n");
+        }
+    }
+
 }
 
 void atur_jenis_akun(){
 // Mengubah jenis akun.
+    if (PRIVACY(USER(user, CurrentUserId))) {
+        printf("Saat ini, akun Anda adalah akun Privat. Ingin mengubah ke akun Publik?\n");
+    } else {
+        printf("Saat ini, akun Anda adalah akun Publik. Ingin mengubah ke akun Privat?\n");
+    }
+    char YATIDAK[2][6] = {"ya", "tidak"};
+    printf("(YA/TIDAK) ");
+    Word pilihan;
+    readWord(&pilihan, ';');
+    toLowerCase(&pilihan);
+    printf("\n\n");
+    while (!strCompare(pilihan.TabWord, YATIDAK[0]) && !strCompare(pilihan.TabWord, YATIDAK[1])) {
+        printf("Masukkan Salah! (YA/TIDAK) ");
+        readWord(&pilihan, ';');
+        toLowerCase(&pilihan);
+        printf("\n\n");
+    }
+
+    // Jika Ya, Ganti.
+    if (strCompare(pilihan.TabWord, YATIDAK[0])) {
+        PRIVACY(USER(user, CurrentUserId)) = !PRIVACY(USER(user, CurrentUserId));
+        if (PRIVACY(USER(user, CurrentUserId))) { // Akun menjadi privat
+            printf("Akun anda sudah diubah menjadi akun Privat.\n\n");
+        } else { // Akun menjadi publik
+            printf("Akun anda sudah diubah menjadi akun Publik.\n\n");
+        }
+    } else { // Pilihan Tidak.
+        printf("Proses dibatalkan, pengaturan privasi tidak diubah.\n\n");
+    }
 }
 
 void ubah_foto_profil(){
 // Mengubah foto profil.
+    printf("Foto profil Anda saat ini adalah\n");
+    showFotoProfil(CurrentUserId);
+    printf("\n\n");
+    printf("Masukkan foto profil yang baru\n");
+    readFoto(&FOTO(USER(user,CurrentUserId)));
+    printf("\n\n");
+    printf("Foto profil anda sudah berhasil diganti!\n\n");
 }
 
 boolean isPrivat(int id){
 // Mengecek apakah akun dengan id (id) privat.
-    return PRIVACY(user[CurrentUserId]);
+    return PRIVACY(USER(user, id));
 }
 
 void showFotoProfil(int id){
 // Menampilkan foto profil akun dengan id (id).
-}
-
-void readFotoProfil(){
-// I.S. Login.
-// F.S. membaca masukan ubah foto profil akun CurrentUserId.
+    displayFoto(FOTO(USER(user, id)));
 }
