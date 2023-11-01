@@ -3,10 +3,12 @@
 #include "ADT/Kicauan/kicauan.h"
 
 extern int CurrentUserId;
+
 extern int CounterKicauan;
-extern int CounterUser;
-// extern Teman teman
+
 extern AddressKicauan ListKicauan;
-extern USER user[20];
+
+extern ListUser user;
+
 extern boolean DaftarPertemanan[20][20];
 
