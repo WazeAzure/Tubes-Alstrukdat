@@ -7,7 +7,11 @@
 #include "../Wordmachine/wordmachine.h"
 #include "../../util.c"
 
+#include "../../globalVar.h"
+
 int main(){
+    CreateListKicauan(&ListKicauan);
+
     char name[] = "justin hehe";
     Word Author;
     int len = strLen(name);
@@ -17,10 +21,13 @@ int main(){
     }
     Author.Length = len;
 
-    kicau(Author);
+    for(int i=0; i<3; i++){
+        kicau(Author);
 
-    printf("daftar kicauan\n");
-    showAllListKicauan();
+        printf("--------------------\ndaftar kicauan\n");
+        showAllListKicauan();
+    }
+    
 
     return 0;
 }

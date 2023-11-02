@@ -14,9 +14,7 @@ typedef struct {
     BALASAN *list_balasan;
 } PairBalasan;
 
-typedef struct nodeKicauan* AddressKicauan;
-
-typedef struct nodeKicauan{
+typedef struct {
     int id;
     int like;
     int idAuthor;
@@ -30,15 +28,23 @@ typedef struct nodeKicauan{
 
     // list of daftar utas
     UTAS *daftar_utas;
-
-    AddressKicauan next;
 } KICAUAN;
 
+typedef struct {
+    KICAUAN* buffer;
+    int NEFF;
+    int CAPACITY;
+} LISTKICAUAN;
+
 #define FIRST(l) (l)
+
+void CreateListKicauan(LISTKICAUAN* l, int CAPACITY);
 
 void CreateDaftarBalasan(KICAUAN* kicauan);
 
 void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks);
+
+void kicau(Word Author);
 
 void showKicauanContent(KICAUAN kicauan);
 

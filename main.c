@@ -7,9 +7,23 @@
 
 // daftar fungsi C
 #include "ADT/User/user.c"
+#include "ADT/Kicauan/kicauan.c"
 
+void initiateGlobalVariables(){
+    // set matriks pertemanan
+    for(int i=0; i<20; i++){
+        for(int j=0; j<20; j++){
+            DaftarPertemanan[i][j] = 0;
+        }
+    }
+
+    // set daftar kicauan
+    CreateListKicauan(&ListKicauan, 100);
+}
 
 int main(){
+    // define initial value of global variables
+    initiateGlobalVariables();
 
     // print welcome message
     printWelcomeBanner();
@@ -118,10 +132,13 @@ int main(){
             else if(strCompare(input[0].TabWord, command[14])){
                 // KICAU
                 printf("called %s\n", command[14]);
+                kicau(USER(user, CurrentUserId).nama);
+                showAllListKicauan();
             }
             else if(strCompare(input[0].TabWord, command[15])){
                 // KICAUAN
                 printf("called %s\n", command[15]);
+
             }
             else if(strCompare(input[0].TabWord, command[16])){
                 // SUKA_KICAUAN

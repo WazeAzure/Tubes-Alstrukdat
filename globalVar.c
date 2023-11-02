@@ -4,7 +4,7 @@ int CurrentUserId = -1;
 
 int CounterKicauan = 0;
 
-AddressKicauan ListKicauan = NULL;
+LISTKICAUAN ListKicauan;
 
 ListUser user;
 

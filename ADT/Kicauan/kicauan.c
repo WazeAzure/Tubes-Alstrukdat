@@ -9,22 +9,56 @@
 #include "../Datetime/time.c"
 #include "../Datetime/datetime.c"
 
+#include "../User/user.h"
+
 #include "kicauan.h"
 #include "../../globalVar.h"
 
 #define endl printf("\n")
 
-AddressKicauan newKicau(Word teks, Word Author){
-    AddressKicauan new = (AddressKicauan)malloc(sizeof(KICAUAN));
-    if(new != NULL) CreateKicauan(new, 1, Author, teks);
-    return new;
+void CreateListKicauan(LISTKICAUAN* l, int CAPACITY){
+    l->CAPACITY = CAPACITY;
+    l->NEFF = 0;
+    l->buffer = (KICAUAN*)malloc(sizeof(KICAUAN) * l->CAPACITY);
+    printf("size - %ld\n", sizeof(l->buffer));
+}
+
+void dealocateListKicauan(LISTKICAUAN *l){
+    l->NEFF = 0;
+    l->CAPACITY = 0;
+    free(l->buffer);
+}
+
+void ExpandListKicauan(LISTKICAUAN* l){
+    int add = 100 + l->CAPACITY;
+
+    LISTKICAUAN l2;
+    CreateListKicauan(&l2, add);
+    l2.NEFF = l->NEFF;
+
+    for(int i=0; i<l2.NEFF; i++){
+        l2.buffer[i] = l->buffer[i];
+    }
+    dealocateListKicauan(l);
+    *l = l2;
+}
+
+KICAUAN* newKicau(Word teks, Word Author){
+    KICAUAN* new = (KICAUAN*)malloc(sizeof(KICAUAN));
+    if(new != NULL){
+        CreateKicauan(new, 1, Author, teks);
+        return new;
+    } else {
+        printf("Alokasi Kicauan di HEAP Memomry gagal. Mohon lakuakn KICAU kembali.\n");
+        return NULL;
+    }
 }
 
 void CreateDaftarBalasan(KICAUAN* kicauan){
     kicauan->daftar_balasan = NULL;
 }
 
-void CreateKicauan(AddressKicauan kicauan, int idAuthor, Word Author, Word teks){
+void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks){
     kicauan->id = CounterKicauan;
     CounterKicauan++;
 
@@ -35,22 +69,13 @@ void CreateKicauan(AddressKicauan kicauan, int idAuthor, Word Author, Word teks)
     kicauan->teks = teks;
     CreateDaftarBalasan(kicauan);
     kicauan->daftar_utas = NULL;
-    kicauan->next = NULL;
 }
 
-void addKicauan(Word teks, Word Author){
-    AddressKicauan new = newKicau(teks, Author);
+void addKicauanLast(Word teks, Word Author){
+    KICAUAN* new = newKicau(teks, Author);
 
-    AddressKicauan p = ListKicauan;
-    
-    if(p == NULL){
-        ListKicauan = new;
-    } else {
-        while(p != NULL){
-            p = p->next;
-        }
-        p = new;
-    }
+    ListKicauan.buffer[ListKicauan.NEFF] = *new;
+    ListKicauan.NEFF++;
 }
 
 void showKicauanContent(KICAUAN kicauan){
@@ -82,16 +107,18 @@ void kicau(Word Author){
 
     if(teks.Length == 0){
         printf("Kicauan tidak boleh hanya berisi spasi!");
+        return;
     }
 
-    addKicauan(teks, Author);
+    addKicauanLast(teks, Author);
 }
 
 void showAllListKicauan(){
-    AddressKicauan p = ListKicauan;
-    while(p != NULL){
-        printf("calledn here\n");
-        showKicauanContent(*p);
-        p = p->next;
+    if(ListKicauan.NEFF == 0){
+        printf("List Kicauan kosong.\n");
+    }
+    int i=0;
+    for(i=0; i<ListKicauan.NEFF; i++){
+        showKicauanContent(ListKicauan.buffer[i]);
     }
 }
