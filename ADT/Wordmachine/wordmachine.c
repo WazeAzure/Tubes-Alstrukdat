@@ -114,6 +114,9 @@ Word CharToWord(char str[]){
 }
 
 int WordToInt(Word w){
+    // printWord(w);
+    // endl;
+    // printf("length %d\n", w.Length);
     int sum = 0;
     int i=0;
     for(i=0; i<w.Length;i++){

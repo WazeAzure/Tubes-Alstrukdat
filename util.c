@@ -5,9 +5,37 @@
 #include <sys/stat.h>
 #include "ADT/pcolor/pcolor.h"
 #include "ADT/Wordmachine/wordmachine.h"
+#include "globalVar.h"
 
 #define endl printf("\n")
 
+int strLen(char str[]){
+    int i=0;
+    while(str[i] != '\0'){
+        i++;
+    }
+    return i;
+}
+
+boolean strCompare(char str1[], char str2[]){
+    // printf("%s\n", str1);
+    // printf("%s\n", str2);
+    
+    int i=0;
+    int len1 = strLen(str1);
+    int len2 = strLen(str2);
+
+    // printf("arr s1 s2 - %d %d\n", len1, len2);
+
+    if(len1 != len2) return false;
+
+    while(i < len1){
+        if(str1[i] != str2[i]) return false;
+        i++;
+    }
+
+    return true;
+}
 
 boolean isFolderExist(Word foldername){
     struct stat st;
@@ -27,20 +55,96 @@ boolean isFolderExist(Word foldername){
     }
 }
 
+void strip(char *str, char symbol){
+    int i=0;
+    while(str[i]){
+        if(str[i] == symbol){
+            // printf("found %d\n", i);
+            str[i] = '\0';
+        }
+        i++;
+    }
+}
+
+void bacaPengguna(FILE* f){
+    printf("baca pengguna called\n");
+    
+    char nUser[10];
+    fgets(nUser, sizeof(nUser), f);
+    strip(nUser, '\r');
+    int n_user = WordToInt(CharToWord(nUser));
+    printf("n_user %d\n", n_user);
+    // char line[100];
+    int i;
+    for(i=0; i<n_user; i++){
+        char name[100];
+        char password[100];
+        char bio[100];
+        char hp[100];
+        char weton[100];
+        char privacy[10];
+        char prof_pict[5][30];
+
+        fgets(name, sizeof(name), f);
+        strip(name, '\r');
+        fgets(password, sizeof(password), f);
+        strip(password, '\r');
+        fgets(bio, sizeof(bio), f);
+        strip(bio, '\r');
+        fgets(hp, sizeof(hp), f);
+        strip(hp, '\r');
+        fgets(weton, sizeof(weton), f);
+        strip(weton, '\r');
+        fgets(privacy, sizeof(privacy), f);
+        strip(privacy, '\r');
+        for(int i=0; i<5; i++){
+            fgets(prof_pict[i], sizeof(prof_pict[i]), f);
+            strip(prof_pict[i], '\r');
+        }
+        printf("name: %s\n", name);
+        printf("%s\n", password);
+        printf("%s\n", bio);
+        printf("%s\n", hp);
+        printf("%s\n", weton);
+        printf("%s\n", privacy);
+        printf("%s\n", prof_pict[0]);
+        printf("%s\n", prof_pict[1]);
+        printf("%s\n", prof_pict[2]);
+        printf("%s\n", prof_pict[3]);
+        printf("%s\n", prof_pict[4]);
+
+        Word wName = CharToWord(name);
+        Word wPassword = CharToWord(password);
+
+        addUser(&user, wName, wPassword);
+    }
+    // // Word w;
+    // while(fgets(line, sizeof(line), f)){
+    //     strip(line, '\r');
+    //     // w = CharToWord(line);
+    //     printf("%s\n", line);
+    // }
+}
+
 boolean readFile(Word FileName){
     char filename[FileName.Length];
     WordToChar(FileName, filename);
 
-    FILE* f_pengguna = fopen(filename, "r");   // buka file pengguna
+    FILE* f = fopen(filename, "r");   // buka file pengguna
 
-    if(f_pengguna != NULL){
+    char pengguna[30] = "config/pengguna.config";
+
+    if(f != NULL){
         printf("file opened \'%s\'\n", filename);
+        if(strCompare(FileName.TabWord, pengguna)){
+            bacaPengguna(f);
+        }
     } else {
         printf("file \'%s\' not exist\n", filename);
         return false;
     }
 
-    fclose(f_pengguna); // tutup file pengguna
+    fclose(f); // tutup file pengguna
     return true;
 }
 
@@ -79,6 +183,8 @@ void loadConfigFile(){
         printf("Mohon pastikan semua file ada.\n");
         exit(1);
     }
+
+    // parsing daftar pengguna
 }
 
 void readCommandMain(Word* input){
@@ -127,33 +233,8 @@ void readCommandMain(Word* input){
     // endl;
 }
 
-int strLen(char str[]){
-    int i=0;
-    while(str[i] != '\0'){
-        i++;
-    }
-    return i;
-}
 
-boolean strCompare(char str1[], char str2[]){
-    // printf("%s\n", str1);
-    // printf("%s\n", str2);
-    
-    int i=0;
-    int len1 = strLen(str1);
-    int len2 = strLen(str2);
 
-    // printf("arr s1 s2 - %d %d\n", len1, len2);
-
-    if(len1 != len2) return false;
-
-    while(i < len1){
-        if(str1[i] != str2[i]) return false;
-        i++;
-    }
-
-    return true;
-}
 
 /* SECTION PRINT PRINT-AN AJA */
 
