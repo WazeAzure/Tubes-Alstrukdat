@@ -38,6 +38,7 @@ typedef struct {
 
     // daftar permintaan pertemanan (belum)
     // daftar draft kicauan (belum)
+    
 
 } USER;
 
