@@ -4,6 +4,8 @@
 #include "../Wordmachine/wordmachine.h"
 #include "../boolean.h"
 
+#include "../Stack/stack.h"
+
 // ADT Symbol
 typedef struct {
     char color; // [R,G,B]
@@ -35,10 +37,8 @@ typedef struct {
     Word kata_sandi;
     PROFILE profile;
     int jumlah_teman;
-
+    Stack draftKicauan;
     // daftar permintaan pertemanan (belum)
-    // daftar draft kicauan (belum)
-    
 
 } USER;
 
