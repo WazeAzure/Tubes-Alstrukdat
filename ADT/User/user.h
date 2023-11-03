@@ -4,7 +4,7 @@
 #include "../Wordmachine/wordmachine.h"
 #include "../boolean.h"
 
-#include "../Stack/stack.h"
+#include "../Draftkicauan/draftkicauan.h"
 
 // ADT Symbol
 typedef struct {

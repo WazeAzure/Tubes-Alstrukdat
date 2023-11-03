@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../stack/stack.h"
+#include "draftkicauan.h"
 
 /* ************ Prototype ************ */
 AddressDraftKicau newNode(DraftKicau val){
@@ -50,3 +50,8 @@ void Pop(Stack * S, DraftKicau* X)
     NEXT_S(p) = NULL;
     free(p);
 }
+
+void buatDraft (Stack S);
+void lihatDraft(Stack S);
+void terbitDraft (Stack S);
+void ubahDraft (Stack S);

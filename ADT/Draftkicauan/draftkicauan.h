@@ -5,7 +5,6 @@
 
 #include "../Datetime/datetime.h"
 #include "../Datetime/time.c"
-#include "../Datetime/datetime.c"
 
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
@@ -58,5 +57,10 @@ void Pop(Stack * S, DraftKicau* X);
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
+
+void buatDraft (Stack S);
+void lihatDraft(Stack S);
+void terbitDraft (Stack S);
+void ubahDraft (Stack S);
 
 #endif
