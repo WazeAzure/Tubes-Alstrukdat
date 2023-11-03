@@ -24,7 +24,7 @@ typedef struct {
 // ADT Profile
 typedef struct {
     Word bio;
-    int hp;
+    Word hp;
     Word weton;
     boolean privacy; // true jika private, false jika public.
     FOTO foto;
@@ -121,6 +121,9 @@ void createListUser(ListUser * u);
 
 void addUser(ListUser * u, Word nama, Word sandi);
 // menambahkan user ke list u.
+
+void setProfil(ListUser * u, int index, Word bio, Word hp, Word weton, boolean privacy, FOTO foto);
+// Set profil User dengan id index berdasarkan input bio, hp, weton, privacy, dan foto.
 
 // Fungsi dan Prosedur
 // PENGGUNA

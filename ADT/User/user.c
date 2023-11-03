@@ -164,7 +164,7 @@ void showUser(int id){
 // F.S. Menampilkan informasi-informasi akun CurrentUserId.
     printf(" | Nama\t\t: %s\n", USER_NAMA(USER(user, id)).TabWord);
     printf(" | Bio Akun\t: %s\n", BIO(USER(user, id)).TabWord);
-    printf(" | No HP\t: %d\n", HP(USER(user, id)));
+    printf(" | No HP\t: %s\n", HP(USER(user, id)).TabWord);
     printf(" | Weton\t: %s\n", WETON(USER(user, id)).TabWord);
 }
 
@@ -241,6 +241,7 @@ void createListUser(ListUser * u) {
     for (i = 0; i < 20; i++) {
         USER_ID(USER(*u, i)) = i;
         JUMLAH_TEMAN(USER(*u, i)) = 0;
+        createFoto(5, 5, &FOTO(USER(*u, i)));
     }
 }
 
@@ -251,6 +252,17 @@ void addUser(ListUser * u, Word nama, Word sandi){
     COUNTER_USER(*u)++;
 }
 
+void setProfil(ListUser * u, int index, Word bio, Word hp, Word weton, boolean privacy, FOTO foto){
+// Set profil User dengan id index berdasarkan input bio, hp, weton, privacy, dan foto.
+    BIO(USER(*u, index)) = bio;
+    HP(USER(*u, index)) = hp;
+    WETON(USER(*u, index)) = weton;
+    PRIVACY(USER(*u, index)) = privacy;
+    FOTO(USER(*u, index)) = foto;
+}
+
+// Fungsi dan Prosedur
+// PENGGUNA
 void daftar(){
 //  Membaca nama pengguna baru dengan mesin kata.
     if (COUNTER_USER(user) < 20){ // Cek apakah jumlah pengguna maximum.
@@ -334,7 +346,6 @@ void keluar(){
 void ganti_profile(){
 // Mengganti profile
     Word bio, weton, inputHP;
-    long long HP;
 
     showUser(CurrentUserId);
     printf("\n\n");
@@ -357,17 +368,13 @@ void ganti_profile(){
     readWord(&inputHP, ';');
 
     while(!isHpValid(inputHP)) {
-        if(inputHP.Length == 0) {
-            break;
-        }
         printf("HP tidak valid. Masukkan lagi yuk!\n\n");
         printf("Masukkan HP Akun: \n");
         readWord(&inputHP, ';');
         printf("\n\n");
     }
     if (inputHP.Length > 0) { // Update jika tidak Word Kosong.
-        HP = WordToInt(inputHP);
-        HP(USER(user, CurrentUserId)) = HP;
+        HP(USER(user, CurrentUserId)) = inputHP;
     }
 
     // Update Weton
