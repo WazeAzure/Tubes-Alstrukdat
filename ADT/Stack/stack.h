@@ -10,13 +10,9 @@
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
 
-#define Nil -1
-#define MaxEl 100
-/* Nil adalah stack dengan elemen kosong . */
-
 typedef struct draftKicau {
   DATETIME timeCreated;
-  Word isiDraft;
+  Word isiDraftKicauan;
 } DraftKicau;
 
 typedef struct node* AddressDraftKicau;
@@ -26,32 +22,30 @@ typedef struct node
   AddressDraftKicau next;
 } Node;
 
-
 typedef struct { 
   AddressDraftKicau addrTop;  
 } Stack;
 
 /* ************ Selektor ************ */
-#define isiDraft(d) (d).isiDraft;
-#define timeDraft(d) (d).timeCreated;
-#define NEXT_S(p) (p)->next;
-#define INFO_S(p) (p)->info;
+#define isiDraft(d) (d).isiDraftKicauan
+#define timeDraft(d) (d).timeCreated
+#define NEXT_S(p) (p)->next
+#define INFO_S(p) (p)->info
+#define INFO_TIME(p) (p)->info.timeCreated
+#define INFO_ISI(p) (p)->info.isiDraftKicauan
 #define ADDR_TOP(s) (s).addrTop
 #define TOP(s) (s).addrTop->info
 
 /* ************ Prototype ************ */
+AddressDraftKicau newNode(DraftKicau x);
+/* MengembalikanalamatsebuahNode hasilalokasidenganinfo = x, atau NIL jikaalokasigagal*/
+
 /* *** Konstruktor/Kreator *** */
 void CreateEmpty(Stack *S);
-/* I.S. sembarang; */
-/* F.S. Membuat sebuah stack S yang kosong berkapasitas MaxEl */
-/* jadi indeksnya antara 0.. MaxEl */
-/* Ciri stack kosong : TOP bernilai Nil */
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
 boolean IsEmpty(Stack S);
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
-boolean IsFull(Stack S);
-/* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
 void Push(Stack * S, DraftKicau X);
