@@ -19,6 +19,9 @@ void initiateGlobalVariables(){
 
     // set daftar kicauan
     CreateListKicauan(&ListKicauan, 100);
+
+    // set daftar id utas
+    CreateListIdUtas(&ListIdUtas, 100);
 }
 
 int main(){

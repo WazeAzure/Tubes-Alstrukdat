@@ -10,6 +10,6 @@ LISTKICAUAN ListKicauan;
 
 ListUser user;
 
-UTAS ListUtas;
+LISTIDUTAS ListIdUtas;
 
 boolean DaftarPertemanan[20][20];

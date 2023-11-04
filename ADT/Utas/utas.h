@@ -1,26 +1,30 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
-#include "../Linkedlist/listlinier.h"
 
 #include "../../globalVar.h"
 
 #ifndef _UTAS_H
 #define _UTAS_H
 
-typedef struct {
+typedef struct nodeUtas* AddressUtas;
+typedef struct nodeUtas {
     Word author;
-    Word utasan;
+    Word teks;
     DATETIME time;
-} ITEMUTAS;
-// typedef int IdUtas;
-typedef struct nodeutas *AddressUtas;
-typedef struct nodeutas{
-    ITEMUTAS* info; 
-    Address next;
-} UTAS ;
+    AddressUtas next;
+} UTAS;
 
-typedef AddressUtas UTAS;
+typedef AddressUtas ListElemenUtas;
+// typedef int IdUtas;
+
+typedef struct{
+    int* buffer;
+    int NEFF;
+    int CAPACITY;
+} LISTIDUTAS;
+
 
 #define FIRST_UTAS(linkedlist) (linkedlist)
 #define IDX_UNDEF (-1)
@@ -36,31 +40,31 @@ typedef AddressUtas UTAS;
 
 
 /*PROTOTYPE*/
-void CreateUtas(UTAS* daftaridutas,int  CounterUtas);
+void CreateListIdUtas(LISTIDUTAS* l,int  CAPACITY);
 /*Membentuk suat*/
 
-void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
+// void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
 
-void CetakUtas(UTAS daftaridutas, KICAUAN *kicauan);
+// void CetakUtas(UTAS daftaridutas, KICAUAN *kicauan);
 
-void showUtasContent(UTAS utas);
+// void showUtasContent(UTAS utas);
 
-boolean isUtasExist(UTAS utas, int idUtas);
+// boolean isUtasExist(UTAS utas, int idUtas);
 
-void ReadUtas(UTAS *utas);
+// void ReadUtas(UTAS *utas);
 
-int getIdAuthor();
+// int getIdAuthor();
 
-void ReadUtas(UTAS *utas);
+// void ReadUtas(UTAS *utas);
 
-boolean isIndexValid(UTAS *utasan, int index);
+// boolean isIndexValid(UTAS *utasan, int index);
 
-void deleteAtItemUtas(UTAS *utasan, ITEMUTAS *itemutas, int idx);
+// void deleteAtItemUtas(UTAS *utasan, ITEMUTAS *itemutas, int idx);
 
-boolean isIdUtasExist(UTAS utas, int idUtas);
+// boolean isIdUtasExist(UTAS utas, int idUtas);
 
-// void SambungUtas(int index, UTAS *utas);
+// // void SambungUtas(int index, UTAS *utas);
 
-void hapus_utas(); 
+// void hapus_utas(); 
 
 #endif

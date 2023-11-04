@@ -12,6 +12,6 @@ extern LISTKICAUAN ListKicauan;
 
 extern ListUser user;
 
-extern UTAS ListUtas;
+extern LISTIDUTAS ListIdUtas;
 
 extern boolean DaftarPertemanan[20][20];
