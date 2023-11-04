@@ -80,6 +80,9 @@ typedef struct {
 #define USER(lu, idx) (lu).user[idx]
 #define COUNTER_USER(lu) (lu).CounterUser
 
+// Draft Kicauan
+#define DRAFT(u) (u).draftkicauan
+
 // PRIMITIF ADT FOTO
 void createFoto(int nRows, int nCols, FOTO *m);
 /* Membentuk sebuah FOTO "kosong" yang siap diisi berukuran nRow x nCol di "ujung kiri" memori */

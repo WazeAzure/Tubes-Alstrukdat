@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "draftkicauan.h"
+#include "../Draftkicauan/draftkicauan.h"
+
+#include"../Datetime/datetime.h"
+
+#include "../Wordmachine/charmachine.h"
+#include "../Wordmachine/wordmachine.h"
+#include "../User/user.h"
+#include "util.c"
 
 /* ************ Prototype ************ */
 AddressDraftKicau newNode(DraftKicau val){
@@ -51,7 +58,68 @@ void Pop(Stack * S, DraftKicau* X)
     free(p);
 }
 
-void buatDraft (Stack S);
-void lihatDraft(Stack S);
+void buatDraft (Stack S)
+{
+    // membaca draft menggunakan mesin kata
+    Word isi;
+    readWord(&isi,';');
+
+    // masukkan draft ke Stack
+    DraftKicau x;
+    isiDraft(x) = isi;
+    Push(&S,x);
+
+    // pilihan hapus, unggah, singgah
+    printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
+
+    // membaca pilihan
+    Word command;
+    char comm[100];
+    
+    do
+    {
+        readWord(&command,';');
+        WordToChar(command,&comm);
+    } while (strCompare(comm,'HAPUS') != 0 && strCompare(comm,'SIMPAN') != 0 && strCompare(comm,'TERBIT'));
+    
+    if (strCompare(comm,'HAPUS') == 1)
+    {
+        DraftKicau val;
+        Pop(&S,&val);
+        printf("Draf telah berhasil dihapus!\n");
+    } else if (strCompare(comm,'SIMPAN'))
+    {
+        // gak ngelakuin apa apa karena diawal udah di push
+        printf("Draf telah berhasil disimpan\n");
+    } else if (strCompare(comm,'TERBIT') == 1)
+    {
+        terbitDraft(S);
+    }
+
+
+
+}
+void lihatDraft(Stack S)
+{
+    if (IsEmpty(S))
+    {
+        printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
+    } else
+    {
+        printf("Ini draf terakhir anda:\n");
+    }
+
+    Word command;
+    char comm[100];
+    
+    do
+    {
+        readWord(&command,';');
+        WordToChar(command,&comm);
+    } while (strCompare(comm,'HAPUS') != 0 && strCompare(comm,'SIMPAN') != 0 && strCompare(comm,'TERBIT'));
+    // blm selese
+
+
+}
 void terbitDraft (Stack S);
 void ubahDraft (Stack S);
