@@ -6,8 +6,12 @@ extern int CurrentUserId;
 
 extern int CounterKicauan;
 
+extern int CounterUtas;
+
 extern LISTKICAUAN ListKicauan;
 
 extern ListUser user;
+
+extern UTAS ListUtas;
 
 extern boolean DaftarPertemanan[20][20];

@@ -1,45 +1,66 @@
 #include <stdio.h>
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
+#include "../Linkedlist/listlinier.h"
+
+#include "../../globalVar.h"
 
 #ifndef _UTAS_H
 #define _UTAS_H
 
 typedef struct {
-    int index; // index dari 1,... //
-    int idKicau;
+    Word author;
     Word utasan;
     DATETIME time;
-    int idkicau;
-} UTAS;
+} ITEMUTAS;
+// typedef int IdUtas;
+typedef struct nodeutas *AddressUtas;
+typedef struct nodeutas{
+    ITEMUTAS* info; 
+    Address next;
+} UTAS ;
+
+typedef AddressUtas UTAS;
+
+#define FIRST_UTAS(linkedlist) (linkedlist)
+#define IDX_UNDEF (-1)
 
 
-// SELEKTOR //
-// UTAS
-// #define INDEX(u) (u).index
-// #define INPUT(u) (u).utasan
-// #define TIME(u) (u).time
+#define INDEX_ITEMUTAS(u) (u).index
+#define INPUT_ITEMUTAS(u) (u).utasan
+#define TIME_ITEMUTAS(u) (u).time
+#define AUTHOR_ITEMUTAS(u) (u).author
 
-// MAINUTAS
-// #define ID_KICAUAN(m) (m).idkicau
-// #define ID_UTAS(m) (m).idutas
+#define INFO_UTAS(p) (p)->info
+#define NEXT_UTAS(p) (p)->next
 
-// void CreateMainUtas(MAINUTAS *parent, int idkicau, int idutas, ListDin child , int *CounterKicauan);
-// F.S Utas berhasil dibuat
 
-// void CetakMainUtas(MAINUTAS parent, int idkicau,int *CounterKicauan, int idutas);
-// I.S idutas, idkicau, parent valid
-//  Mendisplay mainutas beserta isi utasnya
+/*PROTOTYPE*/
+void CreateUtas(UTAS* daftaridutas,int  CounterUtas);
+/*Membentuk suat*/
 
-void CreateUtas(UTAS *utas, int index, Word utasan, DATETIME time, int idutas);
+void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
 
-// void ReadUtas(UTAS *utas);
+void CetakUtas(UTAS daftaridutas, KICAUAN *kicauan);
 
-void CetakUtas(UTAS utas);
-// search apakah ada 
-void SambungUtas(int idutas,int index, UTAS *utas);
+void showUtasContent(UTAS utas);
 
-// void HapusUtas(int idutas,int index, UTAS *utas); 
+boolean isUtasExist(UTAS utas, int idUtas);
 
-// createmainutas du
+void ReadUtas(UTAS *utas);
+
+int getIdAuthor();
+
+void ReadUtas(UTAS *utas);
+
+boolean isIndexValid(UTAS *utasan, int index);
+
+void deleteAtItemUtas(UTAS *utasan, ITEMUTAS *itemutas, int idx);
+
+boolean isIdUtasExist(UTAS utas, int idUtas);
+
+// void SambungUtas(int index, UTAS *utas);
+
+void hapus_utas(); 
+
 #endif
