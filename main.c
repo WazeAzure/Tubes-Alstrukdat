@@ -22,6 +22,9 @@ void initiateGlobalVariables(){
 
     // set daftar id utas
     CreateListIdUtas(&ListIdUtas, 100);
+
+    // Inisialisasi ListUser (Daftar Pengguna)
+    createListUser(&user);
 }
 
 int main(){

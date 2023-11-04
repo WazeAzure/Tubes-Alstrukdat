@@ -14,4 +14,11 @@ typedef struct
 
 } BALASAN;
 
+/*--------- SELEKTOR--------*/
+#define idBalasan(x) (x).id
+#define isiBalasan(x) (x).isi
+#define authorBalasan(x) (x).author
+#define authorBalasan(x) (x).idAuthor
+#define dateBalasan(x) (x).date
+
 #endif
