@@ -2,7 +2,9 @@
 #define _USER_h
 
 #include "../Wordmachine/wordmachine.h"
+#include "../Prioqueue/prioqueue.h"
 #include "../boolean.h"
+
 
 // ADT Symbol
 typedef struct {
@@ -35,7 +37,7 @@ typedef struct {
     Word kata_sandi;
     PROFILE profile;
     int jumlah_teman;
-
+    PrioQueue permintaan_pertemanan;
     // daftar permintaan pertemanan (belum)
     // daftar draft kicauan (belum)
     

@@ -8,4 +8,4 @@ LISTKICAUAN ListKicauan;
 
 ListUser user;
 
-boolean DaftarPertemanan[20][20];
+AdjMatrix DaftarPertemanan;
