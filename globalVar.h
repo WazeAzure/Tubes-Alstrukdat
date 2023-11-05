@@ -1,5 +1,6 @@
 #include "ADT/User/user.h"
 #include "ADT/boolean.h"
+#include "ADT/DaftarPertemanan/daftarpertemanan.h"
 #include "ADT/Kicauan/kicauan.h"
 
 extern int CurrentUserId;
@@ -14,5 +15,5 @@ extern ListUser user;
 
 extern LISTIDUTAS ListIdUtas;
 
-extern AdjMatrix DaftarPertemanan;
+extern DAFTARPERTEMANAN DaftarPertemanan ;
 
