@@ -12,4 +12,5 @@ ListUser user;
 
 LISTIDUTAS ListIdUtas;
 
-boolean DaftarPertemanan[20][20];
+AdjMatrix DaftarPertemanan;
+
