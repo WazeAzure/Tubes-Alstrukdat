@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <time.h>
-#include <sys/stat.h>
-#include "ADT/pcolor/pcolor.h"
-#include "ADT/Wordmachine/wordmachine.h"
-#include "globalVar.h"
-
-#define endl printf("\n")
+#include "util.h"
 
 int strLen(char str[]){
     int i=0;
