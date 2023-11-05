@@ -62,7 +62,10 @@ void bacaPengguna(FILE* f){
     
     char nUser[10];
     fgets(nUser, sizeof(nUser), f);
+    printf("%s", nUser);
     strip(nUser, '\r');
+    printf("%s", nUser);
+    strip(nUser, '\n');
     int n_user = WordToInt(CharToWord(nUser));
     printf("n_user %d\n", n_user);
     // char line[100];
@@ -78,8 +81,10 @@ void bacaPengguna(FILE* f){
 
         fgets(name, sizeof(name), f);
         strip(name, '\r');
+        strip(name, '\n');
         fgets(password, sizeof(password), f);
         strip(password, '\r');
+        strip(password, '\n');
         fgets(bio, sizeof(bio), f);
         strip(bio, '\r');
         fgets(hp, sizeof(hp), f);
