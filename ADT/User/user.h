@@ -2,6 +2,7 @@
 #define _USER_h
 
 #include "../Wordmachine/wordmachine.h"
+#include "../Prioqueue/prioqueue.h"
 #include "../boolean.h"
 
 #include "../Draftkicauan/draftkicauan.h"
@@ -38,6 +39,7 @@ typedef struct {
     PROFILE profile;
     int jumlah_teman;
     Stack draftKicauan;
+    PrioQueue permintaan_pertemanan;
     // daftar permintaan pertemanan (belum)
 
 } USER;

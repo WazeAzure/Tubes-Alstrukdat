@@ -1,45 +1,70 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
+
+#include "../../globalVar.h"
 
 #ifndef _UTAS_H
 #define _UTAS_H
 
-typedef struct {
-    int index; // index dari 1,... //
-    int idKicau;
-    Word utasan;
+typedef struct nodeUtas* AddressUtas;
+typedef struct nodeUtas {
+    Word author;
+    Word teks;
     DATETIME time;
-    int idkicau;
+    AddressUtas next;
 } UTAS;
 
+typedef AddressUtas ListElemenUtas;
+// typedef int IdUtas;
 
-// SELEKTOR //
-// UTAS
-// #define INDEX(u) (u).index
-// #define INPUT(u) (u).utasan
-// #define TIME(u) (u).time
+typedef struct{
+    int* buffer;
+    int NEFF;
+    int CAPACITY;
+} LISTIDUTAS;
 
-// MAINUTAS
-// #define ID_KICAUAN(m) (m).idkicau
-// #define ID_UTAS(m) (m).idutas
 
-// void CreateMainUtas(MAINUTAS *parent, int idkicau, int idutas, ListDin child , int *CounterKicauan);
-// F.S Utas berhasil dibuat
+#define FIRST_UTAS(linkedlist) (linkedlist)
+#define IDX_UNDEF (-1)
 
-// void CetakMainUtas(MAINUTAS parent, int idkicau,int *CounterKicauan, int idutas);
-// I.S idutas, idkicau, parent valid
-//  Mendisplay mainutas beserta isi utasnya
 
-void CreateUtas(UTAS *utas, int index, Word utasan, DATETIME time, int idutas);
+#define INDEX_ITEMUTAS(u) (u).index
+#define INPUT_ITEMUTAS(u) (u).utasan
+#define TIME_ITEMUTAS(u) (u).time
+#define AUTHOR_ITEMUTAS(u) (u).author
+
+#define INFO_UTAS(p) (p)->info
+#define NEXT_UTAS(p) (p)->next
+
+
+/*PROTOTYPE*/
+void CreateListIdUtas(LISTIDUTAS* l,int  CAPACITY);
+/*Membentuk suat*/
+
+// void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
+
+// void CetakUtas(UTAS daftaridutas, KICAUAN *kicauan);
+
+// void showUtasContent(UTAS utas);
+
+// boolean isUtasExist(UTAS utas, int idUtas);
 
 // void ReadUtas(UTAS *utas);
 
-void CetakUtas(UTAS utas);
-// search apakah ada 
-void SambungUtas(int idutas,int index, UTAS *utas);
+// int getIdAuthor();
 
-// void HapusUtas(int idutas,int index, UTAS *utas); 
+// void ReadUtas(UTAS *utas);
 
-// createmainutas du
+// boolean isIndexValid(UTAS *utasan, int index);
+
+// void deleteAtItemUtas(UTAS *utasan, ITEMUTAS *itemutas, int idx);
+
+// boolean isIdUtasExist(UTAS utas, int idUtas);
+
+// // void SambungUtas(int index, UTAS *utas);
+
+// void hapus_utas(); 
+
 #endif
