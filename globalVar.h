@@ -7,8 +7,13 @@ extern int CurrentUserId;
 
 extern int CounterKicauan;
 
+extern int CounterUtas;
+
 extern LISTKICAUAN ListKicauan;
 
 extern ListUser user;
 
+extern LISTIDUTAS ListIdUtas;
+
 extern AdjMatrix DaftarPertemanan;
+
