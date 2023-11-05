@@ -8,7 +8,8 @@ int main(){
     if(l.buffer == NULL){
         printf("LIST KOSONG\n");
     }
-    printf("Neff %d\n", l.NEFF);
+    printf("Neff %d\n", l.nEFF);
     printf("cap %d\n", l.CAPACITY);
+
     return 0;
 }

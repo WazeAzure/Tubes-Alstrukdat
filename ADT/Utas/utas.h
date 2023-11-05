@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
-
-#include "../../globalVar.h"
 
 #ifndef _UTAS_H
 #define _UTAS_H
@@ -17,31 +16,26 @@ typedef struct nodeUtas {
 } UTAS;
 
 typedef AddressUtas ListElemenUtas;
+
+typedef int IdxType;
 // typedef int IdUtas;
 
 typedef struct{
     int* buffer;
-    int NEFF;
+    int nEFF;
     int CAPACITY;
 } LISTIDUTAS;
 
-
-#define FIRST_UTAS(linkedlist) (linkedlist)
 #define IDX_UNDEF (-1)
-
-
-#define INDEX_ITEMUTAS(u) (u).index
-#define INPUT_ITEMUTAS(u) (u).utasan
-#define TIME_ITEMUTAS(u) (u).time
-#define AUTHOR_ITEMUTAS(u) (u).author
-
-#define INFO_UTAS(p) (p)->info
-#define NEXT_UTAS(p) (p)->next
-
+#define ELMT(li,i) (li).buffer[i]
+#define nEFF(li) (li).nEFF
 
 /*PROTOTYPE*/
-void CreateListIdUtas(LISTIDUTAS* l,int  CAPACITY);
-/*Membentuk suat*/
+
+AddressUtas newUtas();
+
+void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
+
 
 // void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
 

@@ -1,6 +1,7 @@
 #include "ADT/User/user.h"
 #include "ADT/boolean.h"
 #include "ADT/Kicauan/kicauan.h"
+#include "ADT/Utas/utas.h"
 
 extern int CurrentUserId;
 
