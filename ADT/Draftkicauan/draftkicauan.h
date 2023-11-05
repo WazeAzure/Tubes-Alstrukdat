@@ -4,7 +4,6 @@
 #include "../boolean.h"
 
 #include "../Datetime/datetime.h"
-#include "../Datetime/time.c"
 
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
@@ -40,10 +39,10 @@ AddressDraftKicau newNode(DraftKicau x);
 /* MengembalikanalamatsebuahNode hasilalokasidenganinfo = x, atau NIL jikaalokasigagal*/
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Stack *S);
+void DraftKicauanCreateEmpty(Stack *S);
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmpty(Stack S);
+boolean DraftKicauanIsEmpty(Stack S);
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */

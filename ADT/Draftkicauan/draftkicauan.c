@@ -13,7 +13,7 @@
 
 #include "../User/user.h"
 
-#include "../Draftkicauan/draftkicauan.h"
+#include "draftkicauan.h"
 
 #include "globalVar.h"
 
@@ -27,13 +27,13 @@ AddressDraftKicau newNode(DraftKicau val){
     return p;
 }
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Stack *S)
+void DraftKicauanCreateEmpty(Stack *S)
 {
     ADDR_TOP(*S) = NULL;
 }
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmpty(Stack S)
+boolean DraftKicauanIsEmpty(Stack S)
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
 {
     return (ADDR_TOP(S) == NULL);
@@ -113,7 +113,7 @@ void buatDraft (Stack S)
 }
 void lihatDraft(Stack S)
 {
-    if (IsEmpty(S))
+    if (DraftKicauanIsEmpty(S))
     {
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
     } else
@@ -188,7 +188,7 @@ void ubahDraft (Stack S)
 
     //mengganti draft awal dengan draft baru
     DraftKicau val,new;
-    pop(&S,&val)
+    Pop(&S,&val)
 
     isiDraft(new) = newIsi;
 

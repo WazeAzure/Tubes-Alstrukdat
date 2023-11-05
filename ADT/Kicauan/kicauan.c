@@ -17,16 +17,16 @@
 #define endl printf("\n")
 
 void CreateListKicauan(LISTKICAUAN* l, int CAPACITY){
-    l->CAPACITY = CAPACITY;
-    l->NEFF = 0;
-    l->buffer = (KICAUAN*)malloc(sizeof(KICAUAN) * l->CAPACITY);
-    printf("size - %ld\n", sizeof(l->buffer));
+    KICAUAN_CAPACITY(*l) = CAPACITY;
+    KICAUAN_NEFF(*l) = 0;
+    KICAUAN_BUFFER(*l) = (KICAUAN*)malloc(sizeof(KICAUAN) * CAPACITY);
+    printf("size - %ld\n", sizeof(KICAUAN_BUFFER(*l)));
 }
 
 void dealocateListKicauan(LISTKICAUAN *l){
-    l->NEFF = 0;
-    l->CAPACITY = 0;
-    free(l->buffer);
+    KICAUAN_NEFF(*l) = 0;
+    KICAUAN_CAPACITY(*l) = 0;
+    free(KICAUAN_BUFFER(*l));
 }
 
 void ExpandListKicauan(LISTKICAUAN* l){
@@ -69,28 +69,31 @@ void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks){
     kicauan->teks = teks;
     CreateDaftarBalasan(kicauan);
     kicauan->daftar_utas = NULL;
+
+    long long int current_time = getCurrentTime();
+    kicauan->timeCreated = (DetikToDATETIME(current_time));
 }
 
 void addKicauanLast(Word teks, Word Author){
     KICAUAN* new = newKicau(teks, Author);
 
+    if(new == NULL) return ;
+
     ListKicauan.buffer[ListKicauan.NEFF] = *new;
     ListKicauan.NEFF++;
+
+    printf("Selamat! kicauan telah diterbitkan!\nDetil kicauan:");
+    showKicauanContent(*new);
 }
 
 void showKicauanContent(KICAUAN kicauan){
-    printf("id\t\t\t\t: %d\n", kicauan.id);
-    printf("like\t\t\t: %d\n", kicauan.like);
-    printf("idAuthor\t\t: %d\n", kicauan.idAuthor);
-    printf("count balasan\t: %d\n", kicauan.inc_balasan);
-    printf("isi teks\t\t: %s\n", kicauan.teks.TabWord);
-    printf("Author\t\t\t: %s\n", kicauan.Author.TabWord);
-    printf("datetime\t\t: ");
-    long long int current_time = getCurrentTime();
-
-    TulisDATETIME(DetikToDATETIME(current_time));
-
-    endl;
+    printf("| ID: %d\n", kicauan.id);
+    printf("| idAuthor: %d\n", kicauan.idAuthor);
+    printf("| %s\n", kicauan.Author.TabWord);
+    printf("| "); TulisDATETIME(kicauan.timeCreated); printf("\n");
+    printf("| %s\n", kicauan.teks.TabWord);
+    printf("| Disukai: %d\n", kicauan.like);
+    printf("| count balasan\t: %d\n", kicauan.inc_balasan);
 
     if(kicauan.daftar_balasan == NULL){
         printf("daftar balasan kosong\n");
@@ -98,6 +101,15 @@ void showKicauanContent(KICAUAN kicauan){
     if(kicauan.daftar_utas == NULL){
         printf("daftar utas kosong\n");
     }
+}
+
+int getIdAuthorFromIdKicau(int idKicau){
+   return KICAU_IDAUTHOR(KICAUAN_ELMT(ListKicauan, idKicau));
+}
+
+boolean isFriend(int idKicau){
+    int idAuthor = getIdAuthorFromIdKicau(idKicau);
+    return (DaftarPertemanan.Tabword[idAuthor][CurrentUserId]);
 }
 
 void kicau(Word Author){
@@ -113,6 +125,82 @@ void kicau(Word Author){
     addKicauanLast(teks, Author);
 }
 
+void kicauan(){
+    if(ListKicauan.NEFF == 0){
+        printf("List Kicauan kosong.\n");
+    }
+    int i=0;
+    for(i=0; i<ListKicauan.NEFF; i++){
+        if(KICAUAN_ELMT(ListKicauan, i).idAuthor == CurrentUserId || isFriend(i) || !PRIVACY(USER(user, getIdAuthorFromIdKicau(i)))){
+            showKicauanContent(ListKicauan.buffer[i]);
+            endl;
+        }
+    }
+}
+
+void sukaKicauan(Word input){
+    if(input.Length == 0){
+        printf("Argumen tidak ditemukan\n");
+        return ;
+    }
+
+    if(KICAUAN_NEFF(ListKicauan) == 0){
+        printf("List Kicauan KOSONG!\n");
+        return ;
+    }
+    
+    int idKicau = WordToInt(input);
+    // printf("called hereasd ad as \n");
+    if(idKicau >= KICAUAN_NEFF(ListKicauan) || idKicau < 0){
+        printf("Tidak ditemukan kicauan dengan ID = %d;\n", idKicau);
+        return ;
+    }
+
+    if(PRIVACY(USER(user, getIdAuthorFromIdKicau(idKicau))) && !isFriend(idKicau)){
+        // true jika private dan blom diikuti
+        printf("Wah, kicauan tersebut dibuat oleh akun privat! Ikuti akun itu dulu ya\n");
+        return ;
+    }
+
+    LIKE(KICAUAN_ELMT(ListKicauan, idKicau))++;
+    printf("Selamat! kicauan telah disukai!\nDetil kicauan:");
+    showKicauanContent(KICAUAN_ELMT(ListKicauan, idKicau));
+}
+
+void ubahKicauan(Word input){
+    if(input.Length == 0){
+        printf("Argumen tidak ditemukan\n");
+        return ;
+    }
+
+    if(KICAUAN_NEFF(ListKicauan) == 0){
+        printf("List Kicauan KOSONG!\n");
+        return ;
+    }
+
+    int idKicau = WordToInt(input);
+    // printf("called hereasd ad as \n");
+    if(idKicau >= KICAUAN_NEFF(ListKicauan) || idKicau < 0){
+        printf("Tidak ditemukan kicauan dengan ID = %d;\n", idKicau);
+        return ;
+    }
+
+    if(getIdAuthorFromIdKicau(idKicau) != CurrentUserId){
+        // true jika private dan blom diikuti
+        printf("Kicauan dengan ID = %d bukan milikmu!\n", idKicau);
+        return ;
+    }
+
+    Word teks;
+    printf("Masukkan kicauan baru:\n");
+    readWord(&teks, ';');
+    
+    KICAU_TEKS(KICAUAN_ELMT(ListKicauan, idKicau)) = teks;
+
+    printf("Selamat! kicauan telah diterbitkan!\nDetil kicauan:");
+    showKicauanContent(KICAUAN_ELMT(ListKicauan, idKicau));
+}
+
 void showAllListKicauan(){
     if(ListKicauan.NEFF == 0){
         printf("List Kicauan kosong.\n");
@@ -120,5 +208,6 @@ void showAllListKicauan(){
     int i=0;
     for(i=0; i<ListKicauan.NEFF; i++){
         showKicauanContent(ListKicauan.buffer[i]);
+        endl;
     }
 }

@@ -10,7 +10,7 @@
 #include "../../globalVar.h"
 
 int main(){
-    CreateListKicauan(&ListKicauan);
+    CreateListKicauan(&ListKicauan, 100);
 
     char name[] = "justin hehe";
     Word Author;

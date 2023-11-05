@@ -75,6 +75,18 @@ boolean isLineValid(Word line) {
     }
 }
 
+void setFotoProfil(FOTO* foto, char str[5][30]){
+    /* Asumsi input sudah valid */
+    int i;
+    for(i=0; i<5; i++){
+        int j;
+        for(j=0; j<5; j++){
+            COLOR(FOTO_ELMT(*foto, i, j)) = str[i][4*j];
+            ASCII(FOTO_ELMT(*foto, i, j)) = str[i][4*j + 2];
+        }
+    }
+}
+
 void readFoto(FOTO *m){
 /* I.S. isIdxValid(nRow,nCol) */
 /* F.S. m terdefinisi nilai elemen efektifnya, berukuran nRow x nCol */

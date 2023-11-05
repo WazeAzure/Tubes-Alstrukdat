@@ -107,6 +107,9 @@ boolean isIdxEff(FOTO m, IdxType i, IdxType j);
 void copyFoto(FOTO mIn, FOTO *mOut);
 /* Melakukan assignment mOut <- mIn */
 
+void setFotoProfil(FOTO *foto, char str[5][30]);
+/* Parsing Foto profil dari FIle */
+
 /* ********** KELOMPOK BACA/TULIS ********** */
 void readFoto(FOTO *m);
 /* I.S. isIdxValid(nRow,nCol) */

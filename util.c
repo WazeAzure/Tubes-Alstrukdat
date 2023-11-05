@@ -62,9 +62,7 @@ void bacaPengguna(FILE* f){
     
     char nUser[10];
     fgets(nUser, sizeof(nUser), f);
-    printf("%s", nUser);
     strip(nUser, '\r');
-    printf("%s", nUser);
     strip(nUser, '\n');
     int n_user = WordToInt(CharToWord(nUser));
     printf("n_user %d\n", n_user);
@@ -111,8 +109,24 @@ void bacaPengguna(FILE* f){
 
         Word wName = CharToWord(name);
         Word wPassword = CharToWord(password);
+        Word wbio = CharToWord(bio);
+        Word whp = CharToWord(hp);
+        Word wweton = CharToWord(weton);
+        Word wprivacy = CharToWord(privacy);
+
+        boolean priv = false;
+        if(strCompare(wprivacy.TabWord, "Private")){
+            priv = true;
+        }
+
+        FOTO fotoProfile;
+        createFoto(5, 5, &fotoProfile);
+        setFotoProfil(&fotoProfile, prof_pict);
+
+        displayFoto(fotoProfile);
 
         addUser(&user, wName, wPassword);
+        setProfil(&user, i, wbio, whp, wweton, priv, fotoProfile);
     }
     // // Word w;
     // while(fgets(line, sizeof(line), f)){
@@ -221,14 +235,41 @@ void readCommandMain(Word* input){
 
     // printf("%d\n", idx);
 
+    if(idx == 1){
+        strip(input[1].TabWord, '\n');
+        input[1].Length--;
+    }
+    if(idx == 2){
+        strip(input[2].TabWord, '\n');
+        input[2].Length--;
+    }
+
     // printWord(input[0]);
     // endl;
-    // printWord(input[1]);
-    // endl;
-    // printWord(input[2]);
+    // printf("inpu1 length - %d\n", input[1].Length);
+    // if(input[1].Length != 0){
+    //     printWord(input[1]);
+    //     endl;
+    //     printf("w length - %d\n", input[1].Length);
+    // }
+    // if(input[2].Length != 0){
+    //     printWord(input[2]);
+    //     printf("input2 int - %d\n", WordToInt(input[2]));
+    // }
+    
     // endl;
 }
 
+void resetCommand(Word *input){
+    input[0].TabWord[0] = '\0';
+    input[0].Length = 0;
+
+    input[1].TabWord[0] = '\0';
+    input[1].Length = 0;
+
+    input[2].TabWord[0] = '\0';
+    input[2].Length = 0;
+}
 
 
 

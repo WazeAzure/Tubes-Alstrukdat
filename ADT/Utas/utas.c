@@ -58,47 +58,47 @@ boolean isEmpty(LISTIDUTAS li){
 // }
 
 
-void utas(int idKicau){
-    AddressUtas daftarUtas = newUtas();
-    int idutas, *idkicau;
-    LISTIDUTAS li;
-    if(!isUtas(li,idKicau)){
-        printf("Kicauan tidak ditemukan.");
-        return;
-    }else if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){
-        printf("Utas bukan milik Anda.");
-        return;
-    }else{
-        printf("Utas berhasil dibuat!");
-        Word teks;
-        printf("Masukkan kicauan");
-        do{
-            readWord(&teks,';');
-        }while(teks.Length == 0);
-        printf("\n\n");
+// void utas(int idKicau){
+//     AddressUtas daftarUtas = newUtas();
+//     int idutas, *idkicau;
+//     LISTIDUTAS li;
+//     if(!isUtas(li,idKicau)){
+//         printf("Kicauan tidak ditemukan.");
+//         return;
+//     }else if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){
+//         printf("Utas bukan milik Anda.");
+//         return;
+//     }else{
+//         printf("Utas berhasil dibuat!");
+//         Word teks;
+//         printf("Masukkan kicauan");
+//         do{
+//             readWord(&teks,';');
+//         }while(teks.Length == 0);
+//         printf("\n\n");
         
-        daftarUtas->teks = teks;
+//         daftarUtas->teks = teks;
 
-        Word val;
-        readWord(&val,';');
-        boolean stop ;
-        if(vstrCompare(val.TabWord, "YA")){
-            stop = true;
-        }else{
-            stop = false;
-        }
-        do{
-            Word teks;
-            printf("Masukkan kicauan");
-            do{
-                readWord(&teks,';');
-            }while(teks.Length == 0);
-            printf("Apakah Anda ingin melanjutkan utas ini?");
-        }while((!stop));
-        printf("\n\n");
-        printf("Utas selesai!");
-    }
-}
+//         Word val;
+//         readWord(&val,';');
+//         boolean stop ;
+//         if(strCompare(val.TabWord, "YA")){
+//             stop = true;
+//         }else{
+//             stop = false;
+//         }
+//         do{
+//             Word teks;
+//             printf("Masukkan kicauan");
+//             do{
+//                 readWord(&teks,';');
+//             }while(teks.Length == 0);
+//             printf("Apakah Anda ingin melanjutkan utas ini?");
+//         }while((!stop));
+//         printf("\n\n");
+//         printf("Utas selesai!");
+//     }
+// }
 
 // void sambung_utas(){
 // /* Pakai insertat yang ada di listlinier  */
