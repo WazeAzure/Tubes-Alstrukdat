@@ -1,13 +1,14 @@
-#include "util.c"
 #include "globalVar.h"
 
 // daftar fungsi header
 #include "ADT/User/user.h"
 #include "ADT/Kicauan/kicauan.h"
+#include "ADT/Utas/utas.h"
 
 // daftar fungsi C
 #include "ADT/User/user.c"
 #include "ADT/Kicauan/kicauan.c"
+#include "ADT/Utas/utas.c"
 
 void initiateGlobalVariables(){
     // set matriks pertemanan
@@ -177,6 +178,8 @@ int main(){
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS
                 printf("called %s\n", command[23]);
+                int idKicau = WordToInt(input[1]);
+                utas(idKicau);
             }
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS
