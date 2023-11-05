@@ -5,6 +5,7 @@
 #include "../Prioqueue/prioqueue.h"
 #include "../boolean.h"
 
+#include "../Draftkicauan/draftkicauan.h"
 
 // ADT Symbol
 typedef struct {
@@ -37,10 +38,9 @@ typedef struct {
     Word kata_sandi;
     PROFILE profile;
     int jumlah_teman;
+    Stack draftKicauan;
     PrioQueue permintaan_pertemanan;
     // daftar permintaan pertemanan (belum)
-    // daftar draft kicauan (belum)
-    
 
 } USER;
 
@@ -81,6 +81,9 @@ typedef struct {
 // ListUser
 #define USER(lu, idx) (lu).user[idx]
 #define COUNTER_USER(lu) (lu).CounterUser
+
+// Draft Kicauan
+#define DRAFT(u) (u).draftkicauan
 
 // PRIMITIF ADT FOTO
 void createFoto(int nRows, int nCols, FOTO *m);

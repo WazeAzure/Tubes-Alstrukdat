@@ -6,6 +6,8 @@
         "globalvar.h": "c",
         "user.h": "c",
         "balasan.h": "c",
-        "utas.h": "c"
+        "utas.h": "c",
+        "charmachine.h": "c",
+        "boolean.h": "c"
     }
 }
