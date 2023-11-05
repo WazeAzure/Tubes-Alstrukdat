@@ -27,7 +27,7 @@ typedef struct {
     PairBalasan *daftar_balasan;
 
     // list of daftar utas
-    UTAS *daftar_utas;
+    ListElemenUtas daftar_utas;
 } KICAUAN;
 
 typedef struct {
