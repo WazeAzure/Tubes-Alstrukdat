@@ -5,7 +5,7 @@
 #include "../PermintaanPertemanan/permintaanpertemanan.h"
 #include "../boolean.h"
 
-#include "../Draftkicauan/draftkicauan.h"
+// #include "../Draftkicauan/draftkicauan.h"
 
 // ADT Symbol
 typedef struct {
@@ -38,9 +38,8 @@ typedef struct {
     Word kata_sandi;
     PROFILE profile;
     int jumlah_teman;
-    Stack draftKicauan;
+    // Stack draftKicauan;
     PERMINTAANPERTEMANAN permintaan_pertemanan;
-    // daftar permintaan pertemanan (belum)
 
 } USER;
 

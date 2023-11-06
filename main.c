@@ -2,13 +2,15 @@
 
 // daftar fungsi header
 #include "ADT/User/user.h"
-#include "ADT/Kicauan/kicauan.h"
-#include "ADT/Utas/utas.h"
+#include "ADT/DaftarPertemanan/daftarpertemanan.h"
+// #include "ADT/Kicauan/kicauan.h"
+// #include "ADT/Utas/utas.h"
 
 // daftar fungsi C
+#include "util.c"
 #include "ADT/User/user.c"
-#include "ADT/Kicauan/kicauan.c"
-#include "ADT/Utas/utas.c"
+// #include "ADT/Kicauan/kicauan.c"
+// #include "ADT/Utas/utas.c"
 
 void initiateGlobalVariables(){
     // set matriks pertemanan
@@ -19,10 +21,10 @@ void initiateGlobalVariables(){
     }
 
     // set daftar kicauan
-    CreateListKicauan(&ListKicauan, 100);
+    // CreateListKicauan(&ListKicauan, 100);
 
     // set daftar id utas
-    CreateListIdUtas(&ListIdUtas, 100);
+    // CreateListIdUtas(&ListIdUtas, 100);
 
     // Inisialisasi ListUser (Daftar Pengguna)
     createListUser(&user);
@@ -115,6 +117,7 @@ int main(){
             else if(strCompare(input[0].TabWord, command[8])){
                 // DAFTAR_TEMAN
                 printf("called %s\n", command[8]);
+                showDaftarTeman(&user,DaftarPertemanan,CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[9])){
                 // HAPUS_TEMAN
@@ -138,9 +141,9 @@ int main(){
             }
             else if(strCompare(input[0].TabWord, command[14])){
                 // KICAU
-                printf("called %s\n", command[14]);
-                kicau(USER(user, CurrentUserId).nama);
-                showAllListKicauan();
+                // printf("called %s\n", command[14]);
+                // kicau(USER(user, CurrentUserId).nama);
+                // showAllListKicauan();
             }
             else if(strCompare(input[0].TabWord, command[15])){
                 // KICAUAN
@@ -177,9 +180,9 @@ int main(){
             }
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS
-                printf("called %s\n", command[23]);
-                int idKicau = WordToInt(input[1]);
-                utas(idKicau);
+                // printf("called %s\n", command[23]);
+                // int idKicau = WordToInt(input[1]);
+                // utas(idKicau);
             }
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS

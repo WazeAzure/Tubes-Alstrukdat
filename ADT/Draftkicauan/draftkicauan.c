@@ -18,7 +18,7 @@
 #include "globalVar.h"
 
 /* ************ Prototype ************ */
-AddressDraftKicau newNode(DraftKicau val){
+AddressDraftKicau newNodeDraftKicau(DraftKicau val){
     AddressDraftKicau p = (AddressDraftKicau) malloc(sizeof(Node));
     if(p!=NULL){
         INFO_S(p)= val;
@@ -27,25 +27,25 @@ AddressDraftKicau newNode(DraftKicau val){
     return p;
 }
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Stack *S)
+void CreateEmptyDraftKicau(Stack *S)
 {
     ADDR_TOP(*S) = NULL;
 }
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmpty(Stack S)
+boolean IsEmptyDraftKicau(Stack S)
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
 {
     return (ADDR_TOP(S) == NULL);
 }
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, DraftKicau X)
+void PushDraftKicau(Stack * S, DraftKicau X)
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 {
-    AddressDraftKicau p = newNode(X);
+    AddressDraftKicau p = newNodeDraftKicau(X);
     if (p != NULL)
     {
         NEXT_S(p) = ADDR_TOP(*S);
@@ -54,7 +54,7 @@ void Push(Stack * S, DraftKicau X)
 }
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, DraftKicau* X)
+void PopDraftKicau(Stack * S, DraftKicau* X)
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
@@ -66,7 +66,7 @@ void Pop(Stack * S, DraftKicau* X)
     free(p);
 }
 
-void buatDraft (Stack S)
+void buatDraft(Stack S)
 {
     // membaca draft menggunakan mesin kata
     Word isi;
@@ -92,7 +92,7 @@ void buatDraft (Stack S)
     if (strCompare(comm,'HAPUS') == 1)
     {
         DraftKicau val;
-        // gak ngelakuin apa apa karena diawal belum di push
+        // gak ngelakuin apa apa karena diawal belum di pushDraftKicau
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(comm,'SIMPAN') ==1)
     {
@@ -101,7 +101,7 @@ void buatDraft (Stack S)
         DATETIME timeDraftK = DetikToDATETIME(time_second);
         timeDraft(x) = timeDraftK;
 
-        Push(&S,x);
+        PushDraftKicau(&S,x);
         printf("Draf telah berhasil disimpan\n");
     } else if (strCompare(comm,'TERBIT') == 1)
     {
@@ -113,7 +113,7 @@ void buatDraft (Stack S)
 }
 void lihatDraft(Stack S)
 {
-    if (IsEmpty(S))
+    if (IsEmptyDraftKicau(S))
     {
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
     } else
@@ -141,8 +141,8 @@ void lihatDraft(Stack S)
     if (strCompare(comm,'HAPUS') == 1)
     {
         DraftKicau val;
-        // gak ngelakuin apa apa karena diawal belum di push
-        Pop(&S,&val);
+        // gak ngelakuin apa apa karena diawal belum di pushDraftKicau
+     PopDraftKicau(&S,&val);
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(comm,'UBAH'))
     {
@@ -159,7 +159,7 @@ void lihatDraft(Stack S)
 void terbitDraft (Stack S)
 {
     DraftKicau x;
-    Pop(&S,&x);
+ PopDraftKicau(&S,&x);
     printf("Selamat! Draf kicauan telah diterbitkan!\n");
     printf("Detil kicauan:\n");
     prinf("| ID = %d\n", CurrentUserId);
@@ -188,7 +188,7 @@ void ubahDraft (Stack S)
 
     //mengganti draft awal dengan draft baru
     DraftKicau val,new;
-    pop(&S,&val)
+ PopDraftKicau(&S,&val)
 
     isiDraft(new) = newIsi;
 
@@ -209,7 +209,7 @@ void ubahDraft (Stack S)
     if (strCompare(comm,'HAPUS') == 1)
     {
         DraftKicau val;
-        // gak ngelakuin apa apa karena diawal belum di push
+        // gak ngelakuin apa apa karena diawal belum di pushDraftKicau
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(comm,'SIMPAN') ==1)
     {
@@ -218,7 +218,7 @@ void ubahDraft (Stack S)
         DATETIME timeDraftK = DetikToDATETIME(time_second);
         timeDraft(new) = timeDraftK;
 
-        Push(&S,new);
+        PushDraftKicau(&S,new);
         printf("Draf telah berhasil disimpan\n");
     } else if (strCompare(comm,'TERBIT') == 1)
     {

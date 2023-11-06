@@ -6,11 +6,11 @@ int CounterKicauan = 0;
 
 int CounterUtas = 0;
 
-LISTKICAUAN ListKicauan;
+// LISTKICAUAN ListKicauan;
 
 ListUser user;
 
-LISTIDUTAS ListIdUtas;
+// LISTIDUTAS ListIdUtas;
 
 DAFTARPERTEMANAN DaftarPertemanan;
 

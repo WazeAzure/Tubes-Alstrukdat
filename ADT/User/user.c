@@ -3,7 +3,7 @@
 #include "user.h"
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
-
+#include "../DaftarPertemanan/daftarpertemanan.h"
 
 #include "../pcolor/pcolor.h"
 
@@ -238,6 +238,8 @@ boolean isWetonValid(Word weton){
 void createListUser(ListUser * u) {
 // Inisialisasi ListUser, membentuk List user dengan tiap id user = index dan jumlah teman = 0.
     int i;
+    PERMINTAANPERTEMANAN Q;
+    MakeEmptyPermintaanPertemanan(&Q);
     for (i = 0; i < 20; i++) {
         USER_ID(USER(*u, i)) = i;
         JUMLAH_TEMAN(USER(*u, i)) = 0;
@@ -472,3 +474,92 @@ void showFotoProfil(int id){
 // Menampilkan foto profil akun dengan id (id).
     displayFoto(FOTO(USER(user, id)));
 }
+
+// Bagian Teman dan Daftar Pertemanan
+void cariTeman(Word* Input, ListUser *lu, DAFTARPERTEMANAN DaftarPertemanan, int id){
+    int i = 0;
+    for(int j = 0; j < 20; j++){
+        if(ElmtDaftarPertemanan(DaftarPertemanan,j,id) == true){
+            *(Input + i) =  USER_NAMA(USER(*lu,j));
+            i++;
+        }
+    }
+}
+
+void showDaftarTeman(ListUser *lu, DAFTARPERTEMANAN DaftarPertemanan, int id){
+    if(JUMLAH_TEMAN(USER(*lu,id)) == 0){
+        printf("%s belum mempunyai teman\n",USER_NAMA(USER(*lu,id)).TabWord);
+    } else{
+        printf("%s memiliki %d teman\n",USER_NAMA(USER(*lu,id)).TabWord,JUMLAH_TEMAN(USER(*lu,id)));
+        printf("Daftar teman %s\n",USER_NAMA(USER(*lu,id)).TabWord);
+        Word ListTeman[20];
+        cariTeman(ListTeman, lu,DaftarPertemanan, id);
+        for(int i = 0; i < JUMLAH_TEMAN(USER(*lu,id)); i++){
+            printf("| %s\n",ListTeman[i].TabWord);
+        }
+    }
+}
+
+
+int CariIdUser(ListUser *lu, Word nama){
+    int i = 0;
+    boolean isFound = false;
+    while(i <= 20 && !isFound){
+        if(USER_NAMA(USER(*lu,i)).TabWord == nama.TabWord){
+            isFound = true;
+        }
+        i++;
+    }
+    if(isFound){
+        return i;
+    } else{
+        return -1;
+    }
+}
+
+boolean isTeman(DAFTARPERTEMANAN DaftarPertemanan, int idUser, int idTeman){
+    if(idTeman == -1){ // Nama teman tidak ada di semua item list user
+        return false;
+    }
+    if(ElmtDaftarPertemanan(DaftarPertemanan, idUser, idTeman) == 1){
+        return true;
+    } else{
+        return false;
+    }
+}   
+
+void hapusTeman(ListUser *lu, DAFTARPERTEMANAN DaftarPertemanan, int idUser){
+    Word namaTeman, konfirmasi;
+    printf("Masukkan nama pengguna:\n");
+    readCommandMain(&namaTeman);
+    int idTeman = CariIdUser(lu,namaTeman);
+    if(isTeman(DaftarPertemanan, idUser, idTeman)){
+        printf("Apakah anda yakin ingin menghapus %s dari daftar teman anda?(YA/TIDAK)\n", namaTeman.TabWord);
+        readCommandMain(&konfirmasi);
+        if(strCompare(konfirmasi.TabWord, "YA")){
+            setSymmetricElmt(&DaftarPertemanan, idUser, idTeman, 0);
+            JUMLAH_TEMAN(USER(*lu,idUser))--;
+            JUMLAH_TEMAN(USER(*lu,idTeman))--;
+        }else{
+            printf("Penghapusan teman dibatalkan.\n");
+        }
+    } else{
+        printf("%s bukan teman Anda.\n",namaTeman.TabWord);
+    }
+}
+
+
+void tambahTeman(ListUser *lu, DAFTARPERTEMANAN DaftarPertemanan, int idUser){
+    Word namaTeman;
+    prinf("Masukkan nama pengguna:\n");
+    readCommandMain(&namaTeman);
+    int idTeman = CariIdUser(lu, namaTeman);
+    if(idTeman == -1){
+        printf("Pengguna bernama %s tidak ditemukan.\n",USER_NAMA(USER(*lu,idTeman)).TabWord);
+    } else{
+        // sent permintaan pertemanan
+        printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n");
+    }
+}
+
+

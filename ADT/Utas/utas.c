@@ -4,7 +4,7 @@
 
 #include "utas.h"
 #include "../../globalVar.h"
-#include "../../util.c"
+// #include "../../util.c"
 
 AddressUtas newUtas(){
     AddressUtas new = (AddressUtas)malloc(sizeof(UTAS));
@@ -39,23 +39,23 @@ boolean isEmpty(LISTIDUTAS li){
 //     return NEFF_LISTIDUTAS(li);
 // }
 
-// boolean isUtas(LISTIDUTAS li, int idKicau){
-// // Mengecek apakah ada idkicau di LISTIDUTAS, pake indexof listdin, mengembalikan true jika ada
-//     IdxType i, index;
-//     index = IDX_UNDEF;
-//     i =0;
-//     boolean check = false;
-//     if(isEmpty(li)){
-//         check = false;
-//     }else{
-//         while(i<=getLastIdx(li) && check == false){
-//             if(ELMT(li,i) == idKicau){
-//                 check = true;
-//             }
-//         }
-//     }
-//     return check;
-// }
+boolean isUtas(LISTIDUTAS li, int idKicau){
+// Mengecek apakah ada idkicau di LISTIDUTAS, pake indexof listdin, mengembalikan true jika ada
+    IdxType i, index;
+    index = IDX_UNDEF;
+    i =0;
+    boolean check = false;
+    if(isEmpty(li)){
+        check = false;
+    }else{
+        while(i<=getLastIdx(li) && check == false){
+            if(ELMT(li,i) == idKicau){
+                check = true;
+            }
+        }
+    }
+    return check;
+}
 
 
 void utas(int idKicau){
@@ -82,7 +82,7 @@ void utas(int idKicau){
         Word val;
         readWord(&val,';');
         boolean stop ;
-        if(vstrCompare(val.TabWord, "YA")){
+        if(strCompare(val.TabWord, "YA")){
             stop = true;
         }else{
             stop = false;
