@@ -11,8 +11,9 @@
 
 /* Definisi elemen dan address */
 typedef struct {
+    Word nama;
+    int id;  /* elemen karakter */
     int jumlahTeman;  /* jumlah teman yang dimiliki dengan yang terbesar memiliki prioritas tertinggi */
-    Word nama;  /* elemen karakter */
 } infotype;
 /* Contoh deklarasi variabel bertype PrioQueueChar : */
 /* Versi I : tabel dinamik, Head dan Tail eksplisit, ukuran disimpan */
@@ -31,12 +32,13 @@ typedef struct {
 
 /* ********* AKSES (Selektor) ********* */
 /* Jika e adalah infotype dan Q adalah PrioQueueChar, maka akses elemen : */
-#define FirstPermintaanPertemanan(Q)         (Q).first
-#define JumlahPermintaanPertemanan(Q)         (Q).jumlah_permintaan
-#define ValuePermintaanPertemanan(P)         (P)->value
+#define FirstPermintaanPertemanan(Q)        (Q).first
+#define JumlahPermintaanPertemanan(Q)       (Q).jumlah_permintaan
+#define ValuePermintaanPertemanan(P)        (P)->value
 #define NextPermintaanPertemanan(P)         (P)->next
 #define JumlahTemanPermintaanPertemanan(P)  (P)->value.jumlahTeman
 #define NamaPermintaanPertemanan(P)         (P)->value.nama
+#define IdPermintaanPertemanan(P)           (P)->value.id
 
 /* ********* Prototype ********* */
 boolean IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN Q);
@@ -73,14 +75,28 @@ void DequeuePermintaanPertemanan(PERMINTAANPERTEMANAN * Q, infotype * X);
         Q mungkin kosong */
 
 /* Operasi Tambahan */
+void PrintPermintaanPertemananPertama(PERMINTAANPERTEMANAN Q);
+/* Mencetak isi queue Q ke layar */
+/* I.S. Q terdefinisi, mungkin kosong */
+/* F.S. Elemen Pertama Q tercetak ke layar dengan format:
+
+| nama1
+| jumlah_teman1
+
+*/
+
 void PrintPermintaanPertemanan(PERMINTAANPERTEMANAN Q);
 /* Mencetak isi queue Q ke layar */
 /* I.S. Q terdefinisi, mungkin kosong */
 /* F.S. Q tercetak ke layar dengan format:
-<prio-1> <elemen-1>
-...
-<prio-n> <elemen-n>
-#
+
+| nama1
+| jumlah_teman1
+
+| nama2
+| jumlah_teman2
+
+..dst
 */
 
 #endif

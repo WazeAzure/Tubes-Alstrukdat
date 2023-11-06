@@ -74,7 +74,7 @@ typedef struct {
 #define SANDI(u) (u).kata_sandi
 #define JUMLAH_TEMAN(u) (u).jumlah_teman
 #define PROFILE(u) (u).profile
-// #define daftarteman
+#define PERMINTAANPERTEMANAN(u) (u).permintaan_pertemanan
 // #define draft kicauan
 
 // ListUser

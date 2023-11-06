@@ -117,15 +117,17 @@ int main(){
             else if(strCompare(input[0].TabWord, command[8])){
                 // DAFTAR_TEMAN
                 printf("called %s\n", command[8]);
-                showDaftarTeman(&user,DaftarPertemanan,CurrentUserId);
+                showDaftarTeman(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[9])){
                 // HAPUS_TEMAN
                 printf("called %s\n", command[9]);
+                hapusTeman(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[10])){
                 // TAMBAH_TEMAN
                 printf("called %s\n", command[10]);
+                tambahTeman(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[11])){
                 // BATAL_TAMBAH_TEMAN
@@ -134,10 +136,12 @@ int main(){
             else if(strCompare(input[0].TabWord, command[12])){
                 // DAFTAR_PERMINTAAN_PERTEMANAN
                 printf("called %s\n", command[12]);
+                showDaftarPermintaanPertemanan(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[13])){
                 // SETUJUI PERTEMANAN
                 printf("called %s\n", command[13]);
+                setujuiPermintaanPertemanan(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[14])){
                 // KICAU

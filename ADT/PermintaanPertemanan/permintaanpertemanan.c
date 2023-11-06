@@ -99,6 +99,27 @@ void DequeuePermintaanPertemanan (PERMINTAANPERTEMANAN * Q, infotype * X)
 }
 
 /* Operasi Tambahan */
+/* Operasi Tambahan */
+void PrintPermintaanPertemananPertama(PERMINTAANPERTEMANAN Q)
+/* Mencetak isi queue Q ke layar */
+/* I.S. Q terdefinisi, mungkin kosong */
+/* F.S. Elemen Pertama Q tercetak ke layar dengan format:
+
+| nama1
+| jumlah_teman1
+
+| nama2
+| jumlah_teman2
+
+..dst
+*/
+{
+    Address P = FirstPermintaanPertemanan(Q);
+    printf("Permintaan pertemanan teratas dari %s\n",NamaPermintaanPertemanan(P).TabWord);
+    printf("\n| %s\n| Jumlah teman: %d\n\n",NamaPermintaanPertemanan(P).TabWord, JumlahTemanPermintaanPertemanan(P)) ;
+}
+
+
 void PrintPermintaanPertemanan (PERMINTAANPERTEMANAN Q)
 /* Mencetak isi queue Q ke layar */
 /* I.S. Q terdefinisi, mungkin kosong */
@@ -107,14 +128,13 @@ void PrintPermintaanPertemanan (PERMINTAANPERTEMANAN Q)
 */
 {
     if(IsEmptyPermintaanPertemanan(Q)){
-        printf("[]\n");
+        printf("\nTidak ada permintaan pertemanan.\n");
     } else{
-        printf("[");
         Address P = FirstPermintaanPertemanan(Q);
         while(NextPermintaanPertemanan(P) != NULL){
-            printf("< %s %d >,", NamaPermintaanPertemanan(P).TabWord, JumlahTemanPermintaanPertemanan(P));
+            printf("\n| %s\n| Jumlah teman: %d\n\n", NamaPermintaanPertemanan(P).TabWord, JumlahTemanPermintaanPertemanan(P));
             P = NextPermintaanPertemanan(P);
         }
-        printf("< %s %d >]\n",NamaPermintaanPertemanan(P).TabWord, JumlahTemanPermintaanPertemanan(P));
+        printf("\n| %s\n| Jumlah teman: %d\n\n",NamaPermintaanPertemanan(P).TabWord, JumlahTemanPermintaanPertemanan(P));
     }
 }
