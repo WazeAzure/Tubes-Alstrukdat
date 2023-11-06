@@ -5,6 +5,7 @@
 ---
 - M Hilal Alhamdy               (13519024)
 - Aurelius Justin Philo Fanjaya (13522020)
+- Rici Trisna Putra (13522026)
 - Melati Anggraini              (13522035)
 - Edbert Eddyson Gunawan        (13522039)
 - Angelica Kierra Ninta Gurning (13522048)
