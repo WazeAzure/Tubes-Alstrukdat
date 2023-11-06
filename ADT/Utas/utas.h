@@ -11,15 +11,17 @@ typedef struct nodeUtas* AddressUtas;
 typedef struct nodeUtas {
     Word author;
     Word teks;
-    DATETIME time;
+    long long int time;
     AddressUtas next;
-} UTAS;
+} NodeElemenUtas;
 
 typedef AddressUtas ListElemenUtas;
+
 
 typedef int IdxType;
 // typedef int IdUtas;
 
+// List dinamis yang menyimpan idUtas
 typedef struct{
     int* buffer;
     int nEFF;
@@ -30,35 +32,41 @@ typedef struct{
 #define ELMT(li,i) (li).buffer[i]
 #define nEFF(li) (li).nEFF
 
+
+#define FIRSTDAFTARUTAS(li) (li)
+#define NEXTDAFTARUTAS(li) (li)->next
+#define TEKSUTAS(li) (li)->teks
+#define TIMEUTAS(li) (li)->time
 /*PROTOTYPE*/
 
 AddressUtas newUtas();
 
+AddressUtas newUtas(Word teks,long long int time);
+
+void CreateListElementUtas(ListElemenUtas *daftarUtas);
+
 void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
 
+boolean isEmptyListIdUtas(LISTIDUTAS li);
 
-// void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
+boolean isEmptyDaftarUtas(ListElemenUtas daftarUtas);
 
-// void CetakUtas(UTAS daftaridutas, KICAUAN *kicauan);
+IdxType getLastIdx(LISTIDUTAS li);
 
-// void showUtasContent(UTAS utas);
+int lengthDaftarIdUtas(LISTIDUTAS li);
 
-// boolean isUtasExist(UTAS utas, int idUtas);
+int lengthDaftarUtas(ListElemenUtas daftarUtas);
 
-// void ReadUtas(UTAS *utas);
+boolean isUtas(LISTIDUTAS li, int idKicau);
 
-// int getIdAuthor();
+void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks,long long int time);
 
-// void ReadUtas(UTAS *utas);
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,long long int *time,int index);
 
-// boolean isIndexValid(UTAS *utasan, int index);
+void utas(int idKicau);
 
-// void deleteAtItemUtas(UTAS *utasan, ITEMUTAS *itemutas, int idx);
+void sambung_utas(int index, ListElemenUtas *daftarUtas, LISTIDUTAS li, int idKicau, Word teks);
 
-// boolean isIdUtasExist(UTAS utas, int idUtas);
-
-// // void SambungUtas(int index, UTAS *utas);
-
-// void hapus_utas(); 
+void hapus_utas(int index,LISTIDUTAS li, int idUtas, ListElemenUtas *daftarutas, Word *teks,long long int *time);
 
 #endif

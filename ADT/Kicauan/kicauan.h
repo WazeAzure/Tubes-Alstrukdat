@@ -28,6 +28,7 @@ typedef struct {
 
     // list of daftar utas
     ListElemenUtas daftar_utas;
+    
 } KICAUAN;
 
 typedef struct {

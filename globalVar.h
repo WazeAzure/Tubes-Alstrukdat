@@ -14,5 +14,5 @@ extern ListUser user;
 
 extern LISTIDUTAS ListIdUtas;
 
-extern AdjMatrix DaftarPertemanan;
+// extern AdjMatrix DaftarPertemanan;
 
