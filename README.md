@@ -1,5 +1,5 @@
 # Tubes-Alstrukdat
-![totoro](https://github.com/WazeAzure/Algeo01-22039/assets/55005873/cede061e-48be-4a36-8a5f-586691a86a62)
+![totoro](https://github.com/WazeAzure/Tubes-Alstrukdat/assets/55005873/a072e3f9-1ae5-4743-8f9e-0f7581796c15)
 
 ## Created By
 ---
