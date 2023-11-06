@@ -4,6 +4,10 @@
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
 #include "../DaftarPertemanan/daftarpertemanan.h"
+#include "../PermintaanPertemanan/permintaanpertemanan.h"
+
+#include "../DaftarPertemanan/daftarpertemanan.c"
+#include "../PermintaanPertemanan/permintaanpertemanan.c"
 
 #include "../pcolor/pcolor.h"
 
@@ -239,7 +243,7 @@ void createListUser(ListUser * u) {
 // Inisialisasi ListUser, membentuk List user dengan tiap id user = index dan jumlah teman = 0.
     int i;
     PERMINTAANPERTEMANAN Q;
-    MakeEmptyPermintaanPertemanan(&Q);
+    CreateEmptyPermintaanPertemanan(&Q);
     for (i = 0; i < 20; i++) {
         USER_ID(USER(*u, i)) = i;
         JUMLAH_TEMAN(USER(*u, i)) = 0;
@@ -551,14 +555,14 @@ void hapusTeman(ListUser *lu, DAFTARPERTEMANAN DaftarPertemanan, int idUser){
 
 void tambahTeman(ListUser *lu, DAFTARPERTEMANAN DaftarPertemanan, int idUser){
     Word namaTeman;
-    prinf("Masukkan nama pengguna:\n");
+    printf("Masukkan nama pengguna:\n");
     readCommandMain(&namaTeman);
     int idTeman = CariIdUser(lu, namaTeman);
     if(idTeman == -1){
         printf("Pengguna bernama %s tidak ditemukan.\n",USER_NAMA(USER(*lu,idTeman)).TabWord);
     } else{
         // sent permintaan pertemanan
-        printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n");
+        printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n",USER_NAMA(USER(*lu,idTeman)).TabWord);
     }
 }
 

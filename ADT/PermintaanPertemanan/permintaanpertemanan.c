@@ -34,6 +34,7 @@ Address AlokasiPermintaanPertemanan(infotype val)
         ValuePermintaanPertemanan(P) = val;
         NextPermintaanPertemanan(P) = NULL;
     }
+    return P;
 }
 
 /* *** Destruktor *** */
