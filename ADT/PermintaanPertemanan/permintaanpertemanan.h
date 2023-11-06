@@ -9,59 +9,56 @@
 #include "../boolean.h"
 #include "../Wordmachine/wordmachine.h"
 
-#define Nil -1
-/* Konstanta untuk mendefinisikan address tak terdefinisi */
-
 /* Definisi elemen dan address */
 typedef struct {
     int jumlahTeman;  /* jumlah teman yang dimiliki dengan yang terbesar memiliki prioritas tertinggi */
     Word nama;  /* elemen karakter */
 } infotype;
-typedef int address;   /* indeks tabel */
 /* Contoh deklarasi variabel bertype PrioQueueChar : */
 /* Versi I : tabel dinamik, Head dan Tail eksplisit, ukuran disimpan */
+typedef struct node *Address;
+typedef struct node{
+    infotype value;
+    Address next;
+}Node;
+
 typedef struct {
-    infotype * T;   /* tabel penyimpan elemen */
-    address HEAD;  /* alamat penghapusan */
-    address TAIL;  /* alamat penambahan */
-    int MaxEl;     /* Max elemen queue */
+    Address first;   /* tabel penyimpan elemen */
+    int jumlah_permintaan;
 } PERMINTAANPERTEMANAN;
 /* Definisi PrioQueueChar kosong: HEAD=Nil; TAIL=Nil. */
 /* Catatan implementasi: T[0] tidak pernah dipakai */
 
 /* ********* AKSES (Selektor) ********* */
 /* Jika e adalah infotype dan Q adalah PrioQueueChar, maka akses elemen : */
-#define JumlahTemanPermintaanPertemanan(e)  (e).jumlahTeman
-#define NamaPermintaanPertemanan(e)         (e).nama
-#define HeadPermintaanPertemanan(Q)         (Q).HEAD
-#define TailPermintaanPertemanan(Q)         (Q).TAIL
-#define InfoHeadPermintaanPertemanan(Q)     (Q).T[(Q).HEAD]
-#define InfoTailPermintaanPertemanan(Q)     (Q).T[(Q).TAIL]
-#define MaxElPermintaanPertemanan(Q)        (Q).MaxEl
-#define ElmtPermintaanPertemanan(Q,i)       (Q).T[(i)]
+#define FirstPermintaanPertemanan(Q)         (Q).first
+#define JumlahPermintaanPertemanan(Q)         (Q).jumlah_permintaan
+#define ValuePermintaanPertemanan(P)         (P)->value
+#define NextPermintaanPertemanan(P)         (P)->next
+#define JumlahTemanPermintaanPertemanan(P)  (P)->value.jumlahTeman
+#define NamaPermintaanPertemanan(P)         (P)->value.nama
 
 /* ********* Prototype ********* */
 boolean IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN Q);
 /* Mengirim true jika Q kosong: lihat definisi di atas */
-boolean IsFullPermintaanPertemanan(PERMINTAANPERTEMANAN Q);
-/* Mengirim true jika tabel penampung elemen Q sudah penuh */
-/* yaitu mengandung elemen sebanyak MaxEl */
-int NBElmtPermintaanPertemanan(PERMINTAANPERTEMANAN Q);
-/* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika Q kosong. */
 
 /* *** Kreator *** */
-void MakeEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN * Q, int Max);
+void CreateEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN * Q);
 /* I.S. sembarang */
-/* F.S. Sebuah Q kosong terbentuk dan salah satu kondisi sbb: */
-/* Jika alokasi berhasil, Tabel memori dialokasi berukuran Max+1 */
-/* atau : jika alokasi gagal, Q kosong dg MaxEl=0 */
-/* Proses : Melakukan alokasi, membuat sebuah Q kosong */
+/* F.S. Sebuah Q kosong dengan definisi di atas: */
+
+/****************** Manajemen Memori ******************/
+Address AlokasiPermintaanPertemanan(infotype val);
+/* Mengirimkan Address hasil alokasi sebuah elemen */
+/* Jika alokasi berhasil, maka Address tidak NULL, dan misalnya */
+/* menghasilkan P, maka ValuePermintaanPertemanan(P)=val, NextPermintaanPertemanan(P)=NULL */
+/* Jika alokasi gagal, mengirimkan NULL */
 
 /* *** Destruktor *** */
-void DeAlokasiPermintaanPertemanan(PERMINTAANPERTEMANAN * Q);
-/* Proses: Mengembalikan memori Q */
-/* I.S. Q pernah dialokasi */
-/* F.S. Q menjadi tidak terdefinisi lagi, MaxEl(Q) diset 0 */
+void DeAlokasiPermintaanPertemanan(Address P);
+/* I.S. P terdefinisi */
+/* F.S. P dikembalikan ke sistem */
+/* Melakukan dealokasi/pengembalian Address P */
 
 /* *** Primitif Add/Delete *** */
 void EnqueuePermintaanPertemanan(PERMINTAANPERTEMANAN * Q, infotype X);

@@ -8,55 +8,41 @@
 boolean IsEmptyPermintaanPertemanan (PERMINTAANPERTEMANAN Q)
 /* Mengirim true jika Q kosong: lihat definisi di atas */
 {
-    return(HeadPermintaanPertemanan(Q) == Nil && TailPermintaanPertemanan(Q) == Nil);
-}
-
-boolean IsFullPermintaanPertemanan (PERMINTAANPERTEMANAN Q)
-/* Mengirim true jika tabel penampung elemen Q sudah penuh */
-/* yaitu mengandung elemen sebanyak MaxEl */
-{
-    return(NBElmtPermintaanPertemanan(Q) == MaxElPermintaanPertemanan(Q));
-}
-
-int NBElmtPermintaanPertemanan (PERMINTAANPERTEMANAN Q)
-/* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika Q kosong. */
-{
-    if(IsEmptyPermintaanPertemanan(Q)){
-        return 0;
-    } else{
-        return((MaxElPermintaanPertemanan(Q) - HeadPermintaanPertemanan(Q) + TailPermintaanPertemanan(Q)) % MaxElPermintaanPertemanan(Q)) + 1;
-    }
+    return(FirstPermintaanPertemanan(Q) == NULL);
 }
 
 /* *** Kreator *** */
-void MakeEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN * Q, int Max)
+void CreateEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN * Q)
 /* I.S. sembarang */
 /* F.S. Sebuah Q kosong terbentuk dan salah satu kondisi sbb: */
 /* Jika alokasi berhasil, Tabel memori dialokasi berukuran Max+1 */
 /* atau : jika alokasi gagal, Q kosong dg MaxEl=0 */
 /* Proses : Melakukan alokasi, membuat sebuah Q kosong */
 {
-    infotype* T = malloc(sizeof(infotype) * (Max+1));
-    if(T != NULL){
-        (*Q).T = T;
-        MaxElPermintaanPertemanan(*Q) = Max + 1;
-    } else{
-        MaxElPermintaanPertemanan(*Q) = 0;
+    FirstPermintaanPertemanan(*Q) = NULL;
+    JumlahPermintaanPertemanan(*Q) = 0;
+}
+
+Address AlokasiPermintaanPertemanan(infotype val)
+/* Mengirimkan Address hasil alokasi sebuah elemen */
+/* Jika alokasi berhasil, maka Address tidak NULL, dan misalnya */
+/* menghasilkan P, maka ValuePermintaanPertemanan(P)=val, NextPermintaanPertemanan(P)=NULL */
+/* Jika alokasi gagal, mengirimkan NULL */
+{
+    Address P = (Address) malloc(sizeof(Node));
+    if(P != NULL){
+        ValuePermintaanPertemanan(P) = val;
+        NextPermintaanPertemanan(P) = NULL;
     }
-    HeadPermintaanPertemanan(*Q) = Nil;
-    TailPermintaanPertemanan(*Q) = Nil;
 }
 
 /* *** Destruktor *** */
-void DeAlokasiPermintaanPertemanan(PERMINTAANPERTEMANAN * Q)
+void DeAlokasiPermintaanPertemanan(Address P)
 /* Proses: Mengembalikan memori Q */
 /* I.S. Q pernah dialokasi */
 /* F.S. Q menjadi tidak terdefinisi lagi, MaxEl(Q) diset 0 */
 {
-    free((*Q).T);
-    MaxElPermintaanPertemanan(*Q) = 0;
-    HeadPermintaanPertemanan(*Q) = Nil;
-    TailPermintaanPertemanan(*Q) = Nil;
+    free(P);
 }
 
 /* *** Primitif Add/Delete *** */
@@ -66,24 +52,32 @@ void EnqueuePermintaanPertemanan(PERMINTAANPERTEMANAN * Q, infotype X)
 /* F.S. X disisipkan pada posisi yang tepat sesuai dengan prioritas,
         TAIL "maju" dengan mekanisme circular buffer; */
 {   
-    if(IsEmptyPermintaanPertemanan(*Q)){
-        HeadPermintaanPertemanan(*Q) = 0;
-        TailPermintaanPertemanan(*Q) = 0;
-        InfoHeadPermintaanPertemanan(*Q) = X;
-        InfoTailPermintaanPertemanan(*Q) = X;
-    } else{
-        int idx = HeadPermintaanPertemanan(*Q);
-        while(JumlahTemanPermintaanPertemanan(ElmtPermintaanPertemanan(*Q,idx)) >= JumlahTemanPermintaanPertemanan(X) && idx != (TailPermintaanPertemanan(*Q)+1) % MaxElPermintaanPertemanan(*Q)){
-            idx = (idx + 1) % MaxElPermintaanPertemanan(*Q);
+    Address P = AlokasiPermintaanPertemanan(X);
+    if(P != NULL){
+        if(IsEmptyPermintaanPertemanan(*Q)){
+            FirstPermintaanPertemanan(*Q) = P;
+        } else{
+            Address before = NULL;
+            Address inspos = FirstPermintaanPertemanan(*Q);
+            while(JumlahTemanPermintaanPertemanan(inspos) >= X.jumlahTeman && NextPermintaanPertemanan(inspos) != NULL){
+                before = inspos;
+                inspos = NextPermintaanPertemanan(inspos);
+            }
+            if(before == NULL){
+                if(JumlahTemanPermintaanPertemanan(P) > JumlahTemanPermintaanPertemanan(inspos)){
+                    FirstPermintaanPertemanan(*Q) = P;
+                    NextPermintaanPertemanan(P) = inspos; 
+                } else{
+                    NextPermintaanPertemanan(P) = NextPermintaanPertemanan(inspos);
+                    NextPermintaanPertemanan(inspos) = P;
+                }
+            } else{
+                NextPermintaanPertemanan(before) = P;
+                NextPermintaanPertemanan(P) = inspos;
+            }
         }
-        int i = TailPermintaanPertemanan(*Q);
-        while(i != (MaxElPermintaanPertemanan(*Q) + idx - 1) % MaxElPermintaanPertemanan(*Q)){
-            ElmtPermintaanPertemanan(*Q,i+1) = ElmtPermintaanPertemanan(*Q,i);
-            i = (MaxElPermintaanPertemanan(*Q) + i - 1) % MaxElPermintaanPertemanan(*Q);
-        }
-        ElmtPermintaanPertemanan(*Q,idx) = X;
-        TailPermintaanPertemanan(*Q) = (TailPermintaanPertemanan(*Q) + 1) % MaxElPermintaanPertemanan(*Q);
     }
+    JumlahPermintaanPertemanan(*Q)++;
 }
 
 void DequeuePermintaanPertemanan (PERMINTAANPERTEMANAN * Q, infotype * X)
@@ -91,14 +85,15 @@ void DequeuePermintaanPertemanan (PERMINTAANPERTEMANAN * Q, infotype * X)
 /* I.S. Q tidak mungkin kosong */
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "maju" dengan mekanisme circular buffer;
         Q mungkin kosong */
-{
-    if(HeadPermintaanPertemanan(*Q) == TailPermintaanPertemanan(*Q)){
-        *X = InfoHeadPermintaanPertemanan(*Q);
-        HeadPermintaanPertemanan(*Q) = Nil;
-        TailPermintaanPertemanan(*Q) = Nil;
+{   
+    if(IsEmptyPermintaanPertemanan(*Q)){
+        printf("Daftar teman sudah kosong");
     } else{
-        *X = InfoHeadPermintaanPertemanan(*Q);
-        HeadPermintaanPertemanan(*Q) = (HeadPermintaanPertemanan(*Q) + 1) % MaxElPermintaanPertemanan(*Q);
+        Address P = FirstPermintaanPertemanan(*Q);
+        *X = ValuePermintaanPertemanan(P);
+        FirstPermintaanPertemanan(*Q) = NextPermintaanPertemanan(P);
+        DeAlokasiPermintaanPertemanan(P);
+        JumlahPermintaanPertemanan(*Q)--;
     }
 }
 
@@ -107,25 +102,18 @@ void PrintPermintaanPertemanan (PERMINTAANPERTEMANAN Q)
 /* Mencetak isi queue Q ke layar */
 /* I.S. Q terdefinisi, mungkin kosong */
 /* F.S. Q tercetak ke layar dengan format:
-<prio-1> <elemen-1>
-...
-<prio-n> <elemen-n>
-#
+[ < nama1 jumlah_teman1 >, < nama2 jumlah_teman2 >, ...]
 */
 {
-    if(!IsEmptyPermintaanPertemanan(Q)){
-        int i = HeadPermintaanPertemanan(Q);
-        printf("[%d %s,",JumlahTemanPermintaanPertemanan(InfoHeadPermintaanPertemanan(Q)),NamaPermintaanPertemanan(InfoHeadPermintaanPertemanan(Q)));
-        while(i != TailPermintaanPertemanan(Q)){
-            if((i+1) % MaxElPermintaanPertemanan(Q) == TailPermintaanPertemanan(Q)){
-                printf("%d %s",JumlahTemanPermintaanPertemanan(ElmtPermintaanPertemanan(Q,i+1)),NamaPermintaanPertemanan(ElmtPermintaanPertemanan(Q,i+1)));
-            } else{
-                printf("%d %s,",JumlahTemanPermintaanPertemanan(ElmtPermintaanPertemanan(Q,i+1)),NamaPermintaanPertemanan(ElmtPermintaanPertemanan(Q,i+1)));
-            }
-            i = (i+1) % MaxElPermintaanPertemanan(Q);
-        }
-        printf("]\n");
-    } else{
+    if(IsEmptyPermintaanPertemanan(Q)){
         printf("[]\n");
+    } else{
+        printf("[");
+        Address P = FirstPermintaanPertemanan(Q);
+        while(NextPermintaanPertemanan(P) != NULL){
+            printf("< %s %d >,", NamaPermintaanPertemanan(P).TabWord, JumlahTemanPermintaanPertemanan(P));
+            P = NextPermintaanPertemanan(P);
+        }
+        printf("< %s %d >]\n",NamaPermintaanPertemanan(P).TabWord, JumlahTemanPermintaanPertemanan(P));
     }
 }
