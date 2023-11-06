@@ -4,23 +4,23 @@
 #include "ADT/User/user.h"
 #include "ADT/Kicauan/kicauan.h"
 #include "ADT/Utas/utas.h"
-#include "ADT/AdjMatrix/adjmatrix.h"
 
 // daftar fungsi C
+#include "util.c"
 #include "ADT/User/user.c"
 #include "ADT/Kicauan/kicauan.c"
+#include "ADT/DaftarPertemanan/daftarpertemanan.h"
 #include "ADT/Utas/utas.c"
-#include "ADT/AdjMatrix/adjmatrix.c"
 
 void initiateGlobalVariables(){
     // set matriks pertemanan
-    CreateEmpty(&DaftarPertemanan);
+    CreateEmptyDaftarPertemanan(&DaftarPertemanan);
 
     // set daftar kicauan
-    CreateListKicauan(&ListKicauan, 100);
+    // CreateListKicauan(&ListKicauan, 100);
 
     // set daftar id utas
-    CreateListIdUtas(&ListIdUtas, 100);
+    // CreateListIdUtas(&ListIdUtas, 100);
 
     // Inisialisasi ListUser (Daftar Pengguna)
     createListUser(&user);
@@ -123,14 +123,17 @@ int main(){
             else if(strCompare(input[0].TabWord, command[8])){
                 // DAFTAR_TEMAN
                 printf("called %s\n", command[8]);
+                showDaftarTeman(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[9])){
                 // HAPUS_TEMAN
                 printf("called %s\n", command[9]);
+                hapusTeman(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[10])){
                 // TAMBAH_TEMAN
                 printf("called %s\n", command[10]);
+                tambahTeman(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[11])){
                 // BATAL_TAMBAH_TEMAN
@@ -139,10 +142,12 @@ int main(){
             else if(strCompare(input[0].TabWord, command[12])){
                 // DAFTAR_PERMINTAAN_PERTEMANAN
                 printf("called %s\n", command[12]);
+                showDaftarPermintaanPertemanan(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[13])){
                 // SETUJUI PERTEMANAN
                 printf("called %s\n", command[13]);
+                setujuiPermintaanPertemanan(CurrentUserId);
             }
             else if(strCompare(input[0].TabWord, command[14])){
                 // KICAU

@@ -65,6 +65,27 @@ boolean isEmpty(LISTIDUTAS li){
 //         printf("Utas bukan milik Anda.");
 //         return;
 //     }else{
+//         while(i<=getLastIdx(li) && check == false){
+//             if(ELMT(li,i) == idKicau){
+//                 check = true;
+//             }
+//         }
+//     }
+//     return check;
+// }
+
+
+// void utas(int idKicau){
+//     AddressUtas daftarUtas = newUtas();
+//     int idutas, *idkicau;
+//     LISTIDUTAS li;
+//     if(!isUtas(li,idKicau)){
+//         printf("Kicauan tidak ditemukan.");
+//         return;
+//     }else if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){
+//         printf("Utas bukan milik Anda.");
+//         return;
+//     }else{
 //         printf("Utas berhasil dibuat!");
 //         Word teks;
 //         printf("Masukkan kicauan");

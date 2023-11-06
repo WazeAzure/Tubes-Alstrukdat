@@ -63,4 +63,8 @@ void kicau(Word Author);
 
 void showKicauanContent(KICAUAN kicauan);
 
+void kicau(Word Author);
+
+void showAllListKicauan();
+
 #endif

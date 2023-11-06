@@ -1,5 +1,5 @@
 
-#include "../../util.c"
+// #include "../../util.c"
 
 #include "draftkicauan.h"
 
@@ -7,7 +7,7 @@
 
 
 /* ************ Prototype ************ */
-AddressDraftKicau newNode(DraftKicau val){
+AddressDraftKicau newNodeDraftKicau(DraftKicau val){
     AddressDraftKicau p = (AddressDraftKicau) malloc(sizeof(Node));
     if(p!=NULL){
         INFO_S(p)= val;
@@ -29,12 +29,12 @@ boolean DraftKicauanIsEmpty(Stack S)
 }
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, DraftKicau X)
+void PushDraftKicau(Stack * S, DraftKicau X)
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 {
-    AddressDraftKicau p = newNode(X);
+    AddressDraftKicau p = newNodeDraftKicau(X);
     if (p != NULL)
     {
         NEXT_S(p) = ADDR_TOP(*S);
@@ -43,7 +43,7 @@ void Push(Stack * S, DraftKicau X)
 }
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, DraftKicau* X)
+void PopDraftKicau(Stack * S, DraftKicau* X)
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
@@ -88,7 +88,7 @@ void buatDraft()
         DATETIME timeDraftK = DetikToDATETIME(time_second);
         timeDraft(x) = timeDraftK;
 
-        Push(S, x);
+        PushDraftKicau(S, x);
         printf("Draf telah berhasil disimpan\n");
     } else if (strCompare(command.TabWord, "TERBIT"))
     {
@@ -123,8 +123,8 @@ void lihatDraft(Stack S)
     if (strCompare(command.TabWord, "HAPUS"))
     {
         DraftKicau val;
-        // gak ngelakuin apa apa karena diawal belum di push
-        Pop(&S,&val);
+        // gak ngelakuin apa apa karena diawal belum di pushDraftKicau
+     PopDraftKicau(&S,&val);
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord, "UBAH"))
     {
@@ -142,7 +142,7 @@ void lihatDraft(Stack S)
 void terbitDraft (Stack *S)
 {
     DraftKicau x;
-    Pop(S,&x);
+    PopDraftKicau(S,&x);
     KICAUAN* kicauBaru = newKicau(x.isiDraftKicauan, USER_NAMA(USER(user, CurrentUserId)));
     KICAU_TIMECREATED(*kicauBaru) = x.timeCreated;
 
@@ -167,7 +167,7 @@ void ubahDraft ()
     //mengganti draft awal dengan draft baru
     DraftKicau val, new;
 
-    Pop(S, &val);
+    PopDraftKicau(S, &val);
 
     isiDraft(val) = newIsi;
 
@@ -194,7 +194,7 @@ void ubahDraft ()
         DATETIME timeDraftK = DetikToDATETIME(time_second);
         timeDraft(new) = timeDraftK;
 
-        Push(S,new);
+        PushDraftKicau(S,new);
         printf("Draf telah berhasil disimpan\n");
     } else if (strCompare(command.TabWord, "TERBIT"))
     {

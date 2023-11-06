@@ -1,10 +1,9 @@
 #include <stdio.h>
-#include "AdjMatrix.h"
+#include "daftarpertemanan.h"
 
 int main(){
-    AdjMatrix M;
-    CreateEmpty(&M);
+    DAFTARPERTEMANAN M;
+    CreateEmptyDaftarPertemanan(&M);
     setSymmetricElmt(&M,10,0,true);
-    setDiagonal(&M,true);
     PrintAdjMatrix(M);
 }

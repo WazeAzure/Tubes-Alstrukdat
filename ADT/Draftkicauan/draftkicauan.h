@@ -40,7 +40,7 @@ typedef struct {
 #define TOP(s) (s).addrTop->info
 
 /* ************ Prototype ************ */
-AddressDraftKicau newNode(DraftKicau x);
+AddressDraftKicau newNodeDraftKicau(DraftKicau x);
 /* MengembalikanalamatsebuahNode hasilalokasidenganinfo = x, atau NIL jikaalokasigagal*/
 
 /* *** Konstruktor/Kreator *** */
@@ -51,13 +51,13 @@ boolean DraftKicauanIsEmpty(Stack S);
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, DraftKicau X);
+void PushDraftKicau(Stack * S, DraftKicau X);
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, DraftKicau* X);
+void PopDraftKicau(Stack * S, DraftKicau* X);
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */

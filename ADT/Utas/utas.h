@@ -36,6 +36,8 @@ AddressUtas newUtas();
 
 void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
 
+void utas(int idKicau);
+
 
 // void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
 

@@ -2,10 +2,11 @@
 #define _USER_h
 
 #include "../Wordmachine/wordmachine.h"
-#include "../Prioqueue/prioqueue.h"
+#include "../PermintaanPertemanan/permintaanpertemanan.h"
+#include "../Draftkicauan/draftkicauan.h"
 #include "../boolean.h"
 
-#include "../Draftkicauan/draftkicauan.h"
+// #include "../Draftkicauan/draftkicauan.h"
 
 // ADT Symbol
 typedef struct {
@@ -39,8 +40,7 @@ typedef struct {
     PROFILE profile;
     int jumlah_teman;
     Stack draftKicauan;
-    PrioQueue permintaan_pertemanan;
-    // daftar permintaan pertemanan (belum)
+    PERMINTAANPERTEMANAN permintaan_pertemanan;
 
 } USER;
 
@@ -75,7 +75,7 @@ typedef struct {
 #define SANDI(u) (u).kata_sandi
 #define JUMLAH_TEMAN(u) (u).jumlah_teman
 #define PROFILE(u) (u).profile
-// #define daftarteman
+#define PERMINTAANPERTEMANAN(u) (u).permintaan_pertemanan
 // #define draft kicauan
 
 // ListUser
