@@ -549,33 +549,42 @@ void tambahTeman(int idUser){
         X.id = USER_ID(USER(user,idUser));
         X.nama = USER_NAMA(USER(user,idUser));
         X.jumlahTeman = JUMLAH_TEMAN(USER(user,idUser));
-        prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
+        // prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
+        EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idTeman)), X); ;
         printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n",USER_NAMA(USER(user,idTeman)).TabWord);
     }
 }
 
 void showDaftarPermintaanPertemanan(int idUser){
-    int jumlah_permintaan_pertemanan = JumlahPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
-    if(jumlah_permintaan_pertemanan != 0){
-        printf("Terdapat %d permintaan pertemanan untuk Anda.", jumlah_permintaan_pertemanan);
+    if(!IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)))){
+        int jumlah_permintaan_pertemanan = JumlahPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
+        if(jumlah_permintaan_pertemanan != 0){
+            printf("Terdapat %d permintaan pertemanan untuk Anda.\n", jumlah_permintaan_pertemanan);
+        }
+            PrintPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
+    } else{
+        printf("Tidak ada permintaan pertemanan :(");
     }
-        PrintPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
 }
 
 void setujuiPermintaanPertemanan(int idUser){
-    PrintPermintaanPertemananPertama(PERMINTAANPERTEMANAN(USER(user,idUser)));
-    printf("Apakah Anda ingin menyetujui permintaan pertemanan ini? (YA/TIDAK) ");
-    Word konfirmasi;
-    readCommandMain(&konfirmasi);
-    infotype X;
-    if(strCompare(konfirmasi.TabWord, "YA")){
-        DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
-        setSymmetricElmt(&DaftarPertemanan,idUser,X.id,true);
-        JUMLAH_TEMAN(USER(user,idUser))++;
-        JUMLAH_TEMAN(USER(user,X.id))++;
-        printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.",X.nama.TabWord,X.nama.TabWord);
+    if(!IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)))){
+        PrintPermintaanPertemananPertama(PERMINTAANPERTEMANAN(USER(user,idUser)));
+        printf("Apakah Anda ingin menyetujui permintaan pertemanan ini? (YA/TIDAK) \n");
+        Word konfirmasi;
+        readCommandMain(&konfirmasi);
+        infotype X;
+        if(strCompare(konfirmasi.TabWord, "YA")){
+            DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
+            setSymmetricElmt(&DaftarPertemanan,idUser,X.id,true);
+            JUMLAH_TEMAN(USER(user,idUser))++;
+            JUMLAH_TEMAN(USER(user,X.id))++;
+            printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.\n",X.nama.TabWord,X.nama.TabWord);
+        } else{
+            DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
+            printf("Permintaan pertemanan dari %s telah ditolak.\n",X.nama.TabWord);
+        }
     } else{
-        DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
-        printf("Permintaan pertemanan dari %s telah ditolak.",X.nama.TabWord);
+        printf("Tidak ada permintaan pertemanan :(");
     }
 }
