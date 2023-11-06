@@ -29,7 +29,7 @@ typedef struct{
 #define IDX_UNDEF (-1)
 #define ELMT(li,i) (li).buffer[i]
 #define nEFF(li) (li).nEFF
-
+#define FIRST(l) (l)
 /*PROTOTYPE*/
 
 AddressUtas newUtas();
