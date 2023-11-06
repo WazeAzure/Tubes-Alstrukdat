@@ -47,11 +47,12 @@ $(TEST_RESULTS): $(TESTS_DIR)/%.result: $(TESTS_DIR)/%.in $(TESTS_DIR)/%.out mfo
 SRC_LIB = $(SRC_CHAR) $(SRC_WORD) $(SRC_PCOLOR)
 OBJ_LIB = $(SRC_LIB:.c=.o)
 
-SRC_AWAS = $(SRC_KICAUAN)
+SRC_AWAS = $(SRC_KICAUAN) $(SRC_DRAFT)
 
 SRC_CHAR = ADT/Wordmachine/charmachine.c
 SRC_WORD = ADT/Wordmachine/wordmachine.c
 SRC_KICAUAN = ADT/Kicauan/kicauan.c
+SRC_DRAFT = ADT/Draftkicauan/draftkicauan.c
 
 SRC_PCOLOR = ADT/pcolor/pcolor.c
 

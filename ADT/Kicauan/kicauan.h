@@ -55,6 +55,8 @@ void CreateListKicauan(LISTKICAUAN* l, int CAPACITY);
 
 void CreateDaftarBalasan(KICAUAN* kicauan);
 
+KICAUAN* newKicau(Word teks, Word Author);
+
 void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks);
 
 void kicau(Word Author);

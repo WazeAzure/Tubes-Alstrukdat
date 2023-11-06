@@ -24,6 +24,7 @@ void initiateGlobalVariables(){
 
     // Inisialisasi ListUser (Daftar Pengguna)
     createListUser(&user);
+
 }
 
 int main(){
@@ -53,8 +54,8 @@ int main(){
                             "UTAS", "SAMBUNG_UTAS", "HAPUS_UTAS", "CETAK_UTAS",
                             "SIMPAN", "MUAT"};
     /* 
-    not login hanya bisa : DAFTAR, MASUK, MUAT, SIMPAN
-    yes login hanya bisa : selain not login, SIMPAN
+    not login hanya bisa : DAFTAR, MASUK, MUAT, SIMPAN, TUTUP_PROGRAM
+    yes login hanya bisa : selain not login, SIMPAN, TUTUP_PROGRAM
     */
 
     // printf("succeed to pass readCommand \n");
@@ -177,10 +178,12 @@ int main(){
             else if(strCompare(input[0].TabWord, command[21])){
                 // BUAT_DRAF
                 printf("called %s\n", command[21]);
+                buatDraft();
             }
             else if(strCompare(input[0].TabWord, command[22])){
                 // LIHAT_DRAF
                 printf("called %s\n", command[22]);
+                lihatDraft(DRAFT(USER(user, CurrentUserId)));
             }
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS

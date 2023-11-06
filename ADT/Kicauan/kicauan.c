@@ -6,8 +6,7 @@
 #include "../Wordmachine/wordmachine.h"
 
 #include "../Datetime/datetime.h"
-#include "../Datetime/time.c"
-#include "../Datetime/datetime.c"
+
 
 #include "../User/user.h"
 

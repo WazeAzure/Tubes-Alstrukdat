@@ -4,6 +4,10 @@
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
 
+#include "../Datetime/time.c"
+#include "../Datetime/datetime.c"
+
+#include "../Draftkicauan/draftkicauan.c"
 
 #include "../pcolor/pcolor.h"
 
@@ -253,6 +257,7 @@ void createListUser(ListUser * u) {
     for (i = 0; i < 20; i++) {
         USER_ID(USER(*u, i)) = i;
         JUMLAH_TEMAN(USER(*u, i)) = 0;
+        DraftKicauanCreateEmpty(&USER(*u, i).draftKicauan);
         createFoto(5, 5, &FOTO(USER(*u, i)));
     }
 }

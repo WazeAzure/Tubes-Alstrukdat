@@ -1,10 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-
 #include "utas.h"
 #include "../../globalVar.h"
-#include "../../util.c"
+#include "../../util.h"
 
 AddressUtas newUtas(){
     AddressUtas new = (AddressUtas)malloc(sizeof(UTAS));

@@ -1,21 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "../Draftkicauan/draftkicauan.h"
 
-#include"../Datetime/datetime.h"
-#include"../Datetime/datetime.c"
-#include "../Datetime/time.h"
-
-#include "../Wordmachine/charmachine.h"
-#include "../Wordmachine/wordmachine.h"
-#include "../User/user.h"
-#include "util.c"
-
-#include "../User/user.h"
+#include "../../util.c"
 
 #include "draftkicauan.h"
 
-#include "globalVar.h"
+#include "../../globalVar.h"
+
 
 /* ************ Prototype ************ */
 AddressDraftKicau newNode(DraftKicau val){
@@ -66,10 +55,12 @@ void Pop(Stack * S, DraftKicau* X)
     free(p);
 }
 
-void buatDraft (Stack S)
+void buatDraft()
 {
+    Stack *S = &DRAFT(USER(user, CurrentUserId));
     // membaca draft menggunakan mesin kata
     Word isi;
+    printf("Masukkan draf:\n");
     readWord(&isi,';');
 
     // masukkan draft ke Stack
@@ -81,36 +72,30 @@ void buatDraft (Stack S)
 
     // membaca pilihan
     Word command;
-    char comm[100];
     
     do
     {
-        readWord(&command,';');
-        WordToChar(command,&comm);
-    } while (strCompare(comm,'HAPUS') != 0 && strCompare(comm,'SIMPAN') != 0 && strCompare(comm,'TERBIT') != 0);
+        readWord(&command, ';');
+    } while (strCompare(command.TabWord, "HAPUS") && strCompare(command.TabWord, "SIMPAN") && strCompare(command.TabWord, "TERBIT"));
     
-    if (strCompare(comm,'HAPUS') == 1)
+    if (strCompare(command.TabWord, "HAPUS"))
     {
-        DraftKicau val;
         // gak ngelakuin apa apa karena diawal belum di push
         printf("Draf telah berhasil dihapus!\n");
-    } else if (strCompare(comm,'SIMPAN') ==1)
+    } else if (strCompare(command.TabWord, "SIMPAN"))
     {
-
-        int time_second = getCurrentTime();
+        long long int time_second = getCurrentTime();
         DATETIME timeDraftK = DetikToDATETIME(time_second);
         timeDraft(x) = timeDraftK;
 
-        Push(&S,x);
+        Push(S, x);
         printf("Draf telah berhasil disimpan\n");
-    } else if (strCompare(comm,'TERBIT') == 1)
+    } else if (strCompare(command.TabWord, "TERBIT"))
     {
         terbitDraft(S);
     }
-
-
-
 }
+
 void lihatDraft(Stack S)
 {
     if (DraftKicauanIsEmpty(S))
@@ -118,79 +103,73 @@ void lihatDraft(Stack S)
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
     } else
     {
+        DraftKicau draf = TOP(S);
         printf("Ini draf terakhir anda:\n");
         printf("| ");
-        //print datetime
+        TulisDATETIME(draf.timeCreated);
+        endl;
         printf("| ");
-
-        DraftKicau draf = TOP(S);
         printWord(draf.isiDraftKicauan);
-        prinf("\n");
-        
+        endl;
     }
 
     Word command;
-    char comm[100];
     
     do
     {
         readWord(&command,';');
-        WordToChar(command,&comm);
-    } while (strCompare(comm,'HAPUS') != 0 && strCompare(comm,'UBAH') != 0 && strCompare(comm,'TERBIT') != 0 && strCompare(comm,'KEMBALI'));
+    } while (strCompare(command.TabWord, "HAPUS") != 0 && strCompare(command.TabWord, "UBAH") != 0 && strCompare(command.TabWord, "TERBIT") != 0 && strCompare(command.TabWord, "KEMBALI"));
 
-    if (strCompare(comm,'HAPUS') == 1)
+    if (strCompare(command.TabWord, "HAPUS"))
     {
         DraftKicau val;
         // gak ngelakuin apa apa karena diawal belum di push
         Pop(&S,&val);
         printf("Draf telah berhasil dihapus!\n");
-    } else if (strCompare(comm,'UBAH'))
+    } else if (strCompare(command.TabWord, "UBAH"))
     {
-        ubahDraft(S);
-    } else if (strCompare(comm,'TERBIT') == 1)
+        ubahDraft(&S);
+    } else if (strCompare(command.TabWord, "TERBIT"))
     {
-        terbitDraft(S);
-    } else if (strCompare(comm,'KEMBALI') == 1)
+        terbitDraft(&S);
+    } else if (strCompare(command.TabWord, "KEMBALI"))
     {
         printf("Kembali ke menu.\n");
     }
 
 }
-void terbitDraft (Stack S)
+
+void terbitDraft (Stack *S)
 {
     DraftKicau x;
-    Pop(&S,&x);
-    printf("Selamat! Draf kicauan telah diterbitkan!\n");
-    printf("Detil kicauan:\n");
-    prinf("| ID = %d\n", CurrentUserId);
-    printf("| ");
-    printWord(USER_NAMA(USER(user, CurrentUserId)));
-    printf("| ");
-    // print datetime
-    printf("| ");
-    printWord(x.isiDraftKicauan);
-    printf("\n");
-    printf("| Disukai : 0\n");
-    newKicau(x.isiDraftKicauan,USER_NAMA(USER(user, CurrentUserId)));
+    Pop(S,&x);
+    KICAUAN* kicauBaru = newKicau(x.isiDraftKicauan, USER_NAMA(USER(user, CurrentUserId)));
+    KICAU_TIMECREATED(*kicauBaru) = x.timeCreated;
 
-    
+    ListKicauan.buffer[ListKicauan.NEFF] = *kicauBaru;
+    ListKicauan.NEFF++;
+
+    printf("Selamat! kicauan telah diterbitkan!\nDetil kicauan:");
+    showKicauanContent(*kicauBaru);
 }
-void ubahDraft (Stack S)
+
+void ubahDraft ()
 {
+    Stack* S = &DRAFT(USER(user, CurrentUserId));
+
     // meminta input baru
     printf("Masukkan draf yang baru:\n");
-    
 
     //menerima masukkan
     Word newIsi;
     readWord(&newIsi,';');
 
-
     //mengganti draft awal dengan draft baru
-    DraftKicau val,new;
-    Pop(&S,&val)
+    DraftKicau val, new;
 
-    isiDraft(new) = newIsi;
+    Pop(S, &val);
+
+    isiDraft(val) = newIsi;
 
 
     // pilihan hapus, unggah, singgah
@@ -198,29 +177,26 @@ void ubahDraft (Stack S)
 
     // membaca pilihan
     Word command;
-    char comm[100];
     
     do
     {
         readWord(&command,';');
-        WordToChar(command,&comm);
-    } while (strCompare(comm,'HAPUS') != 0 && strCompare(comm,'SIMPAN') != 0 && strCompare(comm,'TERBIT') != 0);
+    } while (strCompare(command.TabWord, "HAPUS") || strCompare(command.TabWord,"SIMPAN") || strCompare(command.TabWord, "TERBIT"));
     
-    if (strCompare(comm,'HAPUS') == 1)
+    if (strCompare(command.TabWord, "HAPUS"))
     {
-        DraftKicau val;
         // gak ngelakuin apa apa karena diawal belum di push
         printf("Draf telah berhasil dihapus!\n");
-    } else if (strCompare(comm,'SIMPAN') ==1)
+    } else if (strCompare(command.TabWord,"SIMPAN"))
     {
 
         int time_second = getCurrentTime();
         DATETIME timeDraftK = DetikToDATETIME(time_second);
         timeDraft(new) = timeDraftK;
 
-        Push(&S,new);
+        Push(S,new);
         printf("Draf telah berhasil disimpan\n");
-    } else if (strCompare(comm,'TERBIT') == 1)
+    } else if (strCompare(command.TabWord, "TERBIT"))
     {
         terbitDraft(S);
     }

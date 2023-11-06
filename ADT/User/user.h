@@ -83,7 +83,7 @@ typedef struct {
 #define COUNTER_USER(lu) (lu).CounterUser
 
 // Draft Kicauan
-#define DRAFT(u) (u).draftkicauan
+#define DRAFT(u) (u).draftKicauan
 
 // PRIMITIF ADT FOTO
 void createFoto(int nRows, int nCols, FOTO *m);

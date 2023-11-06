@@ -3,10 +3,15 @@
 
 #include "../boolean.h"
 
+#include "../Datetime/time.h"
 #include "../Datetime/datetime.h"
 
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
+
+#include "../Kicauan/kicauan.h"
+
+#include "../User/user.h"
 
 typedef struct draftKicau {
   DATETIME timeCreated;
@@ -57,9 +62,9 @@ void Pop(Stack * S, DraftKicau* X);
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
 
-void buatDraft (Stack S);
+void buatDraft ();
 void lihatDraft(Stack S);
-void terbitDraft (Stack S);
-void ubahDraft (Stack S);
+void terbitDraft (Stack* S);
+void ubahDraft ();
 
 #endif
