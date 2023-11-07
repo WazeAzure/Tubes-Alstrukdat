@@ -101,6 +101,7 @@ void lihatDraft(Stack S)
     if (DraftKicauanIsEmpty(S))
     {
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
+        return ;
     } else
     {
         DraftKicau draf = TOP(S);
@@ -117,6 +118,7 @@ void lihatDraft(Stack S)
     
     do
     {
+        printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
         readWord(&command,';');
     } while (strCompare(command.TabWord, "HAPUS") != 0 && strCompare(command.TabWord, "UBAH") != 0 && strCompare(command.TabWord, "TERBIT") != 0 && strCompare(command.TabWord, "KEMBALI"));
 
@@ -144,7 +146,6 @@ void terbitDraft (Stack *S)
     DraftKicau x;
     PopDraftKicau(S,&x);
     KICAUAN* kicauBaru = newKicau(x.isiDraftKicauan, USER_NAMA(USER(user, CurrentUserId)));
-    KICAU_TIMECREATED(*kicauBaru) = x.timeCreated;
 
     ListKicauan.buffer[ListKicauan.NEFF] = *kicauBaru;
     ListKicauan.NEFF++;

@@ -17,7 +17,7 @@ void initiateGlobalVariables(){
     CreateEmptyDaftarPertemanan(&DaftarPertemanan);
 
     // set daftar kicauan
-    // CreateListKicauan(&ListKicauan, 100);
+    CreateListKicauan(&ListKicauan, 100);
 
     // set daftar id utas
     // CreateListIdUtas(&ListIdUtas, 100);
@@ -167,6 +167,7 @@ int main(){
             else if(strCompare(input[0].TabWord, command[17])){
                 // UBAH_KICAUAN
                 printf("called %s\n", command[17]);
+                ubahKicauan(input[1]);
             }
             else if(strCompare(input[0].TabWord, command[18])){
                 // BALAS
