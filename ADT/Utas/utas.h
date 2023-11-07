@@ -59,7 +59,7 @@ int lengthDaftarIdUtas(LISTIDUTAS li);
 
 int lengthDaftarUtas(ListElemenUtas daftarUtas);
 
-boolean isUtas(LISTIDUTAS li, int idKicau);
+boolean isUtas(int idKicau);
 
 void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks,long long int time);
 

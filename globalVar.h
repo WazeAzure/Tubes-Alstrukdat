@@ -14,7 +14,7 @@ extern LISTKICAUAN ListKicauan;
 
 extern ListUser user;
 
-// extern LISTIDUTAS ListIdUtas;
+extern LISTIDUTAS ListIdUtas;
 
 extern DAFTARPERTEMANAN DaftarPertemanan ;
 

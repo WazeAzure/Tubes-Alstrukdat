@@ -20,7 +20,7 @@ void initiateGlobalVariables(){
     CreateListKicauan(&ListKicauan, 100);
 
     // set daftar id utas
-    // CreateListIdUtas(&ListIdUtas, 100);
+    CreateListIdUtas(&ListIdUtas, 100);
 
     // Inisialisasi ListUser (Daftar Pengguna)
     createListUser(&user);
