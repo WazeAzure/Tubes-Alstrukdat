@@ -3,8 +3,8 @@
 /* Model Implementasi Versi III dengan circular buffer */
 /* Elemen queue terurut membesar berdasarkan elemen prio */
 
-#ifndef adjmatrix_H
-#define adjmatrix_H
+#ifndef daftarpertemanan_H
+#define daftarpertemanan_H
 
 #include "../boolean.h"
 
@@ -16,21 +16,18 @@ typedef boolean Eltype;
 typedef struct 
 {
     Eltype Tabword[NMAX][NMAX];
-} AdjMatrix;
+} DAFTARPERTEMANAN;
 
-#define ElmtAdjMatrix(m,x,y) (m).Tabword[x][y]
+#define ElmtDaftarPertemanan(m,x,y) (m).Tabword[x][y]
 
-void CreateEmpty(AdjMatrix * M);
+void CreateEmptyDaftarPertemanan(DAFTARPERTEMANAN * M);
 /* I.S. sembarang */
 /* F.S. Sebuah M kosong terbentuk dengan tiap elemen */
 
-void setSymmetricElmt(AdjMatrix *M, int row, int col, boolean b);
+void setSymmetricElmt(DAFTARPERTEMANAN *M, int row, int col, boolean b);
 /* Mengubah elemen m(row,col) dan m(col,row) pada Adj Matriks M menjadi b */
 
-void setDiagonal(AdjMatrix *M, boolean b);
-/* Mengubah elemen m(i,i) pada Adj Matriks M menjadi true */
-
-void PrintAdjMatrix(AdjMatrix M);
+void PrintDaftarPertemanan(DAFTARPERTEMANAN M);
 /* I.S. terdefinisi */
 /* F.S. Mencetak isi matriks adjacency  */
 

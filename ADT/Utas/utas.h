@@ -32,11 +32,11 @@ typedef struct{
 #define ELMT(li,i) (li).buffer[i]
 #define nEFF(li) (li).nEFF
 
-
 #define FIRSTDAFTARUTAS(li) (li)
 #define NEXTDAFTARUTAS(li) (li)->next
 #define TEKSUTAS(li) (li)->teks
 #define TIMEUTAS(li) (li)->time
+
 /*PROTOTYPE*/
 
 AddressUtas newUtas();
@@ -44,6 +44,8 @@ AddressUtas newUtas();
 AddressUtas newUtas(Word teks,long long int time);
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas);
+
+void utas(int idKicau);
 
 void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
 

@@ -10,7 +10,7 @@ LISTKICAUAN ListKicauan;
 
 ListUser user;
 
-LISTIDUTAS ListIdUtas;
+// LISTIDUTAS ListIdUtas;
 
-AdjMatrix DaftarPertemanan;
+DAFTARPERTEMANAN DaftarPertemanan;
 

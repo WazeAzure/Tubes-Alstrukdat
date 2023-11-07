@@ -1,7 +1,6 @@
 #include "utas.h"
 #include "../../globalVar.h"
-#include "../User/user.c"
-// #include "../../util.h"
+#include "../../util.h"
 
 AddressUtas newUtas(Word teks,long long int time){
 

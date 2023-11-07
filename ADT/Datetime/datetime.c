@@ -122,7 +122,7 @@ DATETIME DetikToDATETIME(long long int sec){
     const int seconds_in_minute = 60;
     const int seconds_in_hour = 3600;
     const int seconds_in_day = 86400;
-    long long int remaining_seconds = sec;
+    long long int remaining_seconds = sec + (seconds_in_hour * 7);
 
     // Handle leap years and calculate years, months, days, hours, minutes, and seconds
     while (remaining_seconds >= 0) {
@@ -150,7 +150,6 @@ DATETIME DetikToDATETIME(long long int sec){
             remaining_seconds %= seconds_in_hour;
             Minute(Time(D)) = remaining_seconds / seconds_in_minute;
             Second(Time(D)) = remaining_seconds % seconds_in_minute;
-
             break;
         }
     }
