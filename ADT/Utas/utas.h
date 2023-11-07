@@ -11,15 +11,17 @@ typedef struct nodeUtas* AddressUtas;
 typedef struct nodeUtas {
     Word author;
     Word teks;
-    DATETIME time;
+    long long int time;
     AddressUtas next;
-} UTAS;
+} NodeElemenUtas;
 
 typedef AddressUtas ListElemenUtas;
+
 
 typedef int IdxType;
 // typedef int IdUtas;
 
+// List dinamis yang menyimpan idUtas
 typedef struct{
     int* buffer;
     int nEFF;
@@ -29,38 +31,44 @@ typedef struct{
 #define IDX_UNDEF (-1)
 #define ELMT(li,i) (li).buffer[i]
 #define nEFF(li) (li).nEFF
-#define FIRST(l) (l)
+
+#define FIRSTDAFTARUTAS(li) (li)
+#define NEXTDAFTARUTAS(li) (li)->next
+#define TEKSUTAS(li) (li)->teks
+#define TIMEUTAS(li) (li)->time
+
 /*PROTOTYPE*/
 
 AddressUtas newUtas();
 
-void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
+AddressUtas newUtas(Word teks,long long int time);
+
+void CreateListElementUtas(ListElemenUtas *daftarUtas);
 
 void utas(int idKicau);
 
+void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
 
-// void CreateItemUtas(ITEMUTAS* utas, int index,Word author, Word utasan, DATETIME time);
+boolean isEmptyListIdUtas(LISTIDUTAS li);
 
-// void CetakUtas(UTAS daftaridutas, KICAUAN *kicauan);
+boolean isEmptyDaftarUtas(ListElemenUtas daftarUtas);
 
-// void showUtasContent(UTAS utas);
+IdxType getLastIdx(LISTIDUTAS li);
 
-// boolean isUtasExist(UTAS utas, int idUtas);
+int lengthDaftarIdUtas(LISTIDUTAS li);
 
-// void ReadUtas(UTAS *utas);
+int lengthDaftarUtas(ListElemenUtas daftarUtas);
 
-// int getIdAuthor();
+boolean isUtas(LISTIDUTAS li, int idKicau);
 
-// void ReadUtas(UTAS *utas);
+void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks,long long int time);
 
-// boolean isIndexValid(UTAS *utasan, int index);
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,long long int *time,int index);
 
-// void deleteAtItemUtas(UTAS *utasan, ITEMUTAS *itemutas, int idx);
+void utas(int idKicau);
 
-// boolean isIdUtasExist(UTAS utas, int idUtas);
+void sambung_utas(int index, ListElemenUtas *daftarUtas, LISTIDUTAS li, int idKicau, Word teks);
 
-// // void SambungUtas(int index, UTAS *utas);
-
-// void hapus_utas(); 
+void hapus_utas(int index,LISTIDUTAS li, int idUtas, ListElemenUtas *daftarutas, Word *teks,long long int *time);
 
 #endif
