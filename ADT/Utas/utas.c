@@ -15,12 +15,12 @@ AddressUtas newUtas(Word teks,long long int time){
 }
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas){
-    FIRST(*daftarUtas) = NULL;
+    FIRSTDAFTARUTAS(*daftarUtas) = NULL;
 }
 
 void CreateListIdUtas(LISTIDUTAS* li, int CAPACITY){
 // inisialisasi UTAS, membentuk listdin dari utas 
-    li->buffer = (int*)malloc(sizeof(int) *li->CAPACITY);
+    li->buffer = (int*)malloc(sizeof(int) * CAPACITY);
     li->CAPACITY = CAPACITY;
     li->nEFF = 0;
 }
@@ -54,20 +54,27 @@ IdxType getLastIdx(LISTIDUTAS li){
     return (IdxType)(lengthDaftarIdUtas(li)-1);
 }
 
-boolean isUtas(LISTIDUTAS li, int idKicau){
+boolean isUtas(int idKicau){
 // Mengecek apakah ada idkicau di LISTIDUTAS, pake indexof listdin, mengembalikan true jika ada
-    IdxType i, index;
-    index = IDX_UNDEF;
-    i =0;
-    boolean check = false;
+    // IdxType i, index;
+    // index = IDX_UNDEF;
+    // i =0;
+    // boolean check = false;
 
-    while(i<=getLastIdx(li) && check == false){
-        if(ELMT(li,i) == idKicau){
-            check = true;
+    // while(i<=getLastIdx(li) && check == false){
+    //     if(ELMT(li,i) == idKicau){
+    //         check = true;
+    //     }
+    //     i++;
+    // }
+    // return check;
+    int i;
+    for(i=0; i<ListIdUtas.nEFF; i++){
+        if(ELMT(ListIdUtas, i) == idKicau){
+            return true;
         }
-        i++;
     }
-    return check;
+    return false;
 }
 
 void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks,long long int time){
@@ -102,9 +109,7 @@ void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,long long int *
 }
 
 void utas(int idKicau){
-
-    LISTIDUTAS li;
-    if(!isUtas(li,idKicau)){
+    if(!isUtas(idKicau)){
         printf("Kicauan tidak ditemukan.\n\n");
         return;
     }else if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){
@@ -119,7 +124,7 @@ void utas(int idKicau){
         }while(teks.Length == 0);
         printf("\n\n");
         
-        AddressUtas daftarUtas = newUtas(teks,getCurrentTime());
+        // AddressUtas daftarUtas = newUtas(teks,getCurrentTime());
 
         Word val;
         readWord(&val,';');
@@ -134,7 +139,9 @@ void utas(int idKicau){
             printf("Masukkan kicauan\n");
             do{
                 readWord(&teks,';');
-                AddressUtas daftarUtas = newUtas(teks,getCurrentTime());
+                // daftarUtas = newUtas(teks, getCurrentTime());
+                
+                // ???
             }while(teks.Length == 0);
             printf("Apakah Anda ingin melanjutkan utas ini?");
         }while((!stop));
@@ -145,7 +152,7 @@ void utas(int idKicau){
 
 void sambung_utas(int index, ListElemenUtas *daftarUtas, LISTIDUTAS li, int idKicau, Word teks){
 /* Pakai insertAt yang ada di listlinier  */
-    if(!isUtas(li, idKicau)){
+    if(!isUtas(idKicau)){
         printf("Utas tidak ditemukan.\n\n");
         return;
     }
