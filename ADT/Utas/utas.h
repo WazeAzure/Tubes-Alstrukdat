@@ -11,7 +11,7 @@ typedef struct nodeUtas* AddressUtas;
 typedef struct nodeUtas {
     Word author;
     Word teks;
-    long long int time;
+    DATETIME timeCreated;
     AddressUtas next;
 } NodeElemenUtas;
 
@@ -35,13 +35,13 @@ typedef struct{
 #define FIRSTDAFTARUTAS(li) (li)
 #define NEXTDAFTARUTAS(li) (li)->next
 #define TEKSUTAS(li) (li)->teks
-#define TIMEUTAS(li) (li)->time
+#define TIMEUTAS(li) (li)->timeCreated
 
 /*PROTOTYPE*/
 
 AddressUtas newUtas();
 
-AddressUtas newUtas(Word teks,long long int time);
+AddressUtas newUtas(Word teks);
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas);
 
@@ -61,14 +61,14 @@ int lengthDaftarUtas(ListElemenUtas daftarUtas);
 
 boolean isUtas(int idKicau);
 
-void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks,long long int time);
+void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks);
 
-void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,long long int *time,int index);
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,int index);
 
 void utas(int idKicau);
 
-void sambung_utas(int index, ListElemenUtas *daftarUtas, LISTIDUTAS li, int idKicau, Word teks);
+void sambung_utas(int index, ListElemenUtas *daftarUtas, int idKicau);
 
-void hapus_utas(int index,LISTIDUTAS li, int idUtas, ListElemenUtas *daftarutas, Word *teks,long long int *time);
+void hapus_utas(int index,LISTIDUTAS li, int idUtas, ListElemenUtas *daftarutas, Word *teks);
 
 #endif

@@ -194,12 +194,14 @@ int main(){
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS
                 printf("called %s\n", command[23]);
+                // utas(WordtoInt(input[1]));
                 // int idKicau = WordToInt(input[1]);
                 // utas(idKicau);
             }
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS
                 printf("called %s\n", command[24]);
+                // sambung_utas(WordToInt(input[2]),KICAU_DAFTAR_UTAS(ELMT(ListKicauan,WordToInt(input[1]))),ListIdUtas,WordToInt(input[1]));
             }
             else if(strCompare(input[0].TabWord, command[25])){
                 // HAPUS_UTAS

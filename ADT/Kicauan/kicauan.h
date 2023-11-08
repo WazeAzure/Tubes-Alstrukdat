@@ -45,6 +45,8 @@ typedef struct {
 #define KICAU_TEKS(kicau) (kicau).teks
 #define KICAU_NAMAAUTHOR(kicau) (kicau).Author
 #define KICAU_TIMECREATED(kicau) (kicau).timeCreated
+#define KICAU_DAFTAR_BALASAN(kicau) (kicau).daftar_balasan
+#define KICAU_DAFTAR_UTAS(kicau) (kicau).daftar_utas
 
 /* SELEKTOR LISTKICAUAN */
 #define KICAUAN_NEFF(l) (l).NEFF
