@@ -509,7 +509,7 @@ void cariTeman(Word* Input,int id){
 
 void showDaftarTeman(int id){
     if(JUMLAH_TEMAN(USER(user,id)) == 0){
-        printf("%s belum mempunyai teman\n",USER_NAMA(USER(user,id)).TabWord);
+        printf("%s belum mempunyai teman\n\n",USER_NAMA(USER(user,id)).TabWord);
     } else{
         printf("%s memiliki %d teman\n",USER_NAMA(USER(user,id)).TabWord,JUMLAH_TEMAN(USER(user,id)));
         printf("Daftar teman %s\n",USER_NAMA(USER(user,id)).TabWord);
@@ -539,17 +539,17 @@ void hapusTeman(int idUser){
     readCommandMain(&namaTeman);
     int idTeman = userId(namaTeman);
     if(isTeman(idUser, idTeman)){
-        printf("Apakah anda yakin ingin menghapus %s dari daftar teman anda?(YA/TIDAK)\n", namaTeman.TabWord);
+        printf("Apakah anda yakin ingin menghapus %s dari daftar teman anda?(YA/TIDAK)\n\n", namaTeman.TabWord);
         readCommandMain(&konfirmasi);
         if(strCompare(konfirmasi.TabWord, "YA")){
             setSymmetricElmt(&DaftarPertemanan, idUser, idTeman, false);
             JUMLAH_TEMAN(USER(user,idUser))--;
             JUMLAH_TEMAN(USER(user,idTeman))--;
         }else{
-            printf("Penghapusan teman dibatalkan.\n");
+            printf("Penghapusan teman dibatalkan.\n\n");
         }
     } else{
-        printf("%s bukan teman Anda.\n",namaTeman.TabWord);
+        printf("%s bukan teman Anda.\n\n",namaTeman.TabWord);
     }
 }
 
@@ -560,7 +560,9 @@ void tambahTeman(int idUser){
     readCommandMain(&namaTeman);
     int idTeman = userId(namaTeman);
     if(idTeman == -1){
-        printf("Pengguna bernama %s tidak ditemukan.\n",namaTeman.TabWord);
+        printf("Pengguna bernama %s tidak ditemukan.\n\n",namaTeman.TabWord);
+    } else if(isTeman(idUser,idTeman)){
+        printf("Anda sudah berteman dengan %s.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
     } else{
         infotype X;
         X.id = USER_ID(USER(user,idUser));
@@ -568,7 +570,8 @@ void tambahTeman(int idUser){
         X.jumlahTeman = JUMLAH_TEMAN(USER(user,idUser));
         // prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
         EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idTeman)), X); ;
-        printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n",USER_NAMA(USER(user,idTeman)).TabWord);
+        printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
+
     }
 }
 
@@ -580,7 +583,7 @@ void showDaftarPermintaanPertemanan(int idUser){
         }
             PrintPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
     } else{
-        printf("Tidak ada permintaan pertemanan :(");
+        printf("Tidak ada permintaan pertemanan :(\n\n");
     }
 }
 
@@ -596,12 +599,12 @@ void setujuiPermintaanPertemanan(int idUser){
             setSymmetricElmt(&DaftarPertemanan,idUser,X.id,true);
             JUMLAH_TEMAN(USER(user,idUser))++;
             JUMLAH_TEMAN(USER(user,X.id))++;
-            printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.\n",X.nama.TabWord,X.nama.TabWord);
+            printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.\n\n",X.nama.TabWord,X.nama.TabWord);
         } else{
             DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
-            printf("Permintaan pertemanan dari %s telah ditolak.\n",X.nama.TabWord);
+            printf("Permintaan pertemanan dari %s telah ditolak.\n\n",X.nama.TabWord);
         }
     } else{
-        printf("Tidak ada permintaan pertemanan :(");
+        printf("Tidak ada permintaan pertemanan :(\n\n");
     }
 }
