@@ -193,4 +193,27 @@ boolean isPrivat(int id);
 void showFotoProfil(int id);
 // Menampilkan foto profil akun dengan id (id).
 
+void cariTeman(Word* Input,int idUser);
+// Mencari semua teman dari user dengan id idUser
+
+void showDaftarTeman(int id);
+// Menampilkan semua teman dari user dengan id idUser
+
+boolean isTeman(int idUser, int idTeman);
+// Mengembalikan true apabila user dengan id idUser dan user dengan id idTeman berteman dan false jika sebaliknya
+
+void hapusTeman(int idUser);
+// Menghapus teman dari user dengan id idUser, nama teman diambil dari inputan user
+
+void tambahTeman(int idUser);
+// Mengirim permintaan pertemanan dari user dengan id idUser kepada user dengan nama yang diinput pengguna
+
+void showDaftarPermintaanPertemanan(int idUser);
+// Menampilkan semua daftar permintaan pertemanan dari user dengan id idUser
+// Terurut mengecil berdasarkan jumlah teman dari user pengirim permintaan pertemanan
+
+void setujuiPermintaanPertemanan(int idUser);
+// Menyetujui permintaan pertemanan yang dikirimkan ke user dengan id idUser oleh user lain
+// user lain dengan jumlah teman terbesar akan disetujui terlebih dahulu
+
 #endif
