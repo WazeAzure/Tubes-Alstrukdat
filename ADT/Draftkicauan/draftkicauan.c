@@ -108,10 +108,10 @@ void lihatDraft(Stack S)
         printf("Ini draf terakhir anda:\n");
         printf("| ");
         TulisDATETIME(draf.timeCreated);
-        endl;
+        printf("\n");
         printf("| ");
         printWord(draf.isiDraftKicauan);
-        endl;
+        printf("\n");
     }
 
     Word command;

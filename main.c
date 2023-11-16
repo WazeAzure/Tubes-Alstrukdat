@@ -194,22 +194,30 @@ int main(){
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS
                 printf("called %s\n", command[23]);
-                // utas(WordtoInt(input[1]));
-                // int idKicau = WordToInt(input[1]);
-                // utas(idKicau);
+                KICAUAN k;
+                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
+                utas(WordToInt(input[1]),&k.daftar_utas);
             }
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS
                 printf("called %s\n", command[24]);
-                // sambung_utas(WordToInt(input[2]),KICAU_DAFTAR_UTAS(ELMT(ListKicauan,WordToInt(input[1]))),ListIdUtas,WordToInt(input[1]));
+                KICAUAN k;
+                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
+                sambung_utas((input[2]),&k.daftar_utas,(input[1]));
             }
             else if(strCompare(input[0].TabWord, command[25])){
                 // HAPUS_UTAS
                 printf("called %s\n", command[25]);
+                KICAUAN k;
+                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
+                hapus_utas((input[2]),ListIdUtas,(input[1]),&k.daftar_utas,&TEKSUTAS(k.daftar_utas));
             }
             else if(strCompare(input[0].TabWord, command[26])){
                 // CETAK UTAS
                 printf("called %s\n", command[26]);
+                KICAUAN k;
+                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
+                cetak_utas((input[1]),&k.daftar_utas);
             }
             else if(strCompare(input[0].TabWord, command[27])){
                 // SIMPAN
@@ -226,3 +234,5 @@ int main(){
     }
     return 0;
 }
+
+//  gcc -o test  ADT/DaftarPertemanan/daftarpertemanan.c ADT/Datetime/datetime.c ADT/Draftkicauan/draftkicauan.c ADT/Foo/foo.c ADT/Kicauan/kicauan.c ADT/Matrix/matrix.c ADT/pcolor/pcolor.c ADT/Prioqueue/prioqueue.c ADT/User/user.c ADT/Wordmachine/Wordmachine.c globalVar.c main.c utilc

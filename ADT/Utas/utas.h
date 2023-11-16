@@ -36,6 +36,7 @@ typedef struct{
 #define NEXTDAFTARUTAS(li) (li)->next
 #define TEKSUTAS(li) (li)->teks
 #define TIMEUTAS(li) (li)->timeCreated
+#define UTAS_ELMT(li, i) (li).buffer[i]
 
 /*PROTOTYPE*/
 
@@ -44,8 +45,6 @@ AddressUtas newUtas();
 AddressUtas newUtas(Word teks);
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas);
-
-void utas(int idKicau);
 
 void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
 
@@ -59,16 +58,16 @@ int lengthDaftarIdUtas(LISTIDUTAS li);
 
 int lengthDaftarUtas(ListElemenUtas daftarUtas);
 
-boolean isUtas(int idKicau);
+boolean isUtas(Word idKicau);
 
 void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks);
 
-void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,int index);
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,Word index);
 
-void utas(int idKicau);
+void utas(int idKicau, ListElemenUtas *daftarUtas);
 
-void sambung_utas(int index, ListElemenUtas *daftarUtas, int idKicau);
+void sambung_utas(Word index, ListElemenUtas *daftarUtas, Word idUtas);
 
-void hapus_utas(int index,LISTIDUTAS li, int idUtas, ListElemenUtas *daftarutas, Word *teks);
+void hapus_utas(Word index,LISTIDUTAS li, Word idUtas, ListElemenUtas *daftarutas, Word *teks);
 
 #endif
