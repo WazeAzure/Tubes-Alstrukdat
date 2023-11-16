@@ -174,12 +174,45 @@ void bacaPengguna(FILE* f){
     }
 
     PrintDaftarPertemanan(DaftarPertemanan);
-    // // Word w;
-    // while(fgets(line, sizeof(line), f)){
-    //     strip(line, '\r');
-    //     // w = CharToWord(line);
-    //     printf("%s\n", line);
-    // }
+    
+    // permintaan pertemanan
+    int banyakPermintaan;
+    char nPermintaan[10];
+
+    fgets(nPermintaan, sizeof(nPermintaan), f);
+    strip(nPermintaan, '\r');
+    banyakPermintaan = WordToInt(CharToWord(nPermintaan));
+    printf("banyak permintaan %d\n", banyakPermintaan);
+
+    char lineNum[100];
+    int arr[3];
+
+    for(i=0; i<banyakPermintaan; i++){
+        fgets(lineNum, sizeof(lineNum), f);
+        strip(lineNum, '\r');
+        
+        arr[0] = 0;
+        arr[1] = 0;
+        arr[2] = 0;
+        int count = 0;
+        // pass
+        int x=0;
+        while(lineNum[x]){
+            if(lineNum[x] != ' '){
+                arr[count] = arr[count]*10 + lineNum[x] - '0';
+            } else {
+                count++;
+            }
+            x++;
+        }
+        // arr[count] = arr[count]*10 + lineNum[x]-'0';
+
+        infotype request;
+        request.id = arr[0];
+        request.jumlahTeman = arr[2];
+        request.nama = USER(user, arr[0]).nama;
+        EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user, arr[1])), request);
+    }
 }
 
 boolean readFile(Word FileName){

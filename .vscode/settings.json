@@ -10,6 +10,7 @@
         "charmachine.h": "c",
         "boolean.h": "c",
         "datetime.h": "c",
-        "draftkicauan.h": "c"
+        "draftkicauan.h": "c",
+        "typeinfo": "c"
     }
 }
