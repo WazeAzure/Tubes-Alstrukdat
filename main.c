@@ -197,8 +197,8 @@ int main(){
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS
                 printf("called %s\n", command[23]);
-                // int idKicau = WordToInt(input[1]);
-                // utas(idKicau);
+                int idKicau = WordToInt(input[1]);
+                utas(idKicau);
             }
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS

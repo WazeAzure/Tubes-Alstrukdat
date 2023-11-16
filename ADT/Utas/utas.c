@@ -69,8 +69,8 @@ boolean isUtas(int idKicau){
     // }
     // return check;
     int i;
-    for(i=0; i<ListIdUtas.nEFF; i++){
-        if(ELMT(ListIdUtas, i) == idKicau){
+    for(i=0; i<ListKicauan.NEFF; i++){
+        if(KICAUAN_ELMT(ListKicauan, i).id == idKicau){
             return true;
         }
     }
@@ -109,42 +109,55 @@ void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,long long int *
 }
 
 void utas(int idKicau){
+    printf("testing %d\n", idKicau);
+
     if(!isUtas(idKicau)){
         printf("Kicauan tidak ditemukan.\n\n");
         return;
-    }else if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){
+    }else if(KICAUAN_ELMT(ListKicauan, idKicau).idAuthor != CurrentUserId){
         printf("Utas bukan milik Anda.\n\n");
         return;
     }else{
-        printf("Utas berhasil dibuat!\n");
+        printf("Utas berhasil dibuat!\n\n");
         Word teks;
         printf("Masukkan kicauan\n");
-        do{
+
+        readWord(&teks,';');
+        while(teks.Length == 0){
+            printf("Masukkan tidak boleh kosong!\n");
             readWord(&teks,';');
-        }while(teks.Length == 0);
+        }
+        
         printf("\n\n");
         
         // AddressUtas daftarUtas = newUtas(teks,getCurrentTime());
 
+        printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK)\n");
+
         Word val;
         readWord(&val,';');
-        boolean stop ;
+
+        boolean stop;
         if(strCompare(val.TabWord, "YA")){
             stop = true;
         }else{
             stop = false;
         }
-        do{
+
+        while((!stop)){
             Word teks;
             printf("Masukkan kicauan\n");
-            do{
+            while(teks.Length == 0){
+                printf("Masukkan tidak boleh kosong!\n");
                 readWord(&teks,';');
                 // daftarUtas = newUtas(teks, getCurrentTime());
                 
                 // ???
-            }while(teks.Length == 0);
+            }
+
             printf("Apakah Anda ingin melanjutkan utas ini?");
-        }while((!stop));
+        }
+
         printf("\n\n");
         printf("Utas selesai!\n\n");
     }
