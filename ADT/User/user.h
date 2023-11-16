@@ -5,8 +5,10 @@
 #include "../PermintaanPertemanan/permintaanpertemanan.h"
 #include "../Draftkicauan/draftkicauan.h"
 #include "../boolean.h"
+#include "../NoHP/NoHP.h"
 
 // #include "../Draftkicauan/draftkicauan.h"
+
 
 // ADT Symbol
 typedef struct {
@@ -26,7 +28,7 @@ typedef struct {
 // ADT Profile
 typedef struct {
     Word bio;
-    Word hp;
+    NoHp hp;
     Word weton;
     boolean privacy; // true jika private, false jika public.
     FOTO foto;
@@ -130,7 +132,7 @@ void createListUser(ListUser * u);
 void addUser(ListUser * u, Word nama, Word sandi);
 // menambahkan user ke list u.
 
-void setProfil(ListUser * u, int index, Word bio, Word hp, Word weton, boolean privacy, FOTO foto);
+void setProfil(ListUser * u, int index, Word bio, NoHp hp, Word weton, boolean privacy, FOTO foto);
 // Set profil User dengan id index berdasarkan input bio, hp, weton, privacy, dan foto.
 
 // Fungsi dan Prosedur
@@ -174,7 +176,7 @@ boolean isBioValid(Word bio);
 // fungsi yang mengecek apakah masukan bio valid.
 // return boolean.
 
-boolean isHpValid(Word hp);
+boolean isHpValid(NoHp hp);
 // fungsi yang mengecek apakah masukan nomor HP valid yaitu integer dengan panjang berapapun.
 // return boolean.
 
