@@ -6,6 +6,7 @@
 
 #include "../boolean.h"
 #include "charmachine.h"
+#include "../NoHP/NoHP.h"
 
 #define NMax 100
 #define BLANK ' '
@@ -56,7 +57,11 @@ void WordToChar(Word str, char* arr_str);
 
 int WordToInt(Word w);
 
+// NoHp CharToNoHp(char* hp);
+
 void readWord(Word *input, char MARK);
+
+void readHP(NoHp *input, char MARK);
 
 void printWord(Word word);
 

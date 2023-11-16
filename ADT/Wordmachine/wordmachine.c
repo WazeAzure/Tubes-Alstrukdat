@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "wordmachine.h"
+
 
 boolean EndWord;
 Word currentWord;
@@ -113,6 +115,17 @@ Word CharToWord(char str[]){
     return w;
 }
 
+// NoHp CharToNoHp(char* hp){
+//     NoHp p;
+//     int length = 0;
+//     while(hp[length]){
+//         p.TabWord[length] = hp[length];
+//         length++;
+//     }
+//     p.length = length;
+//     return p;
+// }
+
 int WordToInt(Word w){
     // printWord(w);
     // endl;
@@ -155,6 +168,38 @@ void readWord(Word *input, char MARK) {
     (*input).Length = i;
 
     (*input).TabWord[i] = '\0';
+}
+
+void readHP(NoHp *input, char MARK){
+    // int i;
+    if(currentChar == '\0'){
+        START(MARK);
+        IgnoreBlanks(MARK);
+        // i = 0;
+    } else {
+        START(MARK);
+        // i = 0;
+    }
+
+    (*input).length = 0;
+
+    char* buffer = (char*)malloc(sizeof(char)*100);
+    int cap = 100;
+    int neff = 0;
+    
+    while ((currentChar != MARK)) {
+        if(neff > cap){
+            cap += 100;
+            buffer = (char*)realloc(buffer, sizeof(char)*cap);
+        }
+        buffer[neff] = currentChar;
+        neff++;
+        ADV(MARK);
+    }
+
+    (*input).length = neff;
+
+    (*input).TabWord[neff] = '\0';
 }
 
 void printWord(Word word) {

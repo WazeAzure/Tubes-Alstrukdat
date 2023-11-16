@@ -225,10 +225,10 @@ boolean isBioValid(Word bio){
     return bio.Length <= 135;
 }
 
-boolean isHpValid(Word hp){
+boolean isHpValid(NoHp hp){
 // fungsi yang mengecek apakah masukan nomor HP valid yaitu integer dengan panjang berapapun.
 // return boolean.
-    if(hp.Length == 0) return true;
+    if(hp.length == 0) return true;
     
     int i=0;
     while(hp.TabWord[i]){
@@ -275,7 +275,7 @@ void addUser(ListUser * u, Word nama, Word sandi){
     COUNTER_USER(*u)++;
 }
 
-void setProfil(ListUser * u, int index, Word bio, Word hp, Word weton, boolean privacy, FOTO foto){
+void setProfil(ListUser * u, int index, Word bio, NoHp hp, Word weton, boolean privacy, FOTO foto){
 // Set profil User dengan id index berdasarkan input bio, hp, weton, privacy, dan foto.
     BIO(USER(*u, index)) = bio;
     HP(USER(*u, index)) = hp;
@@ -368,7 +368,8 @@ void keluar(){
 // PROFILE
 void ganti_profile(){
 // Mengganti profile
-    Word bio, weton, inputHP;
+    Word bio, weton;
+    NoHp inputHP;
 
     showUser(CurrentUserId);
     printf("\n\n");
@@ -388,15 +389,15 @@ void ganti_profile(){
 
     // Update No HP
     printf("Masukkan No HP: \n");
-    readWord(&inputHP, ';');
+    readHP(&inputHP, ';');
 
     while(!isHpValid(inputHP)) {
         printf("HP tidak valid. Masukkan lagi yuk!\n\n");
         printf("Masukkan HP Akun: \n");
-        readWord(&inputHP, ';');
+        readHP(&inputHP, ';');
         printf("\n\n");
     }
-    if (inputHP.Length > 0) { // Update jika tidak Word Kosong.
+    if (inputHP.length > 0) { // Update jika tidak Word Kosong.
         HP(USER(user, CurrentUserId)) = inputHP;
     }
 
