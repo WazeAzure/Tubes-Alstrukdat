@@ -128,6 +128,25 @@ void bacaPengguna(FILE* f){
         addUser(&user, wName, wPassword);
         setProfil(&user, i, wbio, whp, wweton, priv, fotoProfile);
     }
+
+    // matrix pertemanan
+
+    char pertemananLine[100];
+    int j;
+    int n_teman = 0;
+    for(i=0; i<n_user; i++){
+        fgets(pertemananLine, sizeof(pertemananLine), f);
+        n_teman = 0;
+        for(j=0; j<n_user; j++){
+            DaftarPertemanan.Tabword[i][j] = pertemananLine[j*2] - '0';
+            if(DaftarPertemanan.Tabword[i][j] == 1){
+                n_teman++;
+            }
+        }
+        JUMLAH_TEMAN(USER(user, i)) = n_teman-1;
+    }
+
+    PrintDaftarPertemanan(DaftarPertemanan);
     // // Word w;
     // while(fgets(line, sizeof(line), f)){
     //     strip(line, '\r');

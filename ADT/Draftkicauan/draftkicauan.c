@@ -5,6 +5,7 @@
 
 #include "../../globalVar.h"
 
+#define endl printf("\n")
 
 /* ************ Prototype ************ */
 AddressDraftKicau newNodeDraftKicau(DraftKicau val){

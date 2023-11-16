@@ -500,7 +500,7 @@ void showFotoProfil(int id){
 void cariTeman(Word* Input,int id){
     int i = 0;
     for(int j = 0; j < 20; j++){
-        if(ElmtDaftarPertemanan(DaftarPertemanan,j,id) == true){
+        if(ElmtDaftarPertemanan(DaftarPertemanan,j,id) == true && j != id){
             *(Input + i) =  USER_NAMA(USER(user,j));
             i++;
         }
@@ -536,11 +536,11 @@ boolean isTeman(int idUser, int idTeman){
 void hapusTeman(int idUser){
     Word namaTeman, konfirmasi;
     printf("Masukkan nama pengguna:\n");
-    readCommandMain(&namaTeman);
+    readWord(&namaTeman, ';');
     int idTeman = userId(namaTeman);
     if(isTeman(idUser, idTeman)){
         printf("Apakah anda yakin ingin menghapus %s dari daftar teman anda?(YA/TIDAK)\n\n", namaTeman.TabWord);
-        readCommandMain(&konfirmasi);
+        readWord(&konfirmasi, ';');
         if(strCompare(konfirmasi.TabWord, "YA")){
             setSymmetricElmt(&DaftarPertemanan, idUser, idTeman, false);
             JUMLAH_TEMAN(USER(user,idUser))--;
@@ -557,7 +557,7 @@ void hapusTeman(int idUser){
 void tambahTeman(int idUser){
     Word namaTeman;
     printf("Masukkan nama pengguna:\n");
-    readCommandMain(&namaTeman);
+    readWord(&namaTeman, ';');
     int idTeman = userId(namaTeman);
     if(idTeman == -1){
         printf("Pengguna bernama %s tidak ditemukan.\n\n",namaTeman.TabWord);
@@ -592,7 +592,7 @@ void setujuiPermintaanPertemanan(int idUser){
         PrintPermintaanPertemananPertama(PERMINTAANPERTEMANAN(USER(user,idUser)));
         printf("Apakah Anda ingin menyetujui permintaan pertemanan ini? (YA/TIDAK) \n");
         Word konfirmasi;
-        readCommandMain(&konfirmasi);
+        readWord(&konfirmasi, ';');
         infotype X;
         if(strCompare(konfirmasi.TabWord, "YA")){
             DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
