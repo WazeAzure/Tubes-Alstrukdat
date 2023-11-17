@@ -1,6 +1,6 @@
 #include "globalVar.h"
 
-int CurrentUserId = 0;
+int CurrentUserId = -1;
 
 int CounterKicauan = 0;
 
