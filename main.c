@@ -111,14 +111,17 @@ int main(){
             else if(strCompare(input[0].TabWord, command[5])){
                 // LIHAT_PROFIL
                 printf("called %s\n", command[5]);
+                lihat_profil(input[1]);
             }
             else if(strCompare(input[0].TabWord, command[6])){
                 // ATUR_JENIS_AKUN
                 printf("called %s\n", command[6]);
+                atur_jenis_akun();
             }
             else if(strCompare(input[0].TabWord, command[7])){
                 // UBAH_FOTO_PROFIL
                 printf("called %s\n", command[7]);
+                ubah_foto_profil();
             }
             else if(strCompare(input[0].TabWord, command[8])){
                 // DAFTAR_TEMAN
@@ -194,9 +197,9 @@ int main(){
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS
                 printf("called %s\n", command[23]);
-                KICAUAN k;
-                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
-                utas(WordToInt(input[1]),&k.daftar_utas);
+                // utas(WordToInt(input[1]));
+                int idKicau = WordToInt(input[1]);
+                utas(idKicau);
             }
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS
@@ -215,9 +218,9 @@ int main(){
             else if(strCompare(input[0].TabWord, command[26])){
                 // CETAK UTAS
                 printf("called %s\n", command[26]);
-                KICAUAN k;
-                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
-                cetak_utas((input[1]),&k.daftar_utas);
+                // KICAUAN k;
+                // k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
+                // cetak_utas((input[1]),&k.daftar_utas);
             }
             else if(strCompare(input[0].TabWord, command[27])){
                 // SIMPAN

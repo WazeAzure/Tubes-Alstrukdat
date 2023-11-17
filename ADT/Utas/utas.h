@@ -64,7 +64,7 @@ void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks);
 
 void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,Word index);
 
-void utas(int idKicau, ListElemenUtas *daftarUtas);
+void utas(int idKicau);
 
 void sambung_utas(Word index, ListElemenUtas *daftarUtas, Word idUtas);
 

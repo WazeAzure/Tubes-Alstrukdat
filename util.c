@@ -57,6 +57,32 @@ void strip(char *str, char symbol){
     }
 }
 
+void readHpFile(FILE* f, NoHp *input){
+    char* buffer = (char*)malloc(sizeof(char)*100);
+    int cap = 100;
+    int neff = 0;
+
+    while(currentChar != '\r'){
+        if(neff > cap){
+            cap += 100;
+            buffer = (char*)realloc(buffer, sizeof(char)*cap);
+        }
+        fscanf(f, "%c", &currentChar);
+        buffer[neff] = currentChar;
+
+        neff++;
+    }
+
+    
+
+    (*input).length = neff-1;
+
+    buffer[neff-1] = '\0';
+
+    (*input).TabWord = buffer;
+    fscanf(f, "%c", &currentChar);
+}
+
 void bacaPengguna(FILE* f){
     printf("baca pengguna called\n");
     
@@ -72,7 +98,7 @@ void bacaPengguna(FILE* f){
         char name[100];
         char password[100];
         char bio[100];
-        char hp[100];
+        NoHp hp;
         char weton[100];
         char privacy[10];
         char prof_pict[5][30];
@@ -85,8 +111,9 @@ void bacaPengguna(FILE* f){
         strip(password, '\n');
         fgets(bio, sizeof(bio), f);
         strip(bio, '\r');
-        fgets(hp, sizeof(hp), f);
-        strip(hp, '\r');
+        readHpFile(f, &hp);
+        // fgets(hp, sizeof(hp), f);
+        // strip(hp, '\r');
         fgets(weton, sizeof(weton), f);
         strip(weton, '\r');
         fgets(privacy, sizeof(privacy), f);
@@ -98,7 +125,7 @@ void bacaPengguna(FILE* f){
         printf("name: %s\n", name);
         printf("%s\n", password);
         printf("%s\n", bio);
-        printf("%s\n", hp);
+        printf("%s\n", hp.TabWord);
         printf("%s\n", weton);
         printf("%s\n", privacy);
         printf("%s\n", prof_pict[0]);
@@ -110,7 +137,7 @@ void bacaPengguna(FILE* f){
         Word wName = CharToWord(name);
         Word wPassword = CharToWord(password);
         Word wbio = CharToWord(bio);
-        Word whp = CharToWord(hp);
+        // NoHp whp = CharToNoHp(hp);
         Word wweton = CharToWord(weton);
         Word wprivacy = CharToWord(privacy);
 
@@ -126,8 +153,27 @@ void bacaPengguna(FILE* f){
         displayFoto(fotoProfile);
 
         addUser(&user, wName, wPassword);
-        setProfil(&user, i, wbio, whp, wweton, priv, fotoProfile);
+        setProfil(&user, i, wbio, hp, wweton, priv, fotoProfile);
     }
+
+    // matrix pertemanan
+
+    char pertemananLine[100];
+    int j;
+    int n_teman = 0;
+    for(i=0; i<n_user; i++){
+        fgets(pertemananLine, sizeof(pertemananLine), f);
+        n_teman = 0;
+        for(j=0; j<n_user; j++){
+            DaftarPertemanan.Tabword[i][j] = pertemananLine[j*2] - '0';
+            if(DaftarPertemanan.Tabword[i][j] == 1){
+                n_teman++;
+            }
+        }
+        JUMLAH_TEMAN(USER(user, i)) = n_teman-1;
+    }
+
+    PrintDaftarPertemanan(DaftarPertemanan);
     // // Word w;
     // while(fgets(line, sizeof(line), f)){
     //     strip(line, '\r');
