@@ -56,7 +56,7 @@ void PopDraftKicau(Stack * S, DraftKicau* X)
     free(p);
 }
 
-void buatDraft(Stack *S)
+void buatDraft()
 {
     Stack *S = &DRAFT(USER(user, CurrentUserId));
     // membaca draft menggunakan mesin kata
