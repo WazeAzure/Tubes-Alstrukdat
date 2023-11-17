@@ -23,6 +23,8 @@ typedef struct {
     Word Author;
     DATETIME timeCreated;
 
+    Word tagar;
+
     // list of daftar balasan
     PairBalasan *daftar_balasan;
 
@@ -56,9 +58,9 @@ void CreateListKicauan(LISTKICAUAN* l, int CAPACITY);
 
 void CreateDaftarBalasan(KICAUAN* kicauan);
 
-KICAUAN* newKicau(Word teks, Word Author);
+KICAUAN* newKicau(Word teks, Word Author, Word tagar);
 
-void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks);
+void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word tagar);
 
 void kicau(Word Author);
 

@@ -3,6 +3,7 @@
 #include "ADT/Kicauan/kicauan.h"
 #include "ADT/DaftarPertemanan/daftarpertemanan.h"
 #include "ADT/Kicauan/kicauan.h"
+#include "ADT/HashTable/HashTable.h"
 
 extern int CurrentUserId;
 
@@ -18,3 +19,4 @@ extern LISTIDUTAS ListIdUtas;
 
 extern DAFTARPERTEMANAN DaftarPertemanan ;
 
+extern HT_Table HashTable;

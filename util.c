@@ -142,7 +142,7 @@ void bacaPengguna(FILE* f){
         Word wprivacy = CharToWord(privacy);
 
         boolean priv = false;
-        if(strCompare(wprivacy.TabWord, "Private")){
+        if(strCompare(wprivacy.TabWord, "Privat")){
             priv = true;
         }
 
@@ -240,7 +240,7 @@ boolean readFile(Word FileName){
 void loadConfigFile(){
     Word foldername;
     printf("Silahkan masukan folder konfigurasi untuk dimuat: ");
-    readWord(&foldername, '\n');
+    readWord(&foldername, ';');
 
     // <-- berikan pengecekkan folder
     while(!isFolderExist(foldername)){
@@ -356,7 +356,7 @@ void resetCommand(Word *input){
 
 void printWelcomeBanner(){
     // clear screen
-    system("clear");
+    // system("clear");
 
     // welcome message
     printf(
