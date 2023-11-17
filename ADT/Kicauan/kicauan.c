@@ -42,10 +42,10 @@ void ExpandListKicauan(LISTKICAUAN* l){
     *l = l2;
 }
 
-KICAUAN* newKicau(Word teks, Word Author){
+KICAUAN* newKicau(Word teks, Word Author, Word tagar){
     KICAUAN* new = (KICAUAN*)malloc(sizeof(KICAUAN));
     if(new != NULL){
-        CreateKicauan(new, 1, Author, teks);
+        CreateKicauan(new, 1, Author, teks, tagar);
         return new;
     } else {
         printf("Alokasi Kicauan di HEAP Memomry gagal. Mohon lakuakn KICAU kembali.\n");
@@ -57,7 +57,7 @@ void CreateDaftarBalasan(KICAUAN* kicauan){
     kicauan->daftar_balasan = NULL;
 }
 
-void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks){
+void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word tagar){
     kicauan->id = CounterKicauan;
     CounterKicauan++;
 
@@ -66,6 +66,7 @@ void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks){
     kicauan->Author = Author;
     kicauan->idAuthor = CurrentUserId;
     kicauan->teks = teks;
+    kicauan->tagar = tagar;
     CreateDaftarBalasan(kicauan);
     kicauan->daftar_utas = NULL;
 
@@ -73,8 +74,8 @@ void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks){
     kicauan->timeCreated = (DetikToDATETIME(current_time));
 }
 
-void addKicauanLast(Word teks, Word Author){
-    KICAUAN* new = newKicau(teks, Author);
+void addKicauanLast(Word teks, Word Author, Word tagar){
+    KICAUAN* new = newKicau(teks, Author, tagar);
 
     if(new == NULL) return ;
 
@@ -91,6 +92,9 @@ void showKicauanContent(KICAUAN kicauan){
     printf("| %s\n", kicauan.Author.TabWord);
     printf("| "); TulisDATETIME(kicauan.timeCreated); printf("\n");
     printf("| %s\n", kicauan.teks.TabWord);
+    if(kicauan.tagar.Length != 0){
+        printf("| #%s\n", kicauan.tagar.TabWord);
+    }
     printf("| Disukai: %d\n", kicauan.like);
     printf("| count balasan\t: %d\n", kicauan.inc_balasan);
 
@@ -121,7 +125,12 @@ void kicau(Word Author){
         return;
     }
 
-    addKicauanLast(teks, Author);
+    printf("Masukkan tagar:\n");
+    Word tagar;
+    readWord(&tagar, ';');
+
+
+    addKicauanLast(teks, Author, tagar);
 }
 
 void kicauan(){
