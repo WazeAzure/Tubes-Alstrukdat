@@ -4,6 +4,7 @@
 #include "ADT/User/user.h"
 #include "ADT/Kicauan/kicauan.h"
 #include "ADT/Utas/utas.h"
+#include "ADT/HashTable/HashTable.h"
 
 // daftar fungsi C
 #include "util.c"
@@ -11,6 +12,7 @@
 #include "ADT/Kicauan/kicauan.c"
 #include "ADT/DaftarPertemanan/daftarpertemanan.h"
 #include "ADT/Utas/utas.c"
+#include "ADT/HashTable/HashTable.c"
 
 void initiateGlobalVariables(){
     // set matriks pertemanan
@@ -25,6 +27,8 @@ void initiateGlobalVariables(){
     // Inisialisasi ListUser (Daftar Pengguna)
     createListUser(&user);
 
+    // Inisialisasi Hash Table Tagar
+    ht_new(&HashTable);
 }
 
 int main(){
@@ -44,7 +48,7 @@ int main(){
     input[1].Length = 0;
     input[2].Length = 0;
     
-    char command[29][30] = {"DAFTAR", "MASUK", "KELUAR", "TUTUP_PROGRAM",
+    char command[30][30] = {"DAFTAR", "MASUK", "KELUAR", "TUTUP_PROGRAM",
                             "GANTI_PROFIL", "LIHAT_PROFIL", "ATUR_JENIS_AKUN", "UBAH_FOTO_PROFIL",
                             "DAFTAR_TEMAN", "HAPUS_TEMAN",
                             "TAMBAH_TEMAN", "BATAL_TAMBAH_TEMAN", "DAFTAR_PERMINTAAN_PERTEMANAN", "SETUJUI_PERTEMANAN",
@@ -52,7 +56,8 @@ int main(){
                             "BALAS", "BALASAN", "HAPUS_BALASAN",
                             "BUAT_DRAF", "LIHAT_DRAF",
                             "UTAS", "SAMBUNG_UTAS", "HAPUS_UTAS", "CETAK_UTAS",
-                            "SIMPAN", "MUAT"};
+                            "SIMPAN", "MUAT",
+                            "CARI_KICAUAN"};
     /* 
     not login hanya bisa : DAFTAR, MASUK, MUAT, SIMPAN, TUTUP_PROGRAM
     yes login hanya bisa : selain not login, SIMPAN, TUTUP_PROGRAM
@@ -156,6 +161,7 @@ int main(){
                 // KICAU
                 printf("called %s\n", command[14]);
                 kicau(USER(user, CurrentUserId).nama);
+                ht_insert(&HashTable, ListKicauan.buffer[ListKicauan.NEFF-1].tagar.TabWord, &ListKicauan.buffer[ListKicauan.NEFF-1]);
             }
             else if(strCompare(input[0].TabWord, command[15])){
                 // KICAUAN
@@ -228,6 +234,11 @@ int main(){
             }
             else if(strCompare(input[0].TabWord, "showAllKicauan")){
                 showAllListKicauan();
+            }
+            else if(strCompare(input[0].TabWord, command[29])){
+                // CARI_KICAUAN
+                printf("called %s\n", command[29]);
+                cari_kicauan(input[1]);
             }
             else {
                 printErrMessage(input[0]);
