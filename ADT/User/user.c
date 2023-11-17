@@ -424,13 +424,12 @@ void lihat_profil(Word nama){
     // Melihat profile akun dengan nama (nama) jika akun publik.
 
     // Cek apakah nama terdaftar.
-    if (isNamaValid(nama)) {
-        printf("tes");
+    if (isNamaValid(nama) || nama.Length == 0) {
+        printf("Nama tidak terdaftar! Cek kembali nama.\n\n");
         return;
     } else { // Nama terdaftar
-        // nanti harus cek juga teman atau bukan //
         int id = userId(nama);
-        if (PRIVACY(USER(user, id))) {
+        if (PRIVACY(USER(user, id)) && !isTeman(CurrentUserId, id)) {
             printf("Wah, akun %s diprivat nih. Ikuti dulu yuk untuk bisa melihat profil %s!\n\n", nama.TabWord, nama.TabWord);
         } else {
             showUser(id);
