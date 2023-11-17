@@ -81,7 +81,6 @@ void buatDraft()
     
     if (strCompare(command.TabWord, "HAPUS"))
     {
-        // gak ngelakuin apa apa karena diawal belum di push
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord, "SIMPAN"))
     {
@@ -126,8 +125,7 @@ void lihatDraft(Stack S)
     if (strCompare(command.TabWord, "HAPUS"))
     {
         DraftKicau val;
-        // gak ngelakuin apa apa karena diawal belum di pushDraftKicau
-     PopDraftKicau(&S,&val);
+        PopDraftKicau(&S,&val);
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord, "UBAH"))
     {
