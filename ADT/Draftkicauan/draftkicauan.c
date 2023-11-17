@@ -56,7 +56,7 @@ void PopDraftKicau(Stack * S, DraftKicau* X)
     free(p);
 }
 
-void buatDraft()
+void buatDraft(Stack *S)
 {
     Stack *S = &DRAFT(USER(user, CurrentUserId));
     // membaca draft menggunakan mesin kata
@@ -119,7 +119,7 @@ void lihatDraft(Stack S)
     
     do
     {
-        printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
+        printf("Apakah anda ingin mengubah, menyimpan, atau menerbitkan draf ini?\n");
         readWord(&command,';');
     } while (strCompare(command.TabWord, "HAPUS") != 0 && strCompare(command.TabWord, "UBAH") != 0 && strCompare(command.TabWord, "TERBIT") != 0 && strCompare(command.TabWord, "KEMBALI"));
 
