@@ -131,7 +131,7 @@ void lihatDraft(Stack S)
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord, "UBAH"))
     {
-        ubahDraft(&S);
+        ubahDraft();
     } else if (strCompare(command.TabWord, "TERBIT"))
     {
         terbitDraft(&S);
