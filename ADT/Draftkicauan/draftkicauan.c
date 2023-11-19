@@ -81,7 +81,6 @@ void buatDraft()
     
     if (strCompare(command.TabWord, "HAPUS"))
     {
-        // gak ngelakuin apa apa karena diawal belum di push
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord, "SIMPAN"))
     {
@@ -119,19 +118,18 @@ void lihatDraft(Stack S)
     
     do
     {
-        printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
+        printf("Apakah anda ingin mengubah, menyimpan, atau menerbitkan draf ini?\n");
         readWord(&command,';');
     } while (strCompare(command.TabWord, "HAPUS") != 0 && strCompare(command.TabWord, "UBAH") != 0 && strCompare(command.TabWord, "TERBIT") != 0 && strCompare(command.TabWord, "KEMBALI"));
 
     if (strCompare(command.TabWord, "HAPUS"))
     {
         DraftKicau val;
-        // gak ngelakuin apa apa karena diawal belum di pushDraftKicau
-     PopDraftKicau(&S,&val);
+        PopDraftKicau(&S,&val);
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord, "UBAH"))
     {
-        ubahDraft(&S);
+        ubahDraft();
     } else if (strCompare(command.TabWord, "TERBIT"))
     {
         terbitDraft(&S);
