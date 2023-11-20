@@ -71,7 +71,7 @@ void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word 
     kicauan->daftar_utas = NULL;
 
     long long int current_time = getCurrentTime();
-    kicauan->timeCreated = (DetikToDATETIME(current_time));
+    (*kicauan).timeCreated = DetikToDATETIME(current_time);
 }
 
 void addKicauanLast(Word teks, Word Author, Word tagar){
@@ -115,19 +115,37 @@ boolean isFriend(int idKicau){
     return (DaftarPertemanan.Tabword[idAuthor][CurrentUserId]);
 }
 
+boolean isKicauanValid(Word teks){
+    int i=0;
+    while(teks.TabWord[i]){
+        if(teks.TabWord[i] != ' '){
+            return true;
+        }
+        i++;
+    }
+    return false;
+}
+
 void kicau(Word Author){
     printf("Masukkan kicauan:\n");
     Word teks;
     readWord(&teks, ';');
 
+    if(!isKicauanValid(teks) && teks.Length != 0){
+        printf("Kicaun tidak boleh hannya berisi spasi\n");
+        return;
+    }
+
     if(teks.Length == 0){
-        printf("Kicauan tidak boleh hanya berisi spasi!");
+        printf("Kicauan tidak boleh hanya kosong!\n");
         return;
     }
 
     printf("Masukkan tagar:\n");
     Word tagar;
     readWord(&tagar, ';');
+
+    
 
 
     addKicauanLast(teks, Author, tagar);

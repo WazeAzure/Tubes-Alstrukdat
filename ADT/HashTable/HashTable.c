@@ -72,7 +72,7 @@ void ht_insert(HT_Table* ht,  char* key, KICAUAN* value) {
         (*(*ht).items[index]).val = new;
 
     } else {
-        printf("yey\n");
+        // printf("yey\n");
 
         AddressHT new = (AddressHT)malloc(sizeof(HTel));
         new->info = *value;
@@ -80,7 +80,7 @@ void ht_insert(HT_Table* ht,  char* key, KICAUAN* value) {
 
         AddressHT pp =  (*(*ht).items[index]).val;
         if(pp == NULL) printf("pp null\n");
-        printf("temp\n");
+        // printf("temp\n");
         while(pp->next != NULL){
             printf("%s\n", pp->info.teks.TabWord);
             pp = (*pp).next;

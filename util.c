@@ -238,7 +238,7 @@ boolean readFile(Word FileName){
 void loadConfigFile(){
     Word foldername;
     printf("Silahkan masukan folder konfigurasi untuk dimuat: ");
-    readWord(&foldername, '\n');
+    readWord(&foldername, ';');
 
     // <-- berikan pengecekkan folder
     while(!isFolderExist(foldername)){
