@@ -117,20 +117,20 @@ void insertLastDaftarUtas(ListElemenUtas *daftarUtas,Word teks, int idkicau){
     // ALGORTMA
     p = newUtas(teks);
     last = FIRSTDAFTARUTAS(*daftarUtas);
-    if(p == NULL) return ;
-
     if ( p != NULL){
         if(isEmptyDaftarUtas(*daftarUtas)){
             FIRSTDAFTARUTAS(*daftarUtas) = p;
+            ListIdUtas.buffer[ListIdUtas.nEFF]=idkicau;
+            ListIdUtas.nEFF++;
         }else{
+            printf("MASUK\n");
             while(NEXTDAFTARUTAS(last)!=NULL){
                 last = NEXTDAFTARUTAS(last);
             }
             NEXTDAFTARUTAS(last) = p;
+            printf("BERES\n");
         }
     }
-    ListIdUtas.buffer[ListIdUtas.nEFF]=idkicau;
-    ListIdUtas.nEFF++;
 }
 
 void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,Word index){
@@ -154,22 +154,19 @@ void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,Word index){
 
 void utas(int idKicau){
     boolean access = false;
-    if(idKicau>0 && idKicau<ListKicauan.NEFF){
+    if(idKicau>=0 && idKicau<=ListKicauan.NEFF){
         if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){
             access = true;
         }else {
             printf("Utas bukan milik Anda\n\n");
+            return;
         }
     }else{
         printf("Kicauan tidak ditemukan.\n\n");
+        return;
     }
 
     if (access){
-        // KICAUAN* k;
-        //  WordToInt(idKicau)
-        // *k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas, idKicau));
-        // insertLastIdUtas(k->daftar_utas, idKicau);
-
         printf("Utas berhasil dibuat!\n");
         Word teks;
         printf("Masukkan kicauan\n");
@@ -178,30 +175,48 @@ void utas(int idKicau){
         }while(teks.Length == 0);
         printf("\n\n");
 
-        AddressUtas daftarUtas = newUtas(teks); // inisialisasi utas
-        insertLastDaftarUtas(&daftarUtas,teks, idKicau);
+        insertLastDaftarUtas(&KICAU_DAFTAR_UTAS(KICAUAN_ELMT(ListKicauan, idKicau)),teks, idKicau);
 
-        printf("Apakah Anda ingin melanjutkan utas ini?(YA/TIDAK)");
-        Word val;
-        readWord(&val, ';');
         boolean stop;
-        if(strCompare(val.TabWord, "YA")){
-            stop = true;
-        }else{
-            stop = false;
-        }
-        do{
-            Word teks;
-            printf("Masukkan kicauan\n");
-            while(teks.Length == 0){
-                printf("Masukkan tidak boleh kosong!\n");
+        printf("Apakah Anda ingin melanjutkan utas ini?(YA/TIDAK) ");
+            Word pilihan;
+            readWord(&pilihan, ';');
+            toLowerCase(&pilihan);
+            printf("\n\n");
+            while (!strCompare(pilihan.TabWord, "ya") && !strCompare(pilihan.TabWord, "tidak")) {
+                printf("Masukkan salah!(YA/TIDAK) ");
+                readWord(&pilihan, ';');
+                toLowerCase(&pilihan);
+                printf("\n\n");
+            }
+            if (strCompare(pilihan.TabWord, "ya")) {
+                stop = false;
+            } else {
+                stop = true;
+            }
+        while (!stop){
+            printf("Masukkan kicauan: \n");
+            do{
                 readWord(&teks,';');
-                // daftarUtas = newUtas(teks, getCurrentTime());
-                
-                // ???
-            }while(teks.Length == 0);
-            printf("Apakah Anda ingin melanjutkan utas ini?");
-        }while((!stop));
+            } while (teks.Length == 0);
+            printf("\n\n");
+            insertLastDaftarUtas(&KICAU_DAFTAR_UTAS(KICAUAN_ELMT(ListKicauan, idKicau)),teks, idKicau);
+            printf("Apakah Anda ingin melanjutkan utas ini?(YA/TIDAK) ");
+            readWord(&pilihan, ';');
+            toLowerCase(&pilihan);
+            printf("\n\n");
+            while (!strCompare(pilihan.TabWord, "ya") && !strCompare(pilihan.TabWord, "tidak")) {
+                printf("Apakah Anda ingin melanjutkan utas ini?(YA/TIDAK) ");
+                readWord(&pilihan, ';');
+                toLowerCase(&pilihan);
+                printf("\n\n");
+            }
+            if (strCompare(pilihan.TabWord, "ya")) {
+                stop = false;
+            } else {
+                stop = true;
+            }
+        }
     } 
     printf("\n\n");
     printf("Utas selesai!\n\n");
@@ -305,43 +320,33 @@ void hapus_utas(Word Index,LISTIDUTAS li, Word idutas, ListElemenUtas *daftarUta
 
 
 // CETAK UTAS DI KICAUAN AJA YA
-// void cetak_utas(){
+void cetak_utas(int id_utas){
+    // Mencetak keseluruhan utas 
+    KICAUAN kicauan = ListKicauan.buffer[ListIdUtas.buffer[id_utas]];
+    if(PRIVACY(USER(user, kicauan.idAuthor)) && !isTeman(CurrentUserId, kicauan.idAuthor)){
+        printf("Akun yang membuat utas ini adalah akun privat! Ikuti dahulu akun ini untuk melihat utasnya!\n\n");
+        return;
+    }else if(id_utas>ListIdUtas.nEFF){
+        printf("Utas tidak ditemukan.\n\n");
+        return;
+    }else{
+        showKicauanContent(kicauan);
+        AddressUtas p;
+        p = kicauan.daftar_utas;
+        
+        int index = 1;
+        // mencetak item utas dengan index utas index.
+        while(p!=NULL){
+            printf("\t| INDEX = %d\n", index);
+            printf("\t| %s\n", kicauan.Author.TabWord);
+            printf("\t| ");
+            TulisDATETIME(p->timeCreated);
+            printf("\n");
+            printf("\t| %s\n", p->teks.TabWord);
+            // printf("\t\t\t\tAuthor\t\t\t: %s\n", kicauan->Author.TabWord);
+            index++;
+            p = NEXTDAFTARUTAS(p);
+        }
 
-//     // Mencetak keseluruhan utas 
-//     UTAS *utasan;
-//     int idutas;
-//     if(PRIVACY(USER(user,CurrentUserId))){
-//         printf("Akun yang membuat utas ini adalah akun privat.");
-//     }else if(!isIdUtasExist(utasan, idutas)){
-//         printf("Utas tidak ditemukan.");
-//     }else{
-//         int idutas,index,*idkicau;
-//         UTAS *utasan;
-//         Address p;
-//         p = FIRST(utasan);
-//         // Mencetak utas utama
-//         // printf("id\t\t\t\t: %d\n", kicauan->id);
-//         // printf("idAuthor\t\t: %d\n", kicauan->idAuthor);
-//         // printf("isi teks\t\t: %s\n", kicauan->teks.TabWord);
-//         printf("datetime\t\t: ");
-//         long long int current_time = getCurrentTime();
-//         // printf("Author\t\t\t: %s\n", kicauan->Author.TabWord);
-//         TulisDATETIME(DetikToDATETIME(current_time));
-//         printf("\n");
-//         p = NEXT(p);
-//         int index = 1;
-//         // mencetak item utas dengan index utas index.
-//         while(p!=NULL){
-//             printf("\t\t\t\tid\t\t\t\t: %d\n", index);
-//             // printf("\t\t\t\tidAuthor\t\t: %d\n", kicauan->idAuthor);
-//             // printf("\t\t\t\tisi teks\t\t: %s\n", kicauan->teks.TabWord);
-//             printf("\t\t\t\tdatetime\t\t: ");
-//             long long int current_time = getCurrentTime();
-//             // printf("\t\t\t\tAuthor\t\t\t: %s\n", kicauan->Author.TabWord);
-//             TulisDATETIME(DetikToDATETIME(current_time));
-//             printf("\n");
-//             index++;
-//         }
-
-//     }
-// }
+    }
+}

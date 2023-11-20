@@ -68,7 +68,7 @@ void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word 
     kicauan->teks = teks;
     kicauan->tagar = tagar;
     CreateDaftarBalasan(kicauan);
-    kicauan->daftar_utas = NULL;
+    CreateListElementUtas(&(kicauan->daftar_utas));
 
     long long int current_time = getCurrentTime();
     kicauan->timeCreated = (DetikToDATETIME(current_time));

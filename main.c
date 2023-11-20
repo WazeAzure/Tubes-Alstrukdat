@@ -29,6 +29,9 @@ void initiateGlobalVariables(){
 
     // Inisialisasi Hash Table Tagar
     ht_new(&HashTable);
+
+    // Inisialisasi list id utas
+    CreateListIdUtas(&ListIdUtas, 10);
 }
 
 int main(){
@@ -226,7 +229,7 @@ int main(){
                 printf("called %s\n", command[26]);
                 // KICAUAN k;
                 // k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
-                // cetak_utas((input[1]),&k.daftar_utas);
+                cetak_utas(WordToInt(input[1]));
             }
             else if(strCompare(input[0].TabWord, command[27])){
                 // SIMPAN

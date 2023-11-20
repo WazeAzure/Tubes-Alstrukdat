@@ -39,9 +39,6 @@ typedef struct{
 #define UTAS_ELMT(li, i) (li).buffer[i]
 
 /*PROTOTYPE*/
-
-AddressUtas newUtas();
-
 AddressUtas newUtas(Word teks);
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas);
@@ -69,5 +66,7 @@ void utas(int idKicau);
 void sambung_utas(Word index, ListElemenUtas *daftarUtas, Word idUtas);
 
 void hapus_utas(Word index,LISTIDUTAS li, Word idUtas, ListElemenUtas *daftarutas, Word *teks);
+
+void cetak_utas(int id_utas);
 
 #endif
