@@ -6,10 +6,14 @@
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
 
-#include "../Balasan/balasan.h"
+// #include "../Balasan/balasan.h"
 #include "../Utas/utas.h"
+#include "../Balasan/pohontree.h"
 
-#include "../Tree/pohontree.h"
+typedef struct {
+    int id;
+    BALASAN *list_balasan;
+} PairBalasan;
 
 typedef struct {
     int id;
@@ -22,7 +26,8 @@ typedef struct {
 
     Word tagar;
 
-    TreeNode *daftar_balasan;
+    // list of daftar balasan
+    Tree daftar_balasan;
 
     // list of daftar utas
     ListElemenUtas daftar_utas;
