@@ -1,48 +1,50 @@
-#ifndef POHONTREE_H
-#define POHONTREE_H
+#ifndef _POHONTREE_H
+#define _POHONTREE_H
 
-#include "boolean.h"
+#include "../boolean.h"
 
-#include "../Balasan/balasan.h"
+#include "../Datetime/time.h"
+#include "../Datetime/datetime.h"
+#include "balasan.h"
 
 /* Selektor */
 #define NODE(p) (p)->info
 #define CHILD(p) (p)->child
 #define SIBLING(p) (p)->sibling
 
-typedef BALASAN ElType;
-typedef struct treeNode* Address;
+typedef BALASAN ElTypeTree;
+typedef struct treeNode* AddressTree;
 
 typedef struct treeNode {
-    ElType info;
-    Address child;     // pointer to the leftmost child
-    Address sibling;   // pointer to the next sibling
+    ElTypeTree info;
+    AddressTree child;     // pointer to the leftmost child
+    AddressTree sibling;   // pointer to the next sibling
 } TreeNode;
 
 /* Definisi PohonTree */
 /* PohonTree kosong p = NULL */
 
-typedef Address Tree;
+typedef AddressTree Tree;
 
-Tree NewTree(ElType root, Tree firstChild);
+Tree NewTree(ElTypeTree root, Tree firstChild);
 /* Menghasilkan sebuah pohon tree dari root dan firstChild, jika alokasi berhasil
    Menghasilkan pohon kosong (NULL) jika alokasi gagal */
 
-void CreateTree(ElType root, Tree firstChild, Tree *p);
+void CreateTree(ElTypeTree root, Tree firstChild, Tree *p);
 /* I.S. Sembarang
    F.S. Menghasilkan sebuah pohon p
    Menghasilkan sebuah pohon tree p dari root dan firstChild, jika alokasi
    berhasil
    Menghasilkan pohon p yang kosong (NULL) jika alokasi gagal */
 
-Address newTreeNode(ElType val);
+AddressTree newTreeNode(ElTypeTree val);
 /* Alokasi sebuah address p, bernilai tidak NULL jika berhasil */
 /* Mengirimkan address hasil alokasi sebuah elemen bernilai val
    Jika alokasi berhasil, maka address tidak NULL, dan misalnya
    menghasilkan p, maka p↑.info=val, p↑.child=NULL, p↑.sibling=NULL
    Jika alokasi gagal, mengirimkan NULL */
 
-void deallocTreeNode(Address p);
+void deallocTreeNode(AddressTree p);
 /* I.S. p terdefinisi
    F.S. p dikembalikan ke sistem
    Melakukan dealokasi/pengembalian address p */
@@ -79,4 +81,7 @@ G
   I
 Note: Anda boleh membuat fungsi tambahan untuk membuat implementasi fungsi ini jika diperlukan
 */
+
+void balas(int idKicau, Word idBalasan);
+
 #endif

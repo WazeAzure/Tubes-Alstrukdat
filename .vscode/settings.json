@@ -18,6 +18,7 @@
         "tuple": "c",
         "type_traits": "c",
         "utility": "c",
-        "kicauan.h": "c"
+        "kicauan.h": "c",
+        "pohontree.h": "c"
     }
 }
