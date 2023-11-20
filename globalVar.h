@@ -15,7 +15,7 @@ extern int CounterBalasan;
 
 extern LISTKICAUAN ListKicauan;
 
-extern LISTBALASAN ListBalasan;
+// extern LISTBALASAN ListBalasan;
 
 extern ListUser user;
 
