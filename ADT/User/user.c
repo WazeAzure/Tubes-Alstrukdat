@@ -230,9 +230,14 @@ boolean isHpValid(NoHp hp){
 // return boolean.
     if(hp.length == 0) return true;
     
+    printf("%s\n", hp.TabWord);
     int i=0;
     while(hp.TabWord[i]){
-        if(hp.TabWord[i] - '0' > 9 || hp.TabWord[i] - '0' < 0) return false;
+        if(hp.TabWord[i] - '0' > 9 || hp.TabWord[i] - '0' < 0) {
+            printf("%d\n", i);
+            printf("%c - char error", hp.TabWord[i]);
+            return false;
+        }
         i++;
     }
     return true;
@@ -390,7 +395,8 @@ void ganti_profile(){
     // Update No HP
     printf("Masukkan No HP: \n");
     readHP(&inputHP, ';');
-
+    printf("%s\n", inputHP.TabWord);
+    printf("%d\n", inputHP.length);
     while(!isHpValid(inputHP)) {
         printf("HP tidak valid. Masukkan lagi yuk!\n\n");
         printf("Masukkan HP Akun: \n");

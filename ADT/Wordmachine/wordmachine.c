@@ -189,16 +189,18 @@ void readHP(NoHp *input, char MARK){
     
     while ((currentChar != MARK)) {
         if(neff > cap){
+            printf("nilai neff hp - %d\n", neff);
             cap += 100;
-            buffer = (char*)realloc(buffer, sizeof(char)*cap);
+            buffer = (char*)realloc(buffer, sizeof(char)*(cap+1));
         }
         buffer[neff] = currentChar;
         neff++;
+        // printf("dari buffer - %s\n", buffer);
         ADV(MARK);
     }
 
     (*input).length = neff;
-
+    (*input).TabWord = buffer;
     (*input).TabWord[neff] = '\0';
 }
 
