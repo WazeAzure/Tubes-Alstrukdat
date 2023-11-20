@@ -9,10 +9,7 @@
 #include "../Balasan/balasan.h"
 #include "../Utas/utas.h"
 
-typedef struct {
-    int id;
-    BALASAN *list_balasan;
-} PairBalasan;
+#include "../Tree/pohontree.h"
 
 typedef struct {
     int id;
@@ -25,8 +22,7 @@ typedef struct {
 
     Word tagar;
 
-    // list of daftar balasan
-    PairBalasan *daftar_balasan;
+    TreeNode *daftar_balasan;
 
     // list of daftar utas
     ListElemenUtas daftar_utas;

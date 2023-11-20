@@ -145,6 +145,7 @@ void terbitDraft (Stack *S)
     DraftKicau x;
     PopDraftKicau(S,&x);
     Word tagar;
+    readWord(&tagar, ';');
     KICAUAN* kicauBaru = newKicau(x.isiDraftKicauan, USER_NAMA(USER(user, CurrentUserId)), tagar);
 
     ListKicauan.buffer[ListKicauan.NEFF] = *kicauBaru;

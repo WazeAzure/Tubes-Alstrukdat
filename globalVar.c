@@ -10,7 +10,7 @@ int CounterBalasan = 0;
 
 LISTKICAUAN ListKicauan;
 
-LISTBALASAN ListBalasan;
+// LISTBALASAN ListBalasan;
 
 ListUser user;
 

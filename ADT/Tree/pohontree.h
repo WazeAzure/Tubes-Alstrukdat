@@ -3,12 +3,14 @@
 
 #include "boolean.h"
 
+#include "../Balasan/balasan.h"
+
 /* Selektor */
 #define NODE(p) (p)->info
 #define CHILD(p) (p)->child
 #define SIBLING(p) (p)->sibling
 
-typedef int ElType;
+typedef BALASAN ElType;
 typedef struct treeNode* Address;
 
 typedef struct treeNode {
@@ -77,7 +79,4 @@ G
   I
 Note: Anda boleh membuat fungsi tambahan untuk membuat implementasi fungsi ini jika diperlukan
 */
-
-void deleteNode(Tree *p, ElType val);
-
 #endif
