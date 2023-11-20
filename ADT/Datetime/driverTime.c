@@ -3,7 +3,7 @@
 
 int main()
 {
-    printf("------- DRIVER ADT DATETIME -------\n");
+    printf("------- DRIVER ADT TIME -------\n");
     TIME d,d1,d2;
 
     printf("Masukkan TIME yang diinginkan dengan format HH MM SS\n");
