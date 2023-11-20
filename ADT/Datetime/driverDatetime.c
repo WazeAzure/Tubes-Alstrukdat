@@ -16,10 +16,10 @@ int main()
     printf("Tanggal maksimum pada tanggal yang dimasukkan:\n");
     printf("%d\n", GetMaxDay(Month(d),Year(d)));
 
-    printf("10 Detik setelah jam yang dimasukkan: \n");
+    printf("10 Detik setelah DATETIME yang dimasukkan: \n");
     printf("%d\n", DATETIMENextNDetik(d,10));
 
-    printf("10 Detik sebelum jam yang dimasukkan: \n");
+    printf("10 Detik sebelum DATETIME yang dimasukkan: \n");
     printf("%d\n", DATETIMEPrevNDetik(d,10));
 
     printf("Mengubah DATETIME menjadi detik\n");
@@ -71,9 +71,9 @@ int main()
     {
         durasi = DATETIMEDurasi(d2,d1);
     }
-    printf("%d\n", durasi);
+    printf("%ld\n", durasi);
 
-    
+
 
 
 
