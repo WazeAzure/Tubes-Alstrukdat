@@ -1,45 +1,74 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
 
 #ifndef _UTAS_H
 #define _UTAS_H
 
-typedef struct {
-    int index; // index dari 1,... //
-    int idKicau;
-    Word utasan;
-    DATETIME time;
-    int idkicau;
-} UTAS;
+typedef struct nodeUtas* AddressUtas;
+typedef struct nodeUtas {
+    Word author;
+    Word teks;
+    long long int time;
+    AddressUtas next;
+} NodeElemenUtas;
+
+typedef AddressUtas ListElemenUtas;
 
 
-// SELEKTOR //
-// UTAS
-// #define INDEX(u) (u).index
-// #define INPUT(u) (u).utasan
-// #define TIME(u) (u).time
+typedef int IdxType;
+// typedef int IdUtas;
 
-// MAINUTAS
-// #define ID_KICAUAN(m) (m).idkicau
-// #define ID_UTAS(m) (m).idutas
+// List dinamis yang menyimpan idUtas
+typedef struct{
+    int* buffer;
+    int nEFF;
+    int CAPACITY;
+} LISTIDUTAS;
 
-// void CreateMainUtas(MAINUTAS *parent, int idkicau, int idutas, ListDin child , int *CounterKicauan);
-// F.S Utas berhasil dibuat
+#define IDX_UNDEF (-1)
+#define ELMT(li,i) (li).buffer[i]
+#define nEFF(li) (li).nEFF
 
-// void CetakMainUtas(MAINUTAS parent, int idkicau,int *CounterKicauan, int idutas);
-// I.S idutas, idkicau, parent valid
-//  Mendisplay mainutas beserta isi utasnya
+#define FIRSTDAFTARUTAS(li) (li)
+#define NEXTDAFTARUTAS(li) (li)->next
+#define TEKSUTAS(li) (li)->teks
+#define TIMEUTAS(li) (li)->time
 
-void CreateUtas(UTAS *utas, int index, Word utasan, DATETIME time, int idutas);
+/*PROTOTYPE*/
 
-// void ReadUtas(UTAS *utas);
+AddressUtas newUtas();
 
-void CetakUtas(UTAS utas);
-// search apakah ada 
-void SambungUtas(int idutas,int index, UTAS *utas);
+AddressUtas newUtas(Word teks,long long int time);
 
-// void HapusUtas(int idutas,int index, UTAS *utas); 
+void CreateListElementUtas(ListElemenUtas *daftarUtas);
 
-// createmainutas du
+void utas(int idKicau);
+
+void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
+
+boolean isEmptyListIdUtas(LISTIDUTAS li);
+
+boolean isEmptyDaftarUtas(ListElemenUtas daftarUtas);
+
+IdxType getLastIdx(LISTIDUTAS li);
+
+int lengthDaftarIdUtas(LISTIDUTAS li);
+
+int lengthDaftarUtas(ListElemenUtas daftarUtas);
+
+boolean isUtas(int idKicau);
+
+void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks,long long int time);
+
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,long long int *time,int index);
+
+void utas(int idKicau);
+
+void sambung_utas(int index, ListElemenUtas *daftarUtas, LISTIDUTAS li, int idKicau, Word teks);
+
+void hapus_utas(int index,LISTIDUTAS li, int idUtas, ListElemenUtas *daftarutas, Word *teks,long long int *time);
+
 #endif

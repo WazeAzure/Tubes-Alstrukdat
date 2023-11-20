@@ -6,6 +6,18 @@
         "globalvar.h": "c",
         "user.h": "c",
         "balasan.h": "c",
-        "utas.h": "c"
+        "utas.h": "c",
+        "charmachine.h": "c",
+        "boolean.h": "c",
+        "datetime.h": "c",
+        "draftkicauan.h": "c",
+        "typeinfo": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "kicauan.h": "c"
     }
 }

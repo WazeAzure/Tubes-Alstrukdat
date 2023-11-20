@@ -3,7 +3,15 @@
 #include "user.h"
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
+#include "../DaftarPertemanan/daftarpertemanan.h"
+#include "../PermintaanPertemanan/permintaanpertemanan.h"
 
+#include "../Datetime/time.c"
+#include "../Datetime/datetime.c"
+
+#include "../Draftkicauan/draftkicauan.c"
+#include "../DaftarPertemanan/daftarpertemanan.c"
+#include "../PermintaanPertemanan/permintaanpertemanan.c"
 
 #include "../pcolor/pcolor.h"
 
@@ -72,6 +80,18 @@ boolean isLineValid(Word line) {
             }
         }
         return true;
+    }
+}
+
+void setFotoProfil(FOTO* foto, char str[5][30]){
+    /* Asumsi input sudah valid */
+    int i;
+    for(i=0; i<5; i++){
+        int j;
+        for(j=0; j<5; j++){
+            COLOR(FOTO_ELMT(*foto, i, j)) = str[i][4*j];
+            ASCII(FOTO_ELMT(*foto, i, j)) = str[i][4*j + 2];
+        }
     }
 }
 
@@ -205,14 +225,19 @@ boolean isBioValid(Word bio){
     return bio.Length <= 135;
 }
 
-boolean isHpValid(Word hp){
+boolean isHpValid(NoHp hp){
 // fungsi yang mengecek apakah masukan nomor HP valid yaitu integer dengan panjang berapapun.
 // return boolean.
-    if(hp.Length == 0) return true;
+    if(hp.length == 0) return true;
     
+    printf("%s\n", hp.TabWord);
     int i=0;
     while(hp.TabWord[i]){
-        if(hp.TabWord[i] - '0' > 9 || hp.TabWord[i] - '0' < 0) return false;
+        if(hp.TabWord[i] - '0' > 9 || hp.TabWord[i] - '0' < 0) {
+            printf("%d\n", i);
+            printf("%c - char error", hp.TabWord[i]);
+            return false;
+        }
         i++;
     }
     return true;
@@ -238,9 +263,12 @@ boolean isWetonValid(Word weton){
 void createListUser(ListUser * u) {
 // Inisialisasi ListUser, membentuk List user dengan tiap id user = index dan jumlah teman = 0.
     int i;
+    PERMINTAANPERTEMANAN Q;
+    CreateEmptyPermintaanPertemanan(&Q);
     for (i = 0; i < 20; i++) {
         USER_ID(USER(*u, i)) = i;
         JUMLAH_TEMAN(USER(*u, i)) = 0;
+        DraftKicauanCreateEmpty(&USER(*u, i).draftKicauan);
         createFoto(5, 5, &FOTO(USER(*u, i)));
     }
 }
@@ -252,7 +280,7 @@ void addUser(ListUser * u, Word nama, Word sandi){
     COUNTER_USER(*u)++;
 }
 
-void setProfil(ListUser * u, int index, Word bio, Word hp, Word weton, boolean privacy, FOTO foto){
+void setProfil(ListUser * u, int index, Word bio, NoHp hp, Word weton, boolean privacy, FOTO foto){
 // Set profil User dengan id index berdasarkan input bio, hp, weton, privacy, dan foto.
     BIO(USER(*u, index)) = bio;
     HP(USER(*u, index)) = hp;
@@ -345,7 +373,8 @@ void keluar(){
 // PROFILE
 void ganti_profile(){
 // Mengganti profile
-    Word bio, weton, inputHP;
+    Word bio, weton;
+    NoHp inputHP;
 
     showUser(CurrentUserId);
     printf("\n\n");
@@ -365,15 +394,16 @@ void ganti_profile(){
 
     // Update No HP
     printf("Masukkan No HP: \n");
-    readWord(&inputHP, ';');
-
+    readHP(&inputHP, ';');
+    printf("%s\n", inputHP.TabWord);
+    printf("%d\n", inputHP.length);
     while(!isHpValid(inputHP)) {
         printf("HP tidak valid. Masukkan lagi yuk!\n\n");
         printf("Masukkan HP Akun: \n");
-        readWord(&inputHP, ';');
+        readHP(&inputHP, ';');
         printf("\n\n");
     }
-    if (inputHP.Length > 0) { // Update jika tidak Word Kosong.
+    if (inputHP.length > 0) { // Update jika tidak Word Kosong.
         HP(USER(user, CurrentUserId)) = inputHP;
     }
 
@@ -400,13 +430,12 @@ void lihat_profil(Word nama){
     // Melihat profile akun dengan nama (nama) jika akun publik.
 
     // Cek apakah nama terdaftar.
-    if (isNamaValid(nama)) {
-        printf("tes");
+    if (isNamaValid(nama) || nama.Length == 0) {
+        printf("Nama tidak terdaftar! Cek kembali nama.\n\n");
         return;
     } else { // Nama terdaftar
-        // nanti harus cek juga teman atau bukan //
         int id = userId(nama);
-        if (PRIVACY(USER(user, id))) {
+        if (PRIVACY(USER(user, id)) && !isTeman(CurrentUserId, id)) {
             printf("Wah, akun %s diprivat nih. Ikuti dulu yuk untuk bisa melihat profil %s!\n\n", nama.TabWord, nama.TabWord);
         } else {
             showUser(id);
@@ -471,4 +500,117 @@ boolean isPrivat(int id){
 void showFotoProfil(int id){
 // Menampilkan foto profil akun dengan id (id).
     displayFoto(FOTO(USER(user, id)));
+}
+
+// Bagian Teman dan Daftar Pertemanan
+void cariTeman(Word* Input,int id){
+    int i = 0;
+    for(int j = 0; j < 20; j++){
+        if(ElmtDaftarPertemanan(DaftarPertemanan,j,id) == true && j != id){
+            *(Input + i) =  USER_NAMA(USER(user,j));
+            i++;
+        }
+    }
+}
+
+void showDaftarTeman(int id){
+    if(JUMLAH_TEMAN(USER(user,id)) == 0){
+        printf("%s belum mempunyai teman\n\n",USER_NAMA(USER(user,id)).TabWord);
+    } else{
+        printf("%s memiliki %d teman\n",USER_NAMA(USER(user,id)).TabWord,JUMLAH_TEMAN(USER(user,id)));
+        printf("Daftar teman %s\n",USER_NAMA(USER(user,id)).TabWord);
+        Word ListTeman[20];
+        cariTeman(ListTeman,id);
+        for(int i = 0; i < JUMLAH_TEMAN(USER(user,id)); i++){
+            printf("| %s\n",ListTeman[i].TabWord);
+        }
+    }
+}
+
+
+boolean isTeman(int idUser, int idTeman){
+    if(idTeman == -1){ // Nama teman tidak ada di semua item list user
+        return false;
+    }
+    if(ElmtDaftarPertemanan(DaftarPertemanan, idUser, idTeman) == 1){
+        return true;
+    } else{
+        return false;
+    }
+}   
+
+void hapusTeman(int idUser){
+    Word namaTeman, konfirmasi;
+    printf("Masukkan nama pengguna:\n");
+    readWord(&namaTeman, ';');
+    int idTeman = userId(namaTeman);
+    if(isTeman(idUser, idTeman)){
+        printf("Apakah anda yakin ingin menghapus %s dari daftar teman anda?(YA/TIDAK)\n\n", namaTeman.TabWord);
+        readWord(&konfirmasi, ';');
+        if(strCompare(konfirmasi.TabWord, "YA")){
+            setSymmetricElmt(&DaftarPertemanan, idUser, idTeman, false);
+            JUMLAH_TEMAN(USER(user,idUser))--;
+            JUMLAH_TEMAN(USER(user,idTeman))--;
+        }else{
+            printf("Penghapusan teman dibatalkan.\n\n");
+        }
+    } else{
+        printf("%s bukan teman Anda.\n\n",namaTeman.TabWord);
+    }
+}
+
+
+void tambahTeman(int idUser){
+    Word namaTeman;
+    printf("Masukkan nama pengguna:\n");
+    readWord(&namaTeman, ';');
+    int idTeman = userId(namaTeman);
+    if(idTeman == -1){
+        printf("Pengguna bernama %s tidak ditemukan.\n\n",namaTeman.TabWord);
+    } else if(isTeman(idUser,idTeman)){
+        printf("Anda sudah berteman dengan %s.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
+    } else{
+        infotype X;
+        X.id = USER_ID(USER(user,idUser));
+        X.nama = USER_NAMA(USER(user,idUser));
+        X.jumlahTeman = JUMLAH_TEMAN(USER(user,idUser));
+        // prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
+        EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idTeman)), X); ;
+        printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
+
+    }
+}
+
+void showDaftarPermintaanPertemanan(int idUser){
+    if(!IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)))){
+        int jumlah_permintaan_pertemanan = JumlahPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
+        if(jumlah_permintaan_pertemanan != 0){
+            printf("Terdapat %d permintaan pertemanan untuk Anda.\n", jumlah_permintaan_pertemanan);
+        }
+            PrintPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
+    } else{
+        printf("Tidak ada permintaan pertemanan :(\n\n");
+    }
+}
+
+void setujuiPermintaanPertemanan(int idUser){
+    if(!IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)))){
+        PrintPermintaanPertemananPertama(PERMINTAANPERTEMANAN(USER(user,idUser)));
+        printf("Apakah Anda ingin menyetujui permintaan pertemanan ini? (YA/TIDAK) \n");
+        Word konfirmasi;
+        readWord(&konfirmasi, ';');
+        infotype X;
+        if(strCompare(konfirmasi.TabWord, "YA")){
+            DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
+            setSymmetricElmt(&DaftarPertemanan,idUser,X.id,true);
+            JUMLAH_TEMAN(USER(user,idUser))++;
+            JUMLAH_TEMAN(USER(user,X.id))++;
+            printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.\n\n",X.nama.TabWord,X.nama.TabWord);
+        } else{
+            DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
+            printf("Permintaan pertemanan dari %s telah ditolak.\n\n",X.nama.TabWord);
+        }
+    } else{
+        printf("Tidak ada permintaan pertemanan :(\n\n");
+    }
 }

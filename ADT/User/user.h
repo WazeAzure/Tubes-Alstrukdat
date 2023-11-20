@@ -2,7 +2,13 @@
 #define _USER_h
 
 #include "../Wordmachine/wordmachine.h"
+#include "../PermintaanPertemanan/permintaanpertemanan.h"
+#include "../Draftkicauan/draftkicauan.h"
 #include "../boolean.h"
+#include "../NoHP/NoHP.h"
+
+// #include "../Draftkicauan/draftkicauan.h"
+
 
 // ADT Symbol
 typedef struct {
@@ -22,7 +28,7 @@ typedef struct {
 // ADT Profile
 typedef struct {
     Word bio;
-    Word hp;
+    NoHp hp;
     Word weton;
     boolean privacy; // true jika private, false jika public.
     FOTO foto;
@@ -35,11 +41,8 @@ typedef struct {
     Word kata_sandi;
     PROFILE profile;
     int jumlah_teman;
-
-    // daftar permintaan pertemanan (belum)
-    // daftar draft kicauan (belum)
-    
-
+    Stack draftKicauan;
+    PERMINTAANPERTEMANAN permintaan_pertemanan;
 } USER;
 
 #define maxUser 20
@@ -73,12 +76,15 @@ typedef struct {
 #define SANDI(u) (u).kata_sandi
 #define JUMLAH_TEMAN(u) (u).jumlah_teman
 #define PROFILE(u) (u).profile
-// #define daftarteman
+#define PERMINTAANPERTEMANAN(u) (u).permintaan_pertemanan
 // #define draft kicauan
 
 // ListUser
 #define USER(lu, idx) (lu).user[idx]
 #define COUNTER_USER(lu) (lu).CounterUser
+
+// Draft Kicauan
+#define DRAFT(u) (u).draftKicauan
 
 // PRIMITIF ADT FOTO
 void createFoto(int nRows, int nCols, FOTO *m);
@@ -102,6 +108,9 @@ boolean isIdxEff(FOTO m, IdxType i, IdxType j);
 void copyFoto(FOTO mIn, FOTO *mOut);
 /* Melakukan assignment mOut <- mIn */
 
+void setFotoProfil(FOTO *foto, char str[5][30]);
+/* Parsing Foto profil dari FIle */
+
 /* ********** KELOMPOK BACA/TULIS ********** */
 void readFoto(FOTO *m);
 /* I.S. isIdxValid(nRow,nCol) */
@@ -122,7 +131,7 @@ void createListUser(ListUser * u);
 void addUser(ListUser * u, Word nama, Word sandi);
 // menambahkan user ke list u.
 
-void setProfil(ListUser * u, int index, Word bio, Word hp, Word weton, boolean privacy, FOTO foto);
+void setProfil(ListUser * u, int index, Word bio, NoHp hp, Word weton, boolean privacy, FOTO foto);
 // Set profil User dengan id index berdasarkan input bio, hp, weton, privacy, dan foto.
 
 // Fungsi dan Prosedur
@@ -166,7 +175,7 @@ boolean isBioValid(Word bio);
 // fungsi yang mengecek apakah masukan bio valid.
 // return boolean.
 
-boolean isHpValid(Word hp);
+boolean isHpValid(NoHp hp);
 // fungsi yang mengecek apakah masukan nomor HP valid yaitu integer dengan panjang berapapun.
 // return boolean.
 
@@ -184,5 +193,28 @@ boolean isPrivat(int id);
 
 void showFotoProfil(int id);
 // Menampilkan foto profil akun dengan id (id).
+
+void cariTeman(Word* Input,int idUser);
+// Mencari semua teman dari user dengan id idUser
+
+void showDaftarTeman(int id);
+// Menampilkan semua teman dari user dengan id idUser
+
+boolean isTeman(int idUser, int idTeman);
+// Mengembalikan true apabila user dengan id idUser dan user dengan id idTeman berteman dan false jika sebaliknya
+
+void hapusTeman(int idUser);
+// Menghapus teman dari user dengan id idUser, nama teman diambil dari inputan user
+
+void tambahTeman(int idUser);
+// Mengirim permintaan pertemanan dari user dengan id idUser kepada user dengan nama yang diinput pengguna
+
+void showDaftarPermintaanPertemanan(int idUser);
+// Menampilkan semua daftar permintaan pertemanan dari user dengan id idUser
+// Terurut mengecil berdasarkan jumlah teman dari user pengirim permintaan pertemanan
+
+void setujuiPermintaanPertemanan(int idUser);
+// Menyetujui permintaan pertemanan yang dikirimkan ke user dengan id idUser oleh user lain
+// user lain dengan jumlah teman terbesar akan disetujui terlebih dahulu
 
 #endif
