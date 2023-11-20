@@ -7,7 +7,7 @@ int main() {
     Tree tree = NULL; // initialize an empty tree
 
     // Test case 1: Creating a tree with root A and children B and C
-    Tree child1 = newTreeNode('Ba');
+    Tree child1 = newTreeNode('B');
     Tree child2 = newTreeNode('C');
     Tree child3 = newTreeNode('D');
     CreateTree('A', child1, &tree);
@@ -16,9 +16,17 @@ int main() {
     SIBLING(child1) = child2;
     CHILD(child2) = child3;
     
+
+    printTree(tree, 0);
+
+    deleteNode(&tree, 'C');
+
+    printTree(tree, 0);
+
     // Deallocate memory for the tree nodes
     deallocTreeNode(child1);
     deallocTreeNode(child2);
 
     return 0;
+
 }

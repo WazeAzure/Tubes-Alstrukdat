@@ -77,4 +77,7 @@ G
   I
 Note: Anda boleh membuat fungsi tambahan untuk membuat implementasi fungsi ini jika diperlukan
 */
+
+void deleteNode(Tree *p, ElType val);
+
 #endif
