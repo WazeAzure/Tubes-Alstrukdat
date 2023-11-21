@@ -5,6 +5,7 @@
 #include "ADT/Kicauan/kicauan.h"
 #include "ADT/Utas/utas.h"
 #include "ADT/HashTable/HashTable.h"
+#include "ADT/Balasan/pohontree.h"
 
 // daftar fungsi C
 #include "util.c"
@@ -13,6 +14,7 @@
 #include "ADT/DaftarPertemanan/daftarpertemanan.h"
 #include "ADT/Utas/utas.c"
 #include "ADT/HashTable/HashTable.c"
+#include "ADT/Balasan/pohontree.c"
 
 void initiateGlobalVariables(){
     // set matriks pertemanan
@@ -184,6 +186,9 @@ int main(){
             else if(strCompare(input[0].TabWord, command[18])){
                 // BALAS
                 printf("called %s\n", command[18]);
+                int idKicau = WordToInt(input[1]);
+                // int idBalasan = WordToInt(input[2]);
+                balas(idKicau, input[2]);
             }
             else if(strCompare(input[0].TabWord, command[19])){
                 // BALASAN

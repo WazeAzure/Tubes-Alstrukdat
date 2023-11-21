@@ -43,7 +43,6 @@ typedef struct {
     int jumlah_teman;
     Stack draftKicauan;
     PERMINTAANPERTEMANAN permintaan_pertemanan;
-
 } USER;
 
 #define maxUser 20

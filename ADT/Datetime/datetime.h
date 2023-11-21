@@ -94,4 +94,6 @@ long int DATETIMEDurasi(DATETIME DAw, DATETIME DAkh);
 
 long long int getCurrentTime();
 
+DATETIME DetikToDATETIME(long long int sec);
+
 #endif

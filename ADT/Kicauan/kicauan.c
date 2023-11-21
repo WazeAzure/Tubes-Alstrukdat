@@ -13,6 +13,8 @@
 #include "kicauan.h"
 #include "../../globalVar.h"
 
+
+
 #define endl printf("\n")
 
 void CreateListKicauan(LISTKICAUAN* l, int CAPACITY){
@@ -53,10 +55,6 @@ KICAUAN* newKicau(Word teks, Word Author, Word tagar){
     }
 }
 
-void CreateDaftarBalasan(KICAUAN* kicauan){
-    kicauan->daftar_balasan = NULL;
-}
-
 void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word tagar){
     kicauan->id = CounterKicauan;
     CounterKicauan++;
@@ -67,8 +65,8 @@ void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word 
     kicauan->idAuthor = CurrentUserId;
     kicauan->teks = teks;
     kicauan->tagar = tagar;
-    CreateDaftarBalasan(kicauan);
-    CreateListElementUtas(&(kicauan->daftar_utas));
+    kicauan->daftar_utas = NULL;
+    kicauan->daftar_balasan = NULL;
 
     long long int current_time = getCurrentTime();
     kicauan->timeCreated = (DetikToDATETIME(current_time));

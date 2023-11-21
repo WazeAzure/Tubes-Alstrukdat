@@ -73,8 +73,6 @@ void readHpFile(FILE* f, NoHp *input){
         neff++;
     }
 
-    
-
     (*input).length = neff-1;
 
     buffer[neff-1] = '\0';
@@ -356,7 +354,7 @@ void resetCommand(Word *input){
 
 void printWelcomeBanner(){
     // clear screen
-    // system("clear");
+    system("clear");
 
     // welcome message
     printf(
