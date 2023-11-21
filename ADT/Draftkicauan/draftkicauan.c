@@ -108,10 +108,10 @@ void lihatDraft(Stack S)
         printf("Ini draf terakhir anda:\n");
         printf("| ");
         TulisDATETIME(draf.timeCreated);
-        endl;
+        printf("\n");
         printf("| ");
         printWord(draf.isiDraftKicauan);
-        endl;
+        printf("\n");
     }
 
     Word command;
@@ -145,6 +145,7 @@ void terbitDraft (Stack *S)
     DraftKicau x;
     PopDraftKicau(S,&x);
     Word tagar;
+    readWord(&tagar, ';');
     KICAUAN* kicauBaru = newKicau(x.isiDraftKicauan, USER_NAMA(USER(user, CurrentUserId)), tagar);
 
     ListKicauan.buffer[ListKicauan.NEFF] = *kicauBaru;

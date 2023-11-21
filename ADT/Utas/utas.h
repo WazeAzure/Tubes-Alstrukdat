@@ -11,7 +11,7 @@ typedef struct nodeUtas* AddressUtas;
 typedef struct nodeUtas {
     Word author;
     Word teks;
-    long long int time;
+    DATETIME timeCreated;
     AddressUtas next;
 } NodeElemenUtas;
 
@@ -28,24 +28,31 @@ typedef struct{
     int CAPACITY;
 } LISTIDUTAS;
 
+/* SELEKTOR LISTIDUTAS */
 #define IDX_UNDEF (-1)
-#define ELMT(li,i) (li).buffer[i]
+#define LISTIDUTAS__ELMT(li,i) (li).buffer[i]
 #define nEFF(li) (li).nEFF
+#define LISTIDUTAS_CAPACITY(l) (l).CAPACITY
+#define LISTIDUTAS_BUFFER(l) (l).buffer
 
+/* SELEKTOR UTAS */
 #define FIRSTDAFTARUTAS(li) (li)
 #define NEXTDAFTARUTAS(li) (li)->next
 #define TEKSUTAS(li) (li)->teks
-#define TIMEUTAS(li) (li)->time
+#define TIMEUTAS(li) (li)->timeCreated
+#define UTAS_ELMT(li, i) (li).buffer[i]
 
 /*PROTOTYPE*/
 
-AddressUtas newUtas();
+void CreateListIdUtas(LISTIDUTAS* ListIdUtas, int CAPACITY);
 
-AddressUtas newUtas(Word teks,long long int time);
+void dealocateListIdUtas(LISTIDUTAS *ListIdUtas);
+
+void ExpandListIdUtas(LISTIDUTAS* ListIdUtas);
+
+AddressUtas newUtas(Word teks);
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas);
-
-void utas(int idKicau);
 
 void CreateListIdUtas(LISTIDUTAS* li,int  CAPACITY);
 
@@ -59,16 +66,20 @@ int lengthDaftarIdUtas(LISTIDUTAS li);
 
 int lengthDaftarUtas(ListElemenUtas daftarUtas);
 
-boolean isUtas(int idKicau);
+boolean isUtas(int idkicau);
 
-void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks,long long int time);
+void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks);
 
-void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,long long int *time,int index);
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas);
+
+void deleteAtUtas(ListElemenUtas *daftarUtas, int index);
 
 void utas(int idKicau);
 
-void sambung_utas(int index, ListElemenUtas *daftarUtas, LISTIDUTAS li, int idKicau, Word teks);
+void sambung_utas(Word idUtas,Word index);
 
-void hapus_utas(int index,LISTIDUTAS li, int idUtas, ListElemenUtas *daftarutas, Word *teks,long long int *time);
+void hapus_utas(Word Index, Word idutas);
+
+void cetak_utas(int id_utas);
 
 #endif

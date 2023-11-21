@@ -6,8 +6,9 @@
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
 
-#include "../Balasan/balasan.h"
+// #include "../Balasan/balasan.h"
 #include "../Utas/utas.h"
+#include "../Balasan/pohontree.h"
 
 typedef struct {
     int id;
@@ -26,7 +27,7 @@ typedef struct {
     Word tagar;
 
     // list of daftar balasan
-    PairBalasan *daftar_balasan;
+    Tree daftar_balasan;
 
     // list of daftar utas
     ListElemenUtas daftar_utas;
@@ -47,6 +48,8 @@ typedef struct {
 #define KICAU_TEKS(kicau) (kicau).teks
 #define KICAU_NAMAAUTHOR(kicau) (kicau).Author
 #define KICAU_TIMECREATED(kicau) (kicau).timeCreated
+#define KICAU_DAFTAR_BALASAN(kicau) (kicau).daftar_balasan
+#define KICAU_DAFTAR_UTAS(kicau) (kicau).daftar_utas
 
 /* SELEKTOR LISTKICAUAN */
 #define KICAUAN_NEFF(l) (l).NEFF
