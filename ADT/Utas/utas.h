@@ -28,10 +28,14 @@ typedef struct{
     int CAPACITY;
 } LISTIDUTAS;
 
+/* SELEKTOR LISTIDUTAS */
 #define IDX_UNDEF (-1)
-#define ELMT(li,i) (li).buffer[i]
+#define LISTIDUTAS__ELMT(li,i) (li).buffer[i]
 #define nEFF(li) (li).nEFF
+#define LISTIDUTAS_CAPACITY(l) (l).CAPACITY
+#define LISTIDUTAS_BUFFER(l) (l).buffer
 
+/* SELEKTOR UTAS */
 #define FIRSTDAFTARUTAS(li) (li)
 #define NEXTDAFTARUTAS(li) (li)->next
 #define TEKSUTAS(li) (li)->teks
@@ -39,6 +43,13 @@ typedef struct{
 #define UTAS_ELMT(li, i) (li).buffer[i]
 
 /*PROTOTYPE*/
+
+void CreateListIdUtas(LISTIDUTAS* ListIdUtas, int CAPACITY);
+
+void dealocateListIdUtas(LISTIDUTAS *ListIdUtas);
+
+void ExpandListIdUtas(LISTIDUTAS* ListIdUtas);
+
 AddressUtas newUtas(Word teks);
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas);
@@ -55,17 +66,19 @@ int lengthDaftarIdUtas(LISTIDUTAS li);
 
 int lengthDaftarUtas(ListElemenUtas daftarUtas);
 
-boolean isUtas(Word idKicau);
+boolean isUtas(int idkicau);
 
 void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks);
 
-void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,Word index);
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas);
+
+void deleteAtUtas(ListElemenUtas *daftarUtas, int index);
 
 void utas(int idKicau);
 
-void sambung_utas(Word index, ListElemenUtas *daftarUtas, Word idUtas);
+void sambung_utas(Word idUtas,Word index);
 
-void hapus_utas(Word index,LISTIDUTAS li, Word idUtas, ListElemenUtas *daftarutas, Word *teks);
+void hapus_utas(Word Index, Word idutas);
 
 void cetak_utas(int id_utas);
 

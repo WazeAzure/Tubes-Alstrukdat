@@ -218,16 +218,12 @@ int main(){
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS
                 printf("called %s\n", command[24]);
-                KICAUAN k;
-                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
-                sambung_utas((input[2]),&k.daftar_utas,(input[1]));
+                sambung_utas((input[1]), (input[2]));
             }
             else if(strCompare(input[0].TabWord, command[25])){
                 // HAPUS_UTAS
                 printf("called %s\n", command[25]);
-                KICAUAN k;
-                k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
-                hapus_utas((input[2]),ListIdUtas,(input[1]),&k.daftar_utas,&TEKSUTAS(k.daftar_utas));
+                hapus_utas(input[2], input[1]);
             }
             else if(strCompare(input[0].TabWord, command[26])){
                 // CETAK UTAS

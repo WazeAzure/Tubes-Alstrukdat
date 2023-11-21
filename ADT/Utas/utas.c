@@ -2,15 +2,47 @@
 #include "../../globalVar.h"
 #include "../../util.h"
 
+
+void CreateListIdUtas(LISTIDUTAS* ListIdUtas, int CAPACITY){
+    LISTIDUTAS_CAPACITY(*ListIdUtas) = CAPACITY;
+    nEFF(*ListIdUtas) = 0;
+    LISTIDUTAS_BUFFER(*ListIdUtas) = (int*) malloc(sizeof(int) * CAPACITY);
+}
+
+void dealocateListIdUtas(LISTIDUTAS *ListIdUtas){
+    nEFF(*ListIdUtas) = 0;
+    LISTIDUTAS_CAPACITY(*ListIdUtas) = 0;
+    free(LISTIDUTAS_BUFFER(*ListIdUtas));
+}
+
+
+void ExpandListIdUtas(LISTIDUTAS* ListIdUtas){
+    int add = 10 + ListIdUtas->CAPACITY;
+
+    LISTIDUTAS l2;
+    CreateListIdUtas(&l2, add);
+    l2.nEFF = ListIdUtas->nEFF;
+
+    for(int i=0; i<l2.nEFF; i++){
+        l2.buffer[i] = ListIdUtas->buffer[i];
+    }
+    dealocateListIdUtas(ListIdUtas);
+    *ListIdUtas = l2;
+}
+
+
 AddressUtas newUtas(Word teks){
 
-    AddressUtas new = (AddressUtas)malloc(sizeof(ListElemenUtas));
+    AddressUtas new = (AddressUtas)malloc(sizeof(NodeElemenUtas));
 
     if(new != NULL) {
         new->next = NULL;
         new->teks = teks;
         long long int current_time = getCurrentTime();
+        new->author = user.user[CurrentUserId].nama;
         new->timeCreated = (DetikToDATETIME(current_time));
+    } else {
+        printf("Alokasi Gagal!\n");
     }
     return new;
 }
@@ -18,13 +50,6 @@ AddressUtas newUtas(Word teks){
 
 void CreateListElementUtas(ListElemenUtas *daftarUtas){
     FIRSTDAFTARUTAS(*daftarUtas) = NULL;
-}
-
-void CreateListIdUtas(LISTIDUTAS* li, int CAPACITY){
-// inisialisasi UTAS, membentuk listdin dari utas 
-    li->buffer = (int*)malloc(sizeof(int) * CAPACITY);
-    li->CAPACITY = CAPACITY;
-    li->nEFF = 0;
 }
 
 boolean isEmptyDaftarUtas(ListElemenUtas daftarUtas){
@@ -56,22 +81,8 @@ IdxType getLastIdx(LISTIDUTAS li){
     return (IdxType)(lengthDaftarIdUtas(li)-1);
 }
 
-boolean isUtas(Word idKicau){
+boolean isUtas(int idkicau){
 // Mengecek apakah ada idkicau di LISTIDUTAS, pake indexof listdin, mengembalikan true jika ada
-    // IdxType i, index;
-    // index = IDX_UNDEF;
-    // i =0;
-    // boolean check = false;
-
-    // while(i<=getLastIdx(li) && check == false){
-    //     if(ELMT(li,i) == idKicau){
-    //         check = true;
-    //     }
-    //     i++;
-    // }
-    // return check;
-   
-    int idkicau = WordToInt(idKicau);
     int i;
     for(i=0; i<ListIdUtas.nEFF; i++){
         if(UTAS_ELMT(ListIdUtas, i) == idkicau){
@@ -80,11 +91,13 @@ boolean isUtas(Word idKicau){
     }
     return false;
 }
+
 void insertLastIdUtas(LISTIDUTAS *ListIdUtas, int val){
-
-   UTAS_ELMT(*ListIdUtas,nEFF(*ListIdUtas)) = val;
+    if ((*ListIdUtas).nEFF == (*ListIdUtas).CAPACITY) {
+        ExpandListIdUtas(ListIdUtas);
+    }
+    UTAS_ELMT(*ListIdUtas,nEFF(*ListIdUtas)) = val;
     nEFF(*ListIdUtas)++;
-
 }
 
 
@@ -98,12 +111,14 @@ void insertFirstDaftarUtas(ListElemenUtas *daftarUtas, Word teks){
     AddressUtas p;
     // ALGORITMA
     p = newUtas(teks);
-    if(isEmptyDaftarUtas(*daftarUtas)){
-        NEXTDAFTARUTAS(p)=NULL;
-    }else{
-        NEXTDAFTARUTAS(p)= FIRSTDAFTARUTAS(*daftarUtas); 
-    }    
-    FIRSTDAFTARUTAS(*daftarUtas) = p;
+    if (p != NULL) {
+        if(isEmptyDaftarUtas(*daftarUtas)){
+            NEXTDAFTARUTAS(p)=NULL;
+        }else{
+            NEXTDAFTARUTAS(p)= FIRSTDAFTARUTAS(*daftarUtas); 
+        }    
+        FIRSTDAFTARUTAS(*daftarUtas) = p;
+    }
 }
 
 void insertLastDaftarUtas(ListElemenUtas *daftarUtas,Word teks, int idkicau){
@@ -113,68 +128,69 @@ void insertLastDaftarUtas(ListElemenUtas *daftarUtas,Word teks, int idkicau){
 /* bernilai val jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
     // KAMUS
     AddressUtas p,last;
-    // AddressUtas* new = newUtas(teks);
     // ALGORTMA
     p = newUtas(teks);
-    last = FIRSTDAFTARUTAS(*daftarUtas);
-    if ( p != NULL){
+    if (p != NULL){
         if(isEmptyDaftarUtas(*daftarUtas)){
-            FIRSTDAFTARUTAS(*daftarUtas) = p;
-            ListIdUtas.buffer[ListIdUtas.nEFF]=idkicau;
-            ListIdUtas.nEFF++;
-        }else{
-            printf("MASUK\n");
-            while(NEXTDAFTARUTAS(last)!=NULL){
-                last = NEXTDAFTARUTAS(last);
+            insertFirstDaftarUtas(daftarUtas, teks);
+        } else{
+            // printf("MASUK\n");
+            last = FIRSTDAFTARUTAS(*daftarUtas);
+            if (p!=NULL){
+                while(NEXTDAFTARUTAS(last)!=NULL){
+                    // printf("jalan2");
+                    last = NEXTDAFTARUTAS(last);
+                }
+                NEXTDAFTARUTAS(last) = p;
+                // printf("BERES\n");
             }
-            NEXTDAFTARUTAS(last) = p;
-            printf("BERES\n");
         }
     }
 }
 
-void deleteFirstDaftarUtas(ListElemenUtas *daftarutas,Word *teks,Word index){
+void deleteFirstDaftarUtas(ListElemenUtas *daftarutas){
 /* I.S. List l tidak kosong  */
 /* F.S. Elemen pertama list dihapus: nilai info disimpan pada x */
 /*      dan alamat elemen pertama di-free */
     // KAMUS
     AddressUtas p;
-    int Index;
     // ALGORITMA
-    Index = WordToInt(index);
-    if(Index == 1){
-        p = FIRSTDAFTARUTAS(*daftarutas);
-        *teks = TEKSUTAS(p);
-        long long int current_time = getCurrentTime();
-        p->timeCreated = (DetikToDATETIME(current_time));
-        FIRSTDAFTARUTAS(*daftarutas) = NEXTDAFTARUTAS(p); 
-        free(p);
-    }
+    p = FIRSTDAFTARUTAS(*daftarutas);
+    FIRSTDAFTARUTAS(*daftarutas) = NEXTDAFTARUTAS(p); 
+    free(p);
 }
 
 void utas(int idKicau){
     boolean access = false;
-    if(idKicau>=0 && idKicau<=ListKicauan.NEFF){
+    
+    if(idKicau>0 && idKicau<=ListKicauan.NEFF){
+        idKicau = idKicau-1;
         if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){
             access = true;
         }else {
-            printf("Utas bukan milik Anda\n\n");
+            printf("Utas ini bukan milik Anda\n\n");
             return;
         }
     }else{
         printf("Kicauan tidak ditemukan.\n\n");
         return;
     }
+    if (isUtas(idKicau)){
+        printf("Kicauan sudah pernah diutas!\n\n");
+        return;
+    }
 
     if (access){
         printf("Utas berhasil dibuat!\n");
         Word teks;
-        printf("Masukkan kicauan\n");
+        printf("Masukkan kicauan: \n");
         do{
             readWord(&teks,';');
         }while(teks.Length == 0);
-        printf("\n\n");
+        printf("\n");
 
+        
+        insertLastIdUtas(&ListIdUtas, idKicau);
         insertLastDaftarUtas(&KICAU_DAFTAR_UTAS(KICAUAN_ELMT(ListKicauan, idKicau)),teks, idKicau);
 
         boolean stop;
@@ -182,12 +198,12 @@ void utas(int idKicau){
             Word pilihan;
             readWord(&pilihan, ';');
             toLowerCase(&pilihan);
-            printf("\n\n");
+            printf("\n");
             while (!strCompare(pilihan.TabWord, "ya") && !strCompare(pilihan.TabWord, "tidak")) {
                 printf("Masukkan salah!(YA/TIDAK) ");
                 readWord(&pilihan, ';');
                 toLowerCase(&pilihan);
-                printf("\n\n");
+                printf("\n");
             }
             if (strCompare(pilihan.TabWord, "ya")) {
                 stop = false;
@@ -199,17 +215,17 @@ void utas(int idKicau){
             do{
                 readWord(&teks,';');
             } while (teks.Length == 0);
-            printf("\n\n");
+            printf("\n");
             insertLastDaftarUtas(&KICAU_DAFTAR_UTAS(KICAUAN_ELMT(ListKicauan, idKicau)),teks, idKicau);
             printf("Apakah Anda ingin melanjutkan utas ini?(YA/TIDAK) ");
             readWord(&pilihan, ';');
             toLowerCase(&pilihan);
-            printf("\n\n");
+            printf("\n");
             while (!strCompare(pilihan.TabWord, "ya") && !strCompare(pilihan.TabWord, "tidak")) {
                 printf("Apakah Anda ingin melanjutkan utas ini?(YA/TIDAK) ");
                 readWord(&pilihan, ';');
                 toLowerCase(&pilihan);
-                printf("\n\n");
+                printf("\n");
             }
             if (strCompare(pilihan.TabWord, "ya")) {
                 stop = false;
@@ -218,7 +234,6 @@ void utas(int idKicau){
             }
         }
     } 
-    printf("\n\n");
     printf("Utas selesai!\n\n");
 }
 
@@ -232,89 +247,117 @@ AddressUtas cariAddress(ListElemenUtas *addressUtas,int  index){
     return P;
 }
 
-void sambung_utas(Word index, ListElemenUtas *daftarUtas, Word idUtas){
-/* Pakai insertAt yang ada di listlinier  */
-    int Index, IdUtas;
-    Index = WordToInt(index);
-    IdUtas = WordToInt(idUtas);
-    if(nEFF(ListIdUtas)>IdUtas){
-        printf("Utas tidak ditemukan.\n\n");
-        return;
-    }
-    //
-    //userId((KICAUAN_ELMT(ListIdUtas,idUtas)).Author
-    else if(userId((cariAddress(daftarUtas,Index))->author) != CurrentUserId){
-        printf("Anda tidak bisa menyambung utas ini.\n\n");
-        return;
-    }else if(lengthDaftarUtas(*daftarUtas)<Index){
-        printf("Index terlalu tinggi.\n\n");
-        return;
+void insertAtDaftarUtas(ListElemenUtas *daftarUtas, Word teks, int index){
+/* I.S. l tidak mungkin kosong, idx indeks yang valid dalam l, yaitu 0..length(l) */
+/* F.S. Melakukan alokasi sebuah elemen dan */
+/* menyisipkan elemen dalam list pada indeks ke-idx (bukan menimpa elemen di i) */
+/* yang bernilai val jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
+    int ctr;
+    AddressUtas p,loc;
+    if(index == 0){
+        insertFirstDaftarUtas(daftarUtas, teks);
     }else{
-        Word teks;
-        printf("Masukkan kicauan.\n");
-        do{
-            readWord(&teks,';');
-            int ctr;
-            AddressUtas p,loc;
-            if(Index == 1){
-                insertFirstDaftarUtas(daftarUtas,teks);
-                return;
-            }else{
-                p  = newUtas(teks);
-                if(p != NULL){
-                    ctr =0;
-                    loc = FIRSTDAFTARUTAS(*daftarUtas);
-                    while(ctr<Index-1){
-                        ctr+=1;
-                        loc = NEXTDAFTARUTAS(loc);
-                    }
-                    NEXTDAFTARUTAS(p)=NEXTDAFTARUTAS(loc);
-                    NEXTDAFTARUTAS(loc)=p;
-                }
-            }
-        }while(teks.Length == 0);
-        printf("\n\n");
-    }
-}
-
-
-void hapus_utas(Word Index,LISTIDUTAS li, Word idutas, ListElemenUtas *daftarUtas, Word *teks){
-// hapus utas idutas index
-    int index = WordToInt(Index);
-    int idUtas = WordToInt(idutas);
-    if(userId((cariAddress(daftarUtas,index))->author) != CurrentUserId){
-        printf("Anda tidak bisa menghapus kicauan dalam utas ini.\n\n");
-        return;
-    }else if(index ==0){
-        printf("Anda tidak bisa menghapus kicauan utama\n\n");
-        return;
-    }else if(idUtas>lengthDaftarIdUtas(li)){
-        printf("Utas tidak ditemukan.\n\n");
-        return;
-    }else if(index>lengthDaftarUtas(*daftarUtas)){
-        printf("Kicauan Sambungan dengan index %d tidak ditemukan.\n\n",index);
-        return;
-    }else{
-        int ctr;
-        AddressUtas p, loc;
-        // ALGORITMA
-        if(index == 1){
-            deleteFirstDaftarUtas(daftarUtas,teks,Index);
-        }else{
-            ctr = 0;
+        p  = newUtas(teks);
+        if(p != NULL){
+            ctr =0;
             loc = FIRSTDAFTARUTAS(*daftarUtas);
             while(ctr<index-1){
                 ctr+=1;
                 loc = NEXTDAFTARUTAS(loc);
             }
-            p = NEXTDAFTARUTAS(loc);
-            *teks = TEKSUTAS(p);
-            long long int current_time = getCurrentTime();
-            p->timeCreated = (DetikToDATETIME(current_time));
-            NEXTDAFTARUTAS(loc) = NEXTDAFTARUTAS(p);
-            free(p);
+            NEXTDAFTARUTAS(p)=NEXTDAFTARUTAS(loc);
+            NEXTDAFTARUTAS(loc)=p;
         }
-        printf("Kicauan sambungan berhasil dihapus.\n\n");
+    }
+}
+
+void sambung_utas(Word idUtas,Word index){
+/* Pakai insertAt yang ada di listlinier  */
+    int Index, IdUtas;
+    Index = WordToInt(index);
+    IdUtas = WordToInt(idUtas);
+
+    // Cek apakah IdUtas valid
+    if(nEFF(ListIdUtas)<IdUtas){
+        printf("Utas tidak ditemukan.\n\n");
+        return;
+    }
+    KICAUAN *K;
+    K = &KICAUAN_ELMT(ListKicauan, ListIdUtas.buffer[IdUtas]);
+
+    ListElemenUtas *currentUtas;
+    currentUtas = &KICAU_DAFTAR_UTAS(*K);
+    
+    if(userId(K->Author) != CurrentUserId){
+        printf("Anda tidak bisa menyambung utas ini.\n\n");
+        return;
+    }else if(lengthDaftarUtas(*currentUtas)<Index-1){
+        printf("Index terlalu tinggi.\n\n");
+        return;
+    }else{
+        Word teks;
+        printf("Masukkan kicauan:\n");
+        do{
+            readWord(&teks,';');
+        }while(teks.Length == 0);
+        if(Index == 1){
+            insertFirstDaftarUtas(currentUtas,teks);
+            return;
+        }else{
+            insertAtDaftarUtas(currentUtas, teks, Index-1);
+        }
+        printf("\n\n");
+    }
+}
+
+void deleteAtUtas(ListElemenUtas *daftarUtas, int index){
+    AddressUtas p, indexnext;
+    p = FIRSTDAFTARUTAS(*daftarUtas);
+    if (index==0){
+        deleteFirstDaftarUtas(daftarUtas);
+    }
+    else{
+        int count=0;
+        indexnext= FIRSTDAFTARUTAS(*daftarUtas);
+        while (count!=index-1){
+            count++;
+            indexnext = NEXTDAFTARUTAS(indexnext);
+        }
+        p = NEXTDAFTARUTAS(indexnext);
+        NEXTDAFTARUTAS(indexnext) = NEXTDAFTARUTAS(p);
+        free(p);
+        
+    }
+
+}
+
+void hapus_utas(Word Index, Word idutas){
+// hapus utas idutas index
+    int index = WordToInt(Index);
+    int idUtas = WordToInt(idutas);
+    ListElemenUtas *daftarUtas;
+    daftarUtas = &KICAU_DAFTAR_UTAS(KICAUAN_ELMT(ListKicauan, ListIdUtas.buffer[idUtas]));
+    if(userId((*daftarUtas)->author) != CurrentUserId){
+        printf("Anda tidak bisa menghapus kicauan dalam utas ini!\n\n");
+        return;
+    }
+    else if(index ==0){
+        printf("Anda tidak bisa menghapus kicauan utama!\n\n");
+        return;
+    }
+    else if(idUtas>lengthDaftarIdUtas(ListIdUtas)){
+        printf("Utas tidak ditemukan!\n\n");
+        return;
+    }else if(index>lengthDaftarUtas(*daftarUtas)){
+        printf("Kicauan Sambungan dengan index %d tidak ditemukan pada utas!\n\n",index);
+        return;
+    }else{
+        if(index == 1){
+            deleteFirstDaftarUtas(daftarUtas);
+        }else{
+            deleteAtUtas(daftarUtas, index-1);
+        }
+        printf("Kicauan sambungan berhasil dihapus!\n\n");
     }
 }
 
@@ -322,15 +365,23 @@ void hapus_utas(Word Index,LISTIDUTAS li, Word idutas, ListElemenUtas *daftarUta
 // CETAK UTAS DI KICAUAN AJA YA
 void cetak_utas(int id_utas){
     // Mencetak keseluruhan utas 
+    id_utas = id_utas-1;
+   
     KICAUAN kicauan = ListKicauan.buffer[ListIdUtas.buffer[id_utas]];
     if(PRIVACY(USER(user, kicauan.idAuthor)) && !isTeman(CurrentUserId, kicauan.idAuthor)){
         printf("Akun yang membuat utas ini adalah akun privat! Ikuti dahulu akun ini untuk melihat utasnya!\n\n");
         return;
-    }else if(id_utas>ListIdUtas.nEFF){
+    }else if(id_utas < 0 || id_utas>ListIdUtas.nEFF){
         printf("Utas tidak ditemukan.\n\n");
         return;
     }else{
-        showKicauanContent(kicauan);
+        printf("| ID = %d\n", kicauan.id+1);
+        printf("| %s\n", kicauan.Author.TabWord);
+        printf("| ");
+        TulisDATETIME(kicauan.timeCreated);
+        printf("\n");
+        printf("| %s\n", kicauan.teks.TabWord);
+        printf("\n");
         AddressUtas p;
         p = kicauan.daftar_utas;
         
@@ -343,7 +394,7 @@ void cetak_utas(int id_utas){
             TulisDATETIME(p->timeCreated);
             printf("\n");
             printf("\t| %s\n", p->teks.TabWord);
-            // printf("\t\t\t\tAuthor\t\t\t: %s\n", kicauan->Author.TabWord);
+            printf("\n");
             index++;
             p = NEXTDAFTARUTAS(p);
         }

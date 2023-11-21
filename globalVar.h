@@ -9,8 +9,6 @@ extern int CurrentUserId;
 
 extern int CounterKicauan;
 
-extern int CounterUtas;
-
 extern int CounterBalasan;
 
 extern LISTKICAUAN ListKicauan;
