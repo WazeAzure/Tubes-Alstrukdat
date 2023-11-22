@@ -65,11 +65,9 @@ KICAUAN* newKicau(Word teks, Word Author, Word tagar);
 
 void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word tagar);
 
-void kicau(Word Author);
+boolean kicau(Word Author);
 
 void showKicauanContent(KICAUAN kicauan);
-
-void kicau(Word Author);
 
 void showAllListKicauan();
 

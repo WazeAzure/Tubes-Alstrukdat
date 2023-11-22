@@ -154,6 +154,7 @@ void readWord(Word *input, char MARK) {
         i = 0;
     } else {
         START(MARK);
+        IgnoreBlanks(MARK);
         i = 0;
     }
 
