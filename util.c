@@ -63,7 +63,9 @@ void readHpFile(FILE* f, NoHp *input){
     int cap = 100;
     int neff = 0;
 
-    while(currentChar != '\r'){
+    // printf("hihi\n");
+    while(currentChar != '\r' && currentChar != '\n'){
+        printf("%c\n", currentChar);
         if(neff > cap){
             cap += 100;
             buffer = (char*)realloc(buffer, sizeof(char)*cap);
@@ -73,6 +75,7 @@ void readHpFile(FILE* f, NoHp *input){
 
         neff++;
     }
+    
 
     (*input).length = neff-1;
 
@@ -83,7 +86,7 @@ void readHpFile(FILE* f, NoHp *input){
 }
 
 void bacaPengguna(FILE* f){
-    printf("baca pengguna called\n");
+    // printf("baca pengguna called\n");
     
     char nUser[10];
     fgets(nUser, sizeof(nUser), f);
@@ -110,16 +113,20 @@ void bacaPengguna(FILE* f){
         strip(password, '\n');
         fgets(bio, sizeof(bio), f);
         strip(bio, '\r');
+        strip(bio, '\n');
         readHpFile(f, &hp);
         // fgets(hp, sizeof(hp), f);
         // strip(hp, '\r');
         fgets(weton, sizeof(weton), f);
         strip(weton, '\r');
+        strip(weton, '\n');
         fgets(privacy, sizeof(privacy), f);
         strip(privacy, '\r');
+        strip(privacy, '\n');
         for(int i=0; i<5; i++){
             fgets(prof_pict[i], sizeof(prof_pict[i]), f);
             strip(prof_pict[i], '\r');
+            strip(prof_pict[i], '\n');
         }
         printf("name: %s\n", name);
         printf("%s\n", password);
@@ -180,6 +187,7 @@ void bacaPengguna(FILE* f){
 
     fgets(nPermintaan, sizeof(nPermintaan), f);
     strip(nPermintaan, '\r');
+    strip(nPermintaan, '\n');
     banyakPermintaan = WordToInt(CharToWord(nPermintaan));
     printf("banyak permintaan %d\n", banyakPermintaan);
 
@@ -442,7 +450,15 @@ void printErrMessage(Word w){
 
 void createFolder(Word folder){
     int check;
-    check = mkdir(folder.TabWord, 0777);
+
+    #if defined(_WIN32)
+        // printf("called in windows\n");
+        check = mkdir(folder.TabWord);
+    #else
+        check = mkdir(folder.TabWord, 0777);
+        // printf("called in linux\n");
+    #endif
+
     if (!check)
         printf("Directory created\n");
     else {
