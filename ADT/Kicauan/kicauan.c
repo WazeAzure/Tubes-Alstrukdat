@@ -113,14 +113,14 @@ boolean isFriend(int idKicau){
     return (DaftarPertemanan.Tabword[idAuthor][CurrentUserId]);
 }
 
-void kicau(Word Author){
+boolean kicau(Word Author){
     printf("Masukkan kicauan:\n");
     Word teks;
     readWord(&teks, ';');
 
     if(teks.Length == 0){
-        printf("Kicauan tidak boleh hanya berisi spasi!");
-        return;
+        printf("Kicauan tidak boleh hanya berisi spasi/kosong!\n");
+        return 0;
     }
 
     printf("Masukkan tagar:\n");
@@ -129,6 +129,7 @@ void kicau(Word Author){
 
 
     addKicauanLast(teks, Author, tagar);
+    return 1;
 }
 
 void kicauan(){

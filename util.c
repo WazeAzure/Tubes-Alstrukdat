@@ -1,4 +1,5 @@
 #include "util.h"
+#include <unistd.h>
 
 int strLen(char str[]){
     int i=0;
@@ -213,18 +214,26 @@ void bacaPengguna(FILE* f){
     }
 }
 
-boolean readFile(Word FileName){
-    char filename[FileName.Length];
-    WordToChar(FileName, filename);
+boolean readFile(Word FileName, Word foldername){
+    
+    Word fname = ConcatWord(foldername, FileName);
 
-    FILE* f = fopen(filename, "r");   // buka file pengguna
+    char filename[FileName.Length + foldername.Length + 1];
+    WordToChar(fname, filename);
 
-    char pengguna[30] = "config/pengguna.config";
+    // printWord(fname);
+    FILE* f = fopen(filename, "r");   // buka file X
 
     if(f != NULL){
         printf("file opened \'%s\'\n", filename);
-        if(strCompare(FileName.TabWord, pengguna)){
+        if(strCompare(FileName.TabWord, "/pengguna.config")){
             bacaPengguna(f);
+        } else if(strCompare(FileName.TabWord, "/balasan.config")){
+
+        } else if(strCompare(FileName.TabWord, "/kicauan.config")){
+
+        } else if(strCompare(FileName.TabWord, "/utas.config")){
+
         }
     } else {
         printf("file \'%s\' not exist\n", filename);
@@ -238,12 +247,12 @@ boolean readFile(Word FileName){
 void loadConfigFile(){
     Word foldername;
     printf("Silahkan masukan folder konfigurasi untuk dimuat: ");
-    readWord(&foldername, '\n');
+    readWord(&foldername, ';');
 
     // <-- berikan pengecekkan folder
     while(!isFolderExist(foldername)){
         printf("Silahkan masukan folder konfigurasi untuk dimuat: ");
-        readWord(&foldername, '\n');
+        readWord(&foldername, ';');
     }
 
     char char_pengguna[] = "/pengguna.config";
@@ -256,15 +265,10 @@ void loadConfigFile(){
     Word balasan = CharToWord(char_balasan);
     Word utas = CharToWord(char_utas);
 
-    pengguna = ConcatWord(foldername, pengguna);
-    kicauan = ConcatWord(foldername, kicauan);
-    balasan = ConcatWord(foldername, balasan);
-    utas = ConcatWord(foldername, utas);
-
-    boolean stat1 = readFile(pengguna);
-    boolean stat2 = readFile(kicauan);
-    boolean stat3 = readFile(balasan);
-    boolean stat4 = readFile(utas);
+    boolean stat1 = readFile(pengguna, foldername);
+    boolean stat2 = readFile(kicauan, foldername);
+    boolean stat3 = readFile(balasan, foldername);
+    boolean stat4 = readFile(utas, foldername);
 
     if(!(stat1 && stat2 && stat3 && stat4)){
         printf("Mohon pastikan semua file ada.\n");
@@ -395,4 +399,147 @@ void printErrMessage(Word w){
     } else if(strCompare(w.TabWord, "MUAT")){
         printf("Anda harus keluar terlebih dahulu untuk melakukan pemuatan.\n");
     }
+}
+
+// ----------------------- SIMPAN & LOAD  ----------------
+// static void redrawPrompt(void)
+// {
+//     int i;
+//     int totalDots = 3;
+
+//     printf("Mohon tunggu ");
+
+//     for (i = 0; i < totalDots; ++i) {
+//         printf(".");
+//         fflush(stdout); // Flush the output buffer to make sure dots are printed immediately
+
+//         // You can replace the sleep function with actual loading operations
+//         // For demonstration purposes, sleep is used to simulate loading time
+//         sleep(1); // Sleep for 1 second
+//     }
+//     endl;
+// }
+
+// static void redrawPromptFiles(void)
+// {
+//     int i;
+//     int totalDots = 3;
+//     char arr[5][20] = {"pengguna.config", "draf.config", "kicauan.config", "utas.config", "balasan.config"};
+
+//     for(int f=0; f<5; f++){
+//         printf("%d. Creating %s ", f+1, arr[f]);
+//         for (i = 0; i < totalDots; ++i) {
+//             printf(".");
+//             fflush(stdout); // Flush the output buffer to make sure dots are printed immediately
+
+//             // You can replace the sleep function with actual loading operations
+//             // For demonstration purposes, sleep is used to simulate loading time
+//             sleep(1); // Sleep for 1 second
+//         }
+//         endl;
+//     }
+// }
+
+void createFolder(Word folder){
+    int check;
+    check = mkdir(folder.TabWord, 0777);
+    if (!check)
+        printf("Directory created\n");
+    else {
+        printf("Unable to create directory\n");
+        exit(1);
+    }
+}
+
+void createEmptyFile(Word filename){
+    char temp[filename.Length];
+    WordToChar(filename, temp);
+
+    FILE *f = fopen(temp, "w");
+    fclose(f);
+}
+
+void createFiles(Word folder){
+    char char_pengguna[] = "/pengguna.config";
+    char char_kicauan[] = "/kicauan.config";
+    char char_balasan[] = "/balasan.config";
+    char char_utas[] = "/utas.config";
+
+    Word pengguna = CharToWord(char_pengguna);
+    Word kicauan = CharToWord(char_kicauan);
+    Word balasan = CharToWord(char_balasan);
+    Word utas = CharToWord(char_utas);
+
+    pengguna = ConcatWord(folder, pengguna);
+    kicauan = ConcatWord(folder, kicauan);
+    balasan = ConcatWord(folder, balasan);
+    utas = ConcatWord(folder, utas);
+    
+    createEmptyFile(pengguna);
+    createEmptyFile(kicauan);
+    createEmptyFile(balasan);
+    createEmptyFile(utas);
+}
+
+void tulisPengguna(Word folder){
+    char pengguna[] = "/pengguna.config";
+    Word filename = ConcatWord(folder, CharToWord(pengguna));
+
+    char temp[filename.Length];
+    WordToChar(filename, temp);
+
+    FILE *f = fopen(temp, "a");
+
+    // jumlah pengguna
+    fprintf(f, "%d\n", user.CounterUser);
+
+    int n;
+    for(n=0; n<user.CounterUser; n++){
+        fprintf(f, "%s\n", USER_NAMA(USER(user, n)).TabWord);
+        fprintf(f, "%s\n", SANDI(USER(user, n)).TabWord);
+        fprintf(f, "%s\n", BIO(USER(user, n)).TabWord);
+        fprintf(f, "%s\n", HP(USER(user, n)).TabWord);
+        fprintf(f, "%s\n", WETON(USER(user, n)).TabWord);
+        if(PRIVACY(USER(user, n))){
+            fprintf(f, "%s\n", "Privat");
+        } else {
+            fprintf(f, "%s\n", "Public");
+        }
+        for(int temp=0; temp < FOTO_ROW_EFF(FOTO(USER(user, n))); temp++){
+            for(int temp2=0; temp2 < FOTO_COL_EFF(FOTO(USER(user, n)))-1; temp2++){
+                fprintf(f, "%c %c ", COLOR(FOTO_ELMT(FOTO(USER(user, n)), temp, temp2)), ASCII(FOTO_ELMT(FOTO(USER(user, n)), temp, temp2)));
+            }
+            fprintf(f, "%c %c\n", COLOR(FOTO_ELMT(FOTO(USER(user, n)), temp, 4)), ASCII(FOTO_ELMT(FOTO(USER(user, n)), temp, 4)));
+        }
+    }
+    // matriks pertemanan
+    for(n = 0; n < user.CounterUser; n++){
+        int j = 0;
+        for(j = 0; j < user.CounterUser-1; j++){
+            fprintf(f, "%d ", ElmtDaftarPertemanan(DaftarPertemanan, n, j));
+        }
+        fprintf(f, "%d\n", ElmtDaftarPertemanan(DaftarPertemanan, n, j));
+    }
+
+    fclose(f);
+}
+
+void simpan(){
+    Word folder;
+    printf("Masukkan nama folder penyimpanan: ");
+    readWord(&folder, ';');
+
+    if(!isFolderExist(folder)){
+        printf("Belum terdapat \"%s\". Akan dilakukan pembuatan \"%s\" terlebih dahulu.\n", folder.TabWord, folder.TabWord);
+        createFolder(folder);
+        // redrawPrompt();
+    }
+    // create empty file
+    createFiles(folder);
+
+
+    // isi file
+    tulisPengguna(folder);
+
+    // redrawPromptFiles();
 }

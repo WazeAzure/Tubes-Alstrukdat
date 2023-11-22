@@ -19,7 +19,7 @@ void strip(char *str, char symbol);
 
 void bacaPengguna(FILE* f);
 
-boolean readFile(Word FileName);
+boolean readFile(Word FileName, Word foldername);
 
 void loadConfigFile();
 

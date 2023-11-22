@@ -165,8 +165,8 @@ int main(){
             else if(strCompare(input[0].TabWord, command[14])){
                 // KICAU
                 printf("called %s\n", command[14]);
-                kicau(USER(user, CurrentUserId).nama);
-                ht_insert(&HashTable, ListKicauan.buffer[ListKicauan.NEFF-1].tagar.TabWord, &ListKicauan.buffer[ListKicauan.NEFF-1]);
+                boolean status = kicau(USER(user, CurrentUserId).nama);
+                if(status) ht_insert(&HashTable, ListKicauan.buffer[ListKicauan.NEFF-1].tagar.TabWord, &ListKicauan.buffer[ListKicauan.NEFF-1]);
             }
             else if(strCompare(input[0].TabWord, command[15])){
                 // KICAUAN
@@ -235,6 +235,7 @@ int main(){
             else if(strCompare(input[0].TabWord, command[27])){
                 // SIMPAN
                 printf("called %s\n", command[27]);
+                simpan();
             }
             else if(strCompare(input[0].TabWord, "showAllKicauan")){
                 showAllListKicauan();
