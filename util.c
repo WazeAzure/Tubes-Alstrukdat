@@ -117,6 +117,9 @@ void bacaPengguna(FILE* f){
     strip(nUser, '\r');
     strip(nUser, '\n');
     int n_user = WordToInt(CharToWord(nUser));
+
+    LingkaranPertemanan.Neff = n_user;
+
     printf("n_user %d\n", n_user);
     // char line[100];
     int i;
@@ -200,11 +203,13 @@ void bacaPengguna(FILE* f){
         n_teman = 0;
         for(j=0; j<n_user; j++){
             DaftarPertemanan.Tabword[i][j] = pertemananLine[j*2] - '0';
-            if(DaftarPertemanan.Tabword[i][j] == 1){
+            if(DaftarPertemanan.Tabword[i][j] == 1 && i != j){
                 n_teman++;
+                ds_union(&LingkaranPertemanan, i, j);
             }
         }
-        JUMLAH_TEMAN(USER(user, i)) = n_teman-1;
+        JUMLAH_TEMAN(USER(user, i)) = n_teman;
+
     }
 
     PrintDaftarPertemanan(DaftarPertemanan);

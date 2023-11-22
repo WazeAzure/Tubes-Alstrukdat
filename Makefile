@@ -47,7 +47,7 @@ $(TEST_RESULTS): $(TESTS_DIR)/%.result: $(TESTS_DIR)/%.in $(TESTS_DIR)/%.out mfo
 SRC_LIB = $(SRC_CHAR) $(SRC_WORD) $(SRC_PCOLOR) 
 OBJ_LIB = $(SRC_LIB:.c=.o)
 
-SRC_AWAS = $(SRC_KICAUAN) $(SRC_DRAFT) $(SRC_USER) $(SRC_UTAS) $(SRC_HASHTABLE) $(SRC_BALASAN) $(SRC_DATETIME)
+SRC_AWAS = $(SRC_KICAUAN) $(SRC_DRAFT) $(SRC_USER) $(SRC_UTAS) $(SRC_HASHTABLE) $(SRC_BALASAN) $(SRC_DATETIME) $(SRC_CIRCLE)
 
 SRC_CHAR = ADT/Wordmachine/charmachine.c
 SRC_WORD = ADT/Wordmachine/wordmachine.c
@@ -58,6 +58,7 @@ SRC_UTAS = ADT/Utas/utas.c
 SRC_HASHTABLE = ADT/HashTable/HashTable.c
 SRC_BALASAN = ADT/Balasan/pohontree.c
 SRC_DATETIME = ADT/Datetime/datetime.c
+SRC_CIRCLE = ADT/DisjoinSetUnion/circle.c
 
 SRC_PCOLOR = ADT/pcolor/pcolor.c
 

@@ -6,6 +6,7 @@
 #include "ADT/pcolor/pcolor.h"
 #include "ADT/Wordmachine/wordmachine.h"
 #include "globalVar.h"
+#include "ADT/DisjoinSetUnion/circle.h"
 
 #define endl printf("\n")
 

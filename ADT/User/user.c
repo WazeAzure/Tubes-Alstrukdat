@@ -186,6 +186,7 @@ void showUser(int id){
     printf(" | Bio Akun\t: %s\n", BIO(USER(user, id)).TabWord);
     printf(" | No HP\t: %s\n", HP(USER(user, id)).TabWord);
     printf(" | Weton\t: %s\n", WETON(USER(user, id)).TabWord);
+    printf(" | Teman\t: %d\n", JUMLAH_TEMAN(USER(user, id)));
 }
 
 int userId(Word nama) {
@@ -324,7 +325,7 @@ void daftar(){
 
         // Sukses daftar
         printf("Pengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
-
+        LingkaranPertemanan.Neff++;
     } else { // Daftar gagal.
         printf("Jumlah pengguna sudah melebihi batas");
     }
@@ -623,6 +624,7 @@ void setujuiPermintaanPertemanan(int idUser){
             setSymmetricElmt(&DaftarPertemanan,idUser,X.id,true);
             JUMLAH_TEMAN(USER(user,idUser))++;
             JUMLAH_TEMAN(USER(user,X.id))++;
+            ds_union(&LingkaranPertemanan, idUser, X.id);
             printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.\n\n",X.nama.TabWord,X.nama.TabWord);
         } else{
             DequeuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idUser)),&X);
