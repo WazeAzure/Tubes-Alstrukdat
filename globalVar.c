@@ -17,3 +17,5 @@ LISTIDUTAS ListIdUtas;
 DAFTARPERTEMANAN DaftarPertemanan;
 
 HT_Table HashTable;
+
+CIRCLE LingkaranPertemanan;

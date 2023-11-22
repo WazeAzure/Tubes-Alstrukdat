@@ -6,6 +6,7 @@
 #include "ADT/Utas/utas.h"
 #include "ADT/HashTable/HashTable.h"
 #include "ADT/Balasan/pohontree.h"
+#include "ADT/DisjoinSetUnion/circle.h"
 
 // daftar fungsi C
 #include "util.c"
@@ -15,6 +16,7 @@
 #include "ADT/Utas/utas.c"
 #include "ADT/HashTable/HashTable.c"
 #include "ADT/Balasan/pohontree.c"
+#include "ADT/DisjoinSetUnion/circle.c"
 
 void initiateGlobalVariables(){
     // set matriks pertemanan
@@ -34,6 +36,9 @@ void initiateGlobalVariables(){
 
     // Inisialisasi list id utas
     CreateListIdUtas(&ListIdUtas, 10);
+
+    // Inisialisasi LingkaranPertemanan Disjoin Set Union
+    CreateCircle(&LingkaranPertemanan);
 }
 
 int main(){
@@ -53,7 +58,7 @@ int main(){
     input[1].Length = 0;
     input[2].Length = 0;
     
-    char command[30][30] = {"DAFTAR", "MASUK", "KELUAR", "TUTUP_PROGRAM",
+    char command[31][30] = {"DAFTAR", "MASUK", "KELUAR", "TUTUP_PROGRAM",
                             "GANTI_PROFIL", "LIHAT_PROFIL", "ATUR_JENIS_AKUN", "UBAH_FOTO_PROFIL",
                             "DAFTAR_TEMAN", "HAPUS_TEMAN",
                             "TAMBAH_TEMAN", "BATAL_TAMBAH_TEMAN", "DAFTAR_PERMINTAAN_PERTEMANAN", "SETUJUI_PERTEMANAN",
@@ -62,7 +67,7 @@ int main(){
                             "BUAT_DRAF", "LIHAT_DRAF",
                             "UTAS", "SAMBUNG_UTAS", "HAPUS_UTAS", "CETAK_UTAS",
                             "SIMPAN", "MUAT",
-                            "CARI_KICAUAN"};
+                            "CARI_KICAUAN", "KELOMPOK_TEMAN"};
     /* 
     not login hanya bisa : DAFTAR, MASUK, MUAT, SIMPAN, TUTUP_PROGRAM
     yes login hanya bisa : selain not login, SIMPAN, TUTUP_PROGRAM
@@ -244,6 +249,10 @@ int main(){
                 // CARI_KICAUAN
                 printf("called %s\n", command[29]);
                 cari_kicauan(input[1]);
+            } else if(strCompare(input[0].TabWord, command[30])){
+                // CARI_KICAUAN
+                printf("called %s\n", command[30]);
+                showCircle(LingkaranPertemanan, CurrentUserId);
             }
             else {
                 printErrMessage(input[0]);

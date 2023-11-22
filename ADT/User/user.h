@@ -6,6 +6,7 @@
 #include "../Draftkicauan/draftkicauan.h"
 #include "../boolean.h"
 #include "../NoHP/NoHP.h"
+#include "../DisjoinSetUnion/circle.h"
 
 // #include "../Draftkicauan/draftkicauan.h"
 
