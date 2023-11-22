@@ -55,7 +55,7 @@ typedef struct {
 #define KICAUAN_NEFF(l) (l).NEFF
 #define KICAUAN_CAPACITY(l) (l).CAPACITY
 #define KICAUAN_BUFFER(l) (l).buffer
-#define KICAUAN_ELMT(l, i) (l).buffer[i]
+#define KICAUAN_ELMT(l, i) (l).buffer[(i)]
 
 void CreateListKicauan(LISTKICAUAN* l, int CAPACITY);
 

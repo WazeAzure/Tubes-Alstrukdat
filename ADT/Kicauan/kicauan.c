@@ -47,7 +47,7 @@ void ExpandListKicauan(LISTKICAUAN* l){
 KICAUAN* newKicau(Word teks, Word Author, Word tagar){
     KICAUAN* new = (KICAUAN*)malloc(sizeof(KICAUAN));
     if(new != NULL){
-        CreateKicauan(new, 1, Author, teks, tagar);
+        CreateKicauan(new, CurrentUserId, Author, teks, tagar);
         return new;
     } else {
         printf("Alokasi Kicauan di HEAP Memomry gagal. Mohon lakuakn KICAU kembali.\n");
