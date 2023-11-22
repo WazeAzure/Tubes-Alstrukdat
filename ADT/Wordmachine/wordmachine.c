@@ -133,7 +133,11 @@ int WordToInt(Word w){
     int sum = 0;
     int i=0;
     for(i=0; i<w.Length;i++){
-        sum = (sum * 10) + (w.TabWord[i] - '0');
+        if(w.TabWord[i] == '-'){
+            sum *= -1;
+        } else {
+            sum = (sum * 10) + (w.TabWord[i] - '0');
+        }
     }
     return sum;
 }

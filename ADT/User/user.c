@@ -559,6 +559,21 @@ void hapusTeman(int idUser){
     }
 }
 
+boolean CekPermintaanPertemanan(int idTeman){
+    int jumlah_permintaan = PERMINTAANPERTEMANAN(USER(user,idTeman)).jumlah_permintaan;
+    int i=0;
+    boolean found = false;
+    PERMINTAANPERTEMANAN* q = &PERMINTAANPERTEMANAN(USER(user,idTeman));
+    infotype x;
+    while(i < jumlah_permintaan && !found){
+        DequeuePermintaanPertemanan(q, &x);
+        if(x.id == CurrentUserId){
+            return false;
+        }
+    }
+    return true;
+}
+
 
 void tambahTeman(int idUser){
     Word namaTeman;
@@ -570,14 +585,17 @@ void tambahTeman(int idUser){
     } else if(isTeman(idUser,idTeman)){
         printf("Anda sudah berteman dengan %s.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
     } else{
-        infotype X;
-        X.id = USER_ID(USER(user,idUser));
-        X.nama = USER_NAMA(USER(user,idUser));
-        X.jumlahTeman = JUMLAH_TEMAN(USER(user,idUser));
-        // prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
-        EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idTeman)), X); ;
-        printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
-
+        if(CekPermintaanPertemanan(idTeman)){
+            infotype X;
+            X.id = USER_ID(USER(user,idUser));
+            X.nama = USER_NAMA(USER(user,idUser));
+            X.jumlahTeman = JUMLAH_TEMAN(USER(user,idUser));
+            // prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
+            EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idTeman)), X); ;
+            printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
+        } else {
+            printf("Anda sudah pernah mengirimkan permintaan pertemanan kepada %s\n", USER_NAMA(USER(user, idTeman)).TabWord);
+        }
     }
 }
 

@@ -1,5 +1,13 @@
 #include "util.h"
+#if defined(_WIN32)
+    #include <conio.h>
+    #include <windows.h>
+#endif
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int strLen(char str[]){
     int i=0;
@@ -38,11 +46,11 @@ boolean isFolderExist(Word foldername){
             printf("Folder '%s' exists.\n", foldername.TabWord);
             return true;
         } else {
-            printf("'%s' is not a folder.\n", foldername.TabWord);
+            printf("%s'%s' is not a folder.%s\n", RED, foldername.TabWord, NORMAL);
             return false;
         }
     } else {
-        printf("Folder '%s' does not exist.\n", foldername.TabWord);
+        printf("%sFolder '%s' does not exist.%s\n", RED, foldername.TabWord, NORMAL);
         return false;
     }
 }
@@ -65,7 +73,7 @@ void readHpFile(FILE* f, NoHp *input){
 
     // printf("hihi\n");
     while(currentChar != '\r' && currentChar != '\n'){
-        printf("%c\n", currentChar);
+        // printf("%c\n", currentChar);
         if(neff > cap){
             cap += 100;
             buffer = (char*)realloc(buffer, sizeof(char)*cap);
@@ -82,7 +90,23 @@ void readHpFile(FILE* f, NoHp *input){
     buffer[neff-1] = '\0';
 
     (*input).TabWord = buffer;
+
+    #if defined(_WIN32)
+    // if(currentChar == '\r') printf("currentChar \\r \n");
+    // fscanf(f, "%c", &currentChar);
+    // if(currentChar == '\n') printf("currentChar \\n \n");
+    currentChar = '\0';
+    // fscanf(f, "%c", &currentChar);
+    #else
+    // if(currentChar == '\r') printf("currentChar \\r \n");
     fscanf(f, "%c", &currentChar);
+    // if(currentChar == '\n') printf("currentChar \\n \n");
+    // fscanf(f, "%c", &currentChar);
+    // printf("%c\n", currentChar);
+    // fgetc(f);
+    currentChar = '\0';
+    #endif
+    // printf("awiaiajwiaj\n");
 }
 
 void bacaPengguna(FILE* f){
@@ -124,10 +148,14 @@ void bacaPengguna(FILE* f){
         strip(privacy, '\r');
         strip(privacy, '\n');
         for(int i=0; i<5; i++){
+            // printf("i - %d\n", i);
             fgets(prof_pict[i], sizeof(prof_pict[i]), f);
             strip(prof_pict[i], '\r');
+
             strip(prof_pict[i], '\n');
         }
+        // fscanf(f, "%c", &currentChar);
+
         printf("name: %s\n", name);
         printf("%s\n", password);
         printf("%s\n", bio);
@@ -222,6 +250,78 @@ void bacaPengguna(FILE* f){
     }
 }
 
+void bacaKicauan(FILE* f){
+    char nKicauan[10];
+    fgets(nKicauan, sizeof(nKicauan), f);
+    // printf("%s\n", nKicauan);
+    strip(nKicauan, '\r');
+    strip(nKicauan, '\n');
+    int n_kicauan = WordToInt(CharToWord(nKicauan));
+
+    printf("jumlah kicauan: %d\n", n_kicauan);
+    int i;
+    for(i=0; i<n_kicauan; i++){
+        char idKicau[10];
+        char text[281];
+        char like[10];
+        char author[300];
+        char datetime[20];
+
+        fgets(idKicau, sizeof(idKicau), f);
+        strip(idKicau, '\r');
+        strip(idKicau, '\n');
+        fgets(text, sizeof(text), f);
+        strip(text, '\r');
+        strip(text, '\n');
+        fgets(like, sizeof(like), f);
+        strip(like, '\r');
+        strip(like, '\n');
+        fgets(author, sizeof(author), f);
+        strip(author, '\r');
+        strip(author, '\n');
+        fgets(datetime, sizeof(datetime), f);
+        strip(datetime, '\r');
+        strip(datetime, '\n');
+
+        // printf("idKicau str - %s\n", idKicau);
+        int id_kicau = WordToInt(CharToWord(idKicau)) - 1;
+        Word wtext = CharToWord(text);
+        int nlike = WordToInt(CharToWord(like));
+        Word wauthor = CharToWord(author);
+        DATETIME d = CharToDATETIME(datetime);
+        Word wtagar = CharToWord("\0");
+
+        printf("%d\n", id_kicau);
+        printf("%s\n", wtext.TabWord);
+        printf("%d\n", nlike);
+        printf("%s\n", wauthor.TabWord);
+        TulisDATETIME(d);
+        // endl;
+        printf("%s\n", wtagar.TabWord);
+
+        // printf("work\n");
+        // add kicauan;
+        KICAUAN* new = newKicau(wtext, wauthor, wtagar);
+        new->idAuthor = KICAU_IDAUTHOR(KICAUAN_ELMT(ListKicauan, id_kicau));
+        new->id = id_kicau;
+        new->like = nlike;
+        new->timeCreated = d;
+
+        // printf("middlen\n");
+
+        ListKicauan.buffer[ListKicauan.NEFF] = *new;
+        ListKicauan.NEFF++;
+        // printf("end of work\n");
+
+        #if defined(_WIN32)
+            fgetc(f);
+        #else
+            fgetc(f);
+            fgetc(f);
+        #endif
+    }
+}
+
 boolean readFile(Word FileName, Word foldername){
     
     Word fname = ConcatWord(foldername, FileName);
@@ -237,14 +337,14 @@ boolean readFile(Word FileName, Word foldername){
         if(strCompare(FileName.TabWord, "/pengguna.config")){
             bacaPengguna(f);
         } else if(strCompare(FileName.TabWord, "/balasan.config")){
-
+            
         } else if(strCompare(FileName.TabWord, "/kicauan.config")){
-
+            bacaKicauan(f);
         } else if(strCompare(FileName.TabWord, "/utas.config")){
 
         }
     } else {
-        printf("file \'%s\' not exist\n", filename);
+        printf("%sfile \'%s\' not exist%s\n", RED, filename, NORMAL);
         return false;
     }
 
@@ -267,16 +367,19 @@ void loadConfigFile(){
     char char_kicauan[] = "/kicauan.config";
     char char_balasan[] = "/balasan.config";
     char char_utas[] = "/utas.config";
+    // char char_draf[] = "/draf.config";
 
     Word pengguna = CharToWord(char_pengguna);
     Word kicauan = CharToWord(char_kicauan);
     Word balasan = CharToWord(char_balasan);
     Word utas = CharToWord(char_utas);
+    // Word draf = CharToWord(char_draf);
 
     boolean stat1 = readFile(pengguna, foldername);
     boolean stat2 = readFile(kicauan, foldername);
     boolean stat3 = readFile(balasan, foldername);
     boolean stat4 = readFile(utas, foldername);
+    // boolean stat5 = readFile(draf, foldername);
 
     if(!(stat1 && stat2 && stat3 && stat4)){
         printf("Mohon pastikan semua file ada.\n");
@@ -366,24 +469,26 @@ void resetCommand(Word *input){
 
 void printWelcomeBanner(){
     // clear screen
+    #if defined(_WIN32)
+    system("cls");
+    system("chcp 65001");
+    #else
     system("clear");
-
+    #endif
     // welcome message
-    printf(
-"        \n"
-" _______                       _______   __           \t\t ⠀⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣶⣶⡿⢋\n"
-"|       \\                     |       \\ |  \\          \t\t ⠀⣿⣿⣦⣄⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋\n"
-"| $$$$$$$\\ __    __   ______  | $$$$$$$\\ \\$$  ______  \t\t ⠀⠹⣿⣿⣿⣿⣶⣤⣤⣤⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀\n"
-"| $$__/ $$|  \\  |  \\ /      \\ | $$__/ $$|  \\ /      \\ \t\t ⠀⣄⣈⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀\n"
-"| $$    $$| $$  | $$|  $$$$$$\\| $$    $$| $$|  $$$$$$\\ \t\t ⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀\n"
-"| $$$$$$$\\| $$  | $$| $$   \\$$| $$$$$$$\\| $$| $$   \\$$ \t\t ⠀⠀⣀⣉⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀\n"
-"| $$__/ $$| $$__/ $$| $$      | $$__/ $$| $$| $$      \t\t ⠀⠀⠘⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀\n"
-"| $$    $$ \\$$    $$| $$      | $$    $$| $$| $$      \t\t ⠀⠀⠀⠀⠀⢉⣩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀\n"
-" \\$$$$$$$   \\$$$$$$  \\$$       \\$$$$$$$  \\$$ \\$$      \t\t ⠒⠶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀\n"
-"                                                      \t\t ⠀⠀⠀⠉⠙⠛⠛⠛⠛⠛⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-"                                                      \t\t\n"
-"                                                      \t\t\n"
-    );
+    printf("        \n");
+    printf(" _______                       _______   __           \t\t%s ⠀⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣶⣶⡿⢋%s\n", BLUE, NORMAL);
+    printf("|       \\                     |       \\ |  \\          \t\t%s ⠀⣿⣿⣦⣄⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋%s\n", BLUE, NORMAL);
+    printf("| $$$$$$$\\ __    __   ______  | $$$$$$$\\ \\$$  ______  \t\t%s ⠀⠹⣿⣿⣿⣿⣶⣤⣤⣤⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀%s\n", BLUE, NORMAL);
+    printf("| $$__/ $$|  \\  |  \\ /      \\ | $$__/ $$|  \\ /      \\ \t\t%s ⠀⣄⣈⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀%s\n", BLUE, NORMAL);
+    printf("| $$    $$| $$  | $$|  $$$$$$\\| $$    $$| $$|  $$$$$$\\ \t\t%s ⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀%s\n", BLUE, NORMAL);
+    printf("| $$$$$$$\\| $$  | $$| $$   \\$$| $$$$$$$\\| $$| $$   \\$$ \t\t%s ⠀⠀⣀⣉⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀%s\n", BLUE, NORMAL);
+    printf("| $$__/ $$| $$__/ $$| $$      | $$__/ $$| $$| $$      \t\t%s ⠀⠀⠘⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀%s\n", BLUE, NORMAL);
+    printf("| $$    $$ \\$$    $$| $$      | $$    $$| $$| $$      \t\t%s ⠀⠀⠀⠀⠀⢉⣩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀%s\n", BLUE, NORMAL);
+    printf(" \\$$$$$$$   \\$$$$$$  \\$$       \\$$$$$$$  \\$$ \\$$      \t\t%s ⠒⠶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀%s\n", BLUE, NORMAL);
+    printf("                                                      \t\t%s ⠀⠀⠀⠉⠙⠛⠛⠛⠛⠛⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀%s\n", BLUE, NORMAL);
+    printf("                                                      \t\t\n");
+    printf("                                                      \t\t\n");
 }
 
 void printExitBanner(){
@@ -423,7 +528,14 @@ void printErrMessage(Word w){
 
 //         // You can replace the sleep function with actual loading operations
 //         // For demonstration purposes, sleep is used to simulate loading time
-//         sleep(1); // Sleep for 1 second
+//         // Sleep for 0.5 second
+//         #if defined(_WIN32)
+//             // printf("called in windows\n");
+//             Sleep(500);
+//         #else
+//             sleep(0.5);
+//             // printf("called in linux\n");
+//         #endif
 //     }
 //     endl;
 // }
@@ -442,7 +554,15 @@ void printErrMessage(Word w){
 
 //             // You can replace the sleep function with actual loading operations
 //             // For demonstration purposes, sleep is used to simulate loading time
-//             sleep(1); // Sleep for 1 second
+//             // Sleep for 0.5 second
+//             #if defined(_WIN32)
+//                 // printf("called in windows\n");
+//                 Sleep(500);
+//             #else
+//                 sleep(1);
+//                 // printf("called in linux\n");
+//             #endif
+             
 //         }
 //         endl;
 //     }
@@ -462,7 +582,7 @@ void createFolder(Word folder){
     if (!check)
         printf("Directory created\n");
     else {
-        printf("Unable to create directory\n");
+        printf("%sUnable to create directory\n%s", RED, NORMAL);
         exit(1);
     }
 }
@@ -480,21 +600,25 @@ void createFiles(Word folder){
     char char_kicauan[] = "/kicauan.config";
     char char_balasan[] = "/balasan.config";
     char char_utas[] = "/utas.config";
+    // char char_draf[] = "/draf.config";
 
     Word pengguna = CharToWord(char_pengguna);
     Word kicauan = CharToWord(char_kicauan);
     Word balasan = CharToWord(char_balasan);
     Word utas = CharToWord(char_utas);
+    // Word draf = CharToWord(char_draf);
 
     pengguna = ConcatWord(folder, pengguna);
     kicauan = ConcatWord(folder, kicauan);
     balasan = ConcatWord(folder, balasan);
     utas = ConcatWord(folder, utas);
+    // draf = ConcatWord(folder, draf);
     
     createEmptyFile(pengguna);
     createEmptyFile(kicauan);
     createEmptyFile(balasan);
     createEmptyFile(utas);
+    // createEmptyFile(draf);
 }
 
 void tulisPengguna(Word folder){
@@ -537,6 +661,62 @@ void tulisPengguna(Word folder){
         fprintf(f, "%d\n", ElmtDaftarPertemanan(DaftarPertemanan, n, j));
     }
 
+    // cek daftar pertemanan
+
+    int i;
+    int jumlah_request = 0;
+    for(i=0; i<user.CounterUser; i++){
+        jumlah_request += PERMINTAANPERTEMANAN(USER(user, i)).jumlah_permintaan;
+    }
+
+    fprintf(f, "%d\n", jumlah_request);
+    // int jumlah = 0;
+    // int j=0;
+    for(i=0; i<user.CounterUser; i++){
+        // jumlah = PERMINTAANPERTEMANAN(USER(user, i)).jumlah_permintaan;
+        Address first = PERMINTAANPERTEMANAN(USER(user, i)).first;
+        while(first != NULL){
+            int asal = first->value.id;
+            int tujuan = i;
+            int jumlah_teman = first->value.jumlahTeman;
+            fprintf(f, "%d %d %d\n", asal, tujuan, jumlah_teman);
+            first = first->next;
+        }
+    }
+
+    fclose(f);
+}
+
+void tulisKicauan(Word folder){
+    char kicauan[] = "/kicauan.config";
+    Word filename = ConcatWord(folder, CharToWord(kicauan));
+
+    char tempF[filename.Length];
+    WordToChar(filename, tempF);
+
+    FILE *f = fopen(tempF, "a");
+
+    // jumlah kicauan
+    fprintf(f, "%d\n", ListKicauan.NEFF);
+
+    int n=0;
+    KICAUAN temp = KICAUAN_ELMT(ListKicauan, n);
+    for(n=0; n<ListKicauan.NEFF-1; n++){
+        fprintf(f, "%d\n", KICAU_ID(temp));
+        fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+        fprintf(f, "%d\n", LIKE(temp));
+        fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+        DATETIME temp2 = KICAU_TIMECREATED(temp);
+        fprintf(f, "%d/%d/%d %d:%d:%d\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+    }
+
+    fprintf(f, "%d\n", KICAU_ID(temp));
+    fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+    fprintf(f, "%d\n", LIKE(temp));
+    fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+    DATETIME temp2 = KICAU_TIMECREATED(temp);
+    fprintf(f, "%d/%d/%d %d:%d:%d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+
     fclose(f);
 }
 
@@ -556,6 +736,8 @@ void simpan(){
 
     // isi file
     tulisPengguna(folder);
+    tulisKicauan(folder);
+
 
     // redrawPromptFiles();
 }
