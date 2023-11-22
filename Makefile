@@ -67,6 +67,11 @@ OBJ_WORD = $(SRC_WORD:.c=.o)
 wordmachine: $(OBJ_CHAR) $(OBJ_WORD)
 	$(CC) $(CFLAGS) -o $@ $^ 
 
-
 edbert: $(OBJ_LIB) util.c main.c globalVar.h globalVar.c $(SRC_AWAS)
+	$(CC) $(CFLAGS) -o $@  main.c globalVar.c $(SRC_LIB) -lm
+	
+edbert_l: $(OBJ_LIB) util.c main.c globalVar.h globalVar.c $(SRC_AWAS)
+	$(CC) $(CFLAGS) -o $@  main.c globalVar.c $(SRC_LIB) -lm
+
+edbert_w: $(OBJ_LIB) util.c main.c globalVar.h globalVar.c $(SRC_AWAS)
 	$(CC) $(CFLAGS) -o $@  main.c globalVar.c $(SRC_LIB) -lm

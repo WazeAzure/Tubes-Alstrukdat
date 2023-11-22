@@ -3,7 +3,12 @@
 #ifndef _BOOLEAN_h
 #define _BOOLEAN_h
 
-#define boolean unsigned char
+#if defined(_WIN32)
+    typedef unsigned char boolean;
+#else
+    #define boolean unsigned char
+#endif
+
 #define true 1
 #define false 0
 
