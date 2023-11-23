@@ -94,8 +94,6 @@ BALASAN createBalasan(Word balasan, int idKicau){
 }
 
 void addBalasan(AddressTree t, AddressTree *root){
-    printf("add balasan dipanggil\n");
-
     AddressTree p = *root;
     if(p == NULL){
         printf("p berniali null\n");
@@ -112,7 +110,7 @@ void addBalasan(AddressTree t, AddressTree *root){
 AddressTree* searchIdBalasan(AddressTree* kicauanUtama, int idBalasan){
     AddressTree *p = kicauanUtama;
     printf("\nroot utama id%d\n", (*p)->info.id);
-    printf("\nroot utama author%s\n", (*p)->info.author.TabWord);
+    printf("\nroot utama author %s\n", (*p)->info.author.TabWord);
     if (p != NULL) {
         printf("p ga null\n");
         printf("%d idBalasan\n", idBalasan);
@@ -169,6 +167,39 @@ void balas(int idKicau, Word idBalasan){
         printf("null cuy\n");
     }
 
+
+    printf("Selamat! balasan telah diterbitkan!\n");
+    printf("Detail balasan\n");
+    balasanKicauanDetail(idKicau);
+
+    // AddressTree p = KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
+    // while(p != NULL){
+    //     printf("%s\n", p->info.author.TabWord);
+    //     TulisDATETIME(p->info.date);
+    //     printf("%s\n", p->info.isi.TabWord);
+    //     p = CHILD(p);
+    // }
+    
+    // printf("--------------------------------\n\n");
+    // p = KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
+    // printTreeRec(&p, 2);
+}
+
+void balasanKicauanDetail(int idKicau){
+    AddressTree p = KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
+    
+    if(p != NULL){
+        printf("| ID = %d\n", p->info.id );
+        printf("| %s\n", p->info.author.TabWord);
+        printf("| "); TulisDATETIME(p->info.date); printf("\n");
+        printf("| %s\n", p->info.isi.TabWord);
+        p = CHILD(p);
+    }
+    
+}
+
+void showDaftarBalasant(int idKicau){
+
     AddressTree p = KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
     while(p != NULL){
         printf("%s\n", p->info.author.TabWord);
@@ -177,7 +208,7 @@ void balas(int idKicau, Word idBalasan){
         p = CHILD(p);
     }
     
-    printf("--------------------------------\n\n");
+    printf("\n\n");
     p = KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
     printTreeRec(&p, 2);
 }

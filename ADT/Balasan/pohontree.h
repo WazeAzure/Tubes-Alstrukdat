@@ -84,4 +84,6 @@ Note: Anda boleh membuat fungsi tambahan untuk membuat implementasi fungsi ini j
 
 void balas(int idKicau, Word idBalasan);
 
+void balasanKicauanDetail(int idKicau);
+
 #endif
