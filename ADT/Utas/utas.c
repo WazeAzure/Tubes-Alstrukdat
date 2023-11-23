@@ -278,7 +278,7 @@ void sambung_utas(Word idUtas,Word index){
     IdUtas = WordToInt(idUtas);
 
     // Cek apakah IdUtas valid
-    if(nEFF(ListIdUtas)<IdUtas){
+    if(nEFF(ListIdUtas)<IdUtas  || IdUtas < 1){
         printf("Utas tidak ditemukan.\n\n");
         return;
     }
@@ -291,7 +291,7 @@ void sambung_utas(Word idUtas,Word index){
     if(userId(K->Author) != CurrentUserId){
         printf("Anda tidak bisa menyambung utas ini.\n\n");
         return;
-    }else if(lengthDaftarUtas(*currentUtas)<Index-1){
+    }else if(Index-1 > lengthDaftarUtas(*currentUtas)){
         printf("Index terlalu tinggi.\n\n");
         return;
     }else{
@@ -302,7 +302,7 @@ void sambung_utas(Word idUtas,Word index){
         }while(teks.Length == 0);
         if(Index == 1){
             insertFirstDaftarUtas(currentUtas,teks);
-            return;
+            KICAU_DAFTAR_UTAS(*K) = *currentUtas;
         }else{
             insertAtDaftarUtas(currentUtas, teks, Index-1);
         }
@@ -334,7 +334,7 @@ void deleteAtUtas(ListElemenUtas *daftarUtas, int index){
 void hapus_utas(Word Index, Word idutas){
 // hapus utas idutas index
     int index = WordToInt(Index);
-    int idUtas = WordToInt(idutas);
+    int idUtas = WordToInt(idutas)-1;
     ListElemenUtas *daftarUtas;
     daftarUtas = &KICAU_DAFTAR_UTAS(KICAUAN_ELMT(ListKicauan, ListIdUtas.buffer[idUtas]));
     if(userId((*daftarUtas)->author) != CurrentUserId){
@@ -345,7 +345,7 @@ void hapus_utas(Word Index, Word idutas){
         printf("Anda tidak bisa menghapus kicauan utama!\n\n");
         return;
     }
-    else if(idUtas>lengthDaftarIdUtas(ListIdUtas)){
+    else if(idUtas>=lengthDaftarIdUtas(ListIdUtas)){
         printf("Utas tidak ditemukan!\n\n");
         return;
     }else if(index>lengthDaftarUtas(*daftarUtas)){
@@ -371,7 +371,7 @@ void cetak_utas(int id_utas){
     if(PRIVACY(USER(user, kicauan.idAuthor)) && !isTeman(CurrentUserId, kicauan.idAuthor)){
         printf("Akun yang membuat utas ini adalah akun privat! Ikuti dahulu akun ini untuk melihat utasnya!\n\n");
         return;
-    }else if(id_utas < 0 || id_utas>ListIdUtas.nEFF){
+    }else if(id_utas < 0 || id_utas>=ListIdUtas.nEFF){
         printf("Utas tidak ditemukan.\n\n");
         return;
     }else{
