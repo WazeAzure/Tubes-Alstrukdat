@@ -5,24 +5,11 @@
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
 
-Tree NewTree(ElTypeTree root, Tree firstChild) {
-    Tree newTree = (Tree)malloc(sizeof(TreeNode));
-    if (newTree != NULL) {
-        NODE(newTree) = root;
-        CHILD(newTree) = firstChild;
-        SIBLING(newTree) = NULL;
-    }
-    return newTree;
-}
 
-void CreateTree(ElTypeTree root, Tree firstChild, Tree *p) {
-    *p = NewTree(root, firstChild);
-}
-
-AddressTree newTreeNode(ElTypeTree val) {
+AddressTree newTreeNode(ElTypeTree* val) {
     AddressTree newNode = (AddressTree)malloc(sizeof(TreeNode));
     if (newNode != NULL) {
-        NODE(newNode) = val;
+        NODE(newNode) = *val;
         CHILD(newNode) = NULL;
         SIBLING(newNode) = NULL;
     }
@@ -39,14 +26,6 @@ boolean isTreeEmpty(Tree p) {
 
 boolean isOneElmt(Tree p) {
     return (p != NULL && CHILD(p) == NULL);
-}
-
-boolean isUner(Tree p) {
-    return (p != NULL && CHILD(p) != NULL && SIBLING(CHILD(p)) == NULL);
-}
-
-boolean isBinary(Tree p) {
-    return (p != NULL && (CHILD(p) == NULL || SIBLING(CHILD(p)) != NULL));
 }
 
 void printTreeRec(Tree *p, int h) {
@@ -79,23 +58,21 @@ void printTreeRec(Tree *p, int h) {
 //     printTreeRec(p, h);
 // }
 
-BALASAN createBalasan(Word balasan, int idKicau){
+BALASAN* createBalasan(Word balasan, int idKicau){
 
-    BALASAN b;
-    b.author = KICAUAN_ELMT(ListKicauan, idKicau).Author;
-    b.id = KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan;
-    b.idAuthor = CurrentUserId;
+    BALASAN *b = (BALASAN *)malloc(sizeof(BALASAN));
+    (*b).author = KICAUAN_ELMT(ListKicauan, idKicau).Author;
+    (*b).id = KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan;
+    (*b).idAuthor = CurrentUserId;
 
     int long long currentTIme = getCurrentTime();
-    b.date = DetikToDATETIME(currentTIme);
-    b.isi = balasan;
+    (*b).date = DetikToDATETIME(currentTIme);
+    (*b).isi = balasan;
 
     return b;
 }
 
 void addBalasan(AddressTree t, AddressTree *root){
-    printf("add balasan dipanggil\n");
-
     AddressTree p = *root;
     if(p == NULL){
         printf("p berniali null\n");
@@ -106,39 +83,117 @@ void addBalasan(AddressTree t, AddressTree *root){
             p = CHILD(p);
         }
         CHILD(p) = t;
+        printf("--------add BALASAN-------------\n");
+        printf("%s\n", CHILD(p)->info.author.TabWord);
+        TulisDATETIME(CHILD(p)->info.date);
+        endl;
+        printf("%d\n", CHILD(p)->info.id);
+        printf("%s\n", CHILD(p)->info.isi.TabWord);
+        printf("--------------------------------\n");
     }
 }
 
-AddressTree* searchIdBalasan(AddressTree* kicauanUtama, int idBalasan){
-    AddressTree *p = kicauanUtama;
-    printf("\nroot utama id%d\n", (*p)->info.id);
-    printf("\nroot utama author%s\n", (*p)->info.author.TabWord);
-    if (p != NULL) {
+void addBalasanSiblings(AddressTree t, AddressTree *root){
+    AddressTree p = *root;
+    if(p == NULL){
+        printf("p berniali null\n");
+        *root = t;
+    } else {
         printf("p ga null\n");
-        printf("%d idBalasan\n", idBalasan);
-        if((*p)->info.id == idBalasan){
-            return &((*p)->sibling);
+        while(SIBLING(p) != NULL){
+            p = SIBLING(p);
         }
-
-        AddressTree *result = NULL;
-        if(SIBLING(*p) != NULL){
-            result = searchIdBalasan(&SIBLING(*p), idBalasan);
-            if(result != NULL || result != kicauanUtama){
-                return &((*result)->sibling);
-            }
-            
-        }
-
-        if(CHILD(*p) != NULL){
-            result = searchIdBalasan(&CHILD(*p), idBalasan);
-            if(result != NULL || result != kicauanUtama){
-                return &((*result)->sibling);
-            }
-        }
-        return result;
+        SIBLING(p) = t;
+        printf("--------add BALASAN-------------\n");
+        printf("%s\n", SIBLING(p)->info.author.TabWord);
+        TulisDATETIME(SIBLING(p)->info.date);
+        endl;
+        printf("%d\n", SIBLING(p)->info.id);
+        printf("%s\n", SIBLING(p)->info.isi.TabWord);
+        printf("--------------------------------\n");
     }
-    printf("p null\n");
-    return kicauanUtama;
+}
+
+// AddressTree* searchIdBalasan(AddressTree* kicauanUtama, int idBalasan){
+//     AddressTree *p = kicauanUtama;
+//     printf("\nroot utama id %d\n", (*p)->info.id);
+//     printf("root utama author %s\n", (*p)->info.author.TabWord);
+    
+//     if (p != NULL) {
+//         printf("p ga null\n");
+//         printf("%d idBalasan\n", idBalasan);
+//         printf("%d\n", (*p)->info.id);
+//         if((*p)->info.id == idBalasan){
+//             printf("return sibling called\n");
+//             return p;
+//         }
+//         printf("ga return sibling called\n");
+
+
+//         AddressTree *result = NULL;
+//         if(SIBLING(*p) != NULL){
+//             result = searchIdBalasan(SIBLING(*p), idBalasan);
+//             if(result != NULL || result != kicauanUtama){
+//                 return result;
+//             }
+            
+//         }
+
+//         if(CHILD(*p) != NULL){
+//             result = searchIdBalasan(CHILD(*p), idBalasan);
+//             if(result != NULL || result != kicauanUtama){
+//                 return result;
+//             }
+//         }
+//         return result;
+//     }
+//     printf("p null\n");
+//     return kicauanUtama;
+// }
+
+// void searchIdBalasan(AddressTree* kicauanUtama, int idBalasan, AddressTree* ans) 
+// { 
+//     if (node == NULL) 
+//         return; 
+  
+//     /* first recur on left child */
+//     printInorder(node->left); 
+  
+//     /* then print the data of node */
+//     printf("%d ", node->data); 
+  
+//     /* now recur on right child */
+//     printInorder(node->right); 
+// } 
+
+void insertBalasan(int idKicau, Word idBalasan, AddressTree node){
+    int id_balasan = WordToInt(idBalasan);
+    printf("isi id_balasan %d\n", id_balasan);
+    AddressTree* kicauanUtama = &KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
+
+    AddressTree* root = searchId(kicauanUtama, idBalasan);
+
+    if (id_balasan == -1){
+        
+    } else {
+
+    }
+
+
+    // -------------------- BALASAN SUDAH BERHASIL DITAMBAHKAN -------------
+    
+    KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan++;
+    printf("current inc_balasan: %d\n",KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan);
+
+    if(ListKicauan.buffer[idKicau].daftar_balasan == NULL){
+        printf("null cuy\n");
+    }
+
+
+    printf("Selamat! balasan telah diterbitkan!\n");
+    printf("Detail balasan\n");
+
+    balasanKicauanDetail(t);
 }
 
 void balas(int idKicau, Word idBalasan){
@@ -146,38 +201,45 @@ void balas(int idKicau, Word idBalasan){
     Word balasan;
     readWord(&balasan, ';');
 
-    BALASAN b = createBalasan(balasan, idKicau);
-    // printf("%s\n", b.author.TabWord);
-    
-    AddressTree* kicauanUtama = &KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
+    BALASAN* b = createBalasan(balasan, idKicau);
+
+    printf("--------------------------------\n");
+    printf("%s\n", b->author.TabWord);
+    TulisDATETIME(b->date);
+    endl;
+    printf("%d\n", b->id);
+    printf("%s\n", b->isi.TabWord);
+    printf("--------------------------------\n");
+
+    // -------------- ADD BALASAN ----------------- //
 
     AddressTree t = newTreeNode(b);
-    
-    if(strCompare(idBalasan.TabWord, "-1")){
-        addBalasan(t, kicauanUtama);
-    } else {
-        int idBalasanInt = WordToInt(idBalasan);
-        AddressTree* newRoot = searchIdBalasan(kicauanUtama, idBalasanInt);
-        addBalasan(t, newRoot);
+
+    printf("--------------TREEE NODE-------------\n");
+    printf("%s\n", t->info.author.TabWord);
+    TulisDATETIME(t->info.date);
+    endl;
+    printf("%d\n", t->info.id);
+    printf("%s\n", t->info.isi.TabWord);
+    printf("--------------------------------\n");
+
+    insertBalasan(idKicau, idBalasan, t);
+}
+
+void balasanKicauanDetail(AddressTree p){
+    if(p != NULL){
+        printf("| ID = %d\n", p->info.id );
+        printf("| %s\n", p->info.author.TabWord);
+        printf("| "); TulisDATETIME(p->info.date); printf("\n");
+        printf("| %s\n", p->info.isi.TabWord);
     }
+}
 
-    KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan++;
-
-    // printf("sampe sini berhasil\n");
-
-    if(ListKicauan.buffer[idKicau].daftar_balasan == NULL){
-        printf("null cuy\n");
-    }
+void showDaftarBalasant(int idKicau){
 
     AddressTree p = KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
-    while(p != NULL){
-        printf("%s\n", p->info.author.TabWord);
-        TulisDATETIME(p->info.date);
-        printf("%s\n", p->info.isi.TabWord);
-        p = CHILD(p);
-    }
     
-    printf("--------------------------------\n\n");
+    printf("\n\n");
     p = KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
     printTreeRec(&p, 2);
 }

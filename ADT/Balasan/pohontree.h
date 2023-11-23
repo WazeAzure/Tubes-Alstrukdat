@@ -37,7 +37,7 @@ void CreateTree(ElTypeTree root, Tree firstChild, Tree *p);
    berhasil
    Menghasilkan pohon p yang kosong (NULL) jika alokasi gagal */
 
-AddressTree newTreeNode(ElTypeTree val);
+AddressTree newTreeNode(ElTypeTree* val);
 /* Alokasi sebuah address p, bernilai tidak NULL jika berhasil */
 /* Mengirimkan address hasil alokasi sebuah elemen bernilai val
    Jika alokasi berhasil, maka address tidak NULL, dan misalnya
@@ -83,5 +83,9 @@ Note: Anda boleh membuat fungsi tambahan untuk membuat implementasi fungsi ini j
 */
 
 void balas(int idKicau, Word idBalasan);
+
+void balasanKicauanDetail(AddressTree p);
+
+void showDaftarBalasant(int idKicau);
 
 #endif
