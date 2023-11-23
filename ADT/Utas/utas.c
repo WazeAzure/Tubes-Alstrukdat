@@ -283,7 +283,7 @@ void sambung_utas(Word idUtas,Word index){
         return;
     }
     KICAUAN *K;
-    K = &KICAUAN_ELMT(ListKicauan, ListIdUtas.buffer[IdUtas]);
+    K = &KICAUAN_ELMT(ListKicauan, ListIdUtas.buffer[IdUtas-1]);
 
     ListElemenUtas *currentUtas;
     currentUtas = &KICAU_DAFTAR_UTAS(*K);
@@ -291,7 +291,11 @@ void sambung_utas(Word idUtas,Word index){
     if(userId(K->Author) != CurrentUserId){
         printf("Anda tidak bisa menyambung utas ini.\n\n");
         return;
+    }else if (Index < 1){
+        printf("Index tidak valid.\n\n");
+        return;
     }else if(Index-1 > lengthDaftarUtas(*currentUtas)){
+        printf("%d %d\n", Index, lengthDaftarUtas(*currentUtas));
         printf("Index terlalu tinggi.\n\n");
         return;
     }else{

@@ -327,6 +327,70 @@ void bacaKicauan(FILE* f){
     }
 }
 
+void bacaUtas(FILE*f){
+    char nUtas[10];
+    fgets(nUtas, sizeof(nUtas), f);
+    strip(nUtas, '\r');
+    strip(nUtas, '\n');
+    int n_utas = WordToInt(CharToWord(nUtas));
+
+    int i, j;
+    for(i=0; i<n_utas; i++){
+        char id[100];
+        char jumlah[100];
+
+        fgets(id, sizeof(id), f);
+        strip(id, '\r');
+        strip(id, '\n');
+
+        fgets(jumlah, sizeof(jumlah), f);
+        strip(jumlah, '\r');
+        strip(jumlah, '\n');
+
+        int utasan = WordToInt(CharToWord(id));
+        int Jumlah = WordToInt(CharToWord(jumlah));
+        for (j=0; j<Jumlah; j++){
+            AddressUtas new = (AddressUtas)malloc(sizeof(NodeElemenUtas));
+            if (new != NULL) {
+                char teks[100];
+                char author[100];
+                char datetime[100];
+                
+                fgets(teks, sizeof(teks), f);
+                strip(teks, '\r');
+                strip(teks, '\n');
+                fgets(author, sizeof(author), f);
+                strip(author, '\r');
+                strip(author, '\n');
+                fgets(datetime, sizeof(datetime), f);
+                strip(datetime, '\r');
+                strip(datetime, '\n');
+
+                Word text = CharToWord(teks);
+                Word Author = CharToWord(author);
+                DATETIME Datetime = CharToDATETIME(datetime);
+
+                new->next = NULL;
+                new->teks = text;
+                new->author = Author;
+                new->timeCreated = Datetime;
+
+                AddressUtas p = ListKicauan.buffer[utasan-1].daftar_utas;
+                if (p == NULL) {
+                    ListKicauan.buffer[utasan-1].daftar_utas = new;
+                } else {
+                    while (NEXTDAFTARUTAS(p) != NULL) {
+                        p = NEXTDAFTARUTAS(p);
+                    }
+                    NEXTDAFTARUTAS(p) = new;
+                }
+                
+            }
+        }
+        insertLastIdUtas(&ListIdUtas, utasan-1);
+    }
+}
+
 boolean readFile(Word FileName, Word foldername){
     
     Word fname = ConcatWord(foldername, FileName);
@@ -346,7 +410,7 @@ boolean readFile(Word FileName, Word foldername){
         } else if(strCompare(FileName.TabWord, "/kicauan.config")){
             bacaKicauan(f);
         } else if(strCompare(FileName.TabWord, "/utas.config")){
-
+            bacaUtas(f);
         }
     } else {
         printf("%sfile \'%s\' not exist%s\n", RED, filename, NORMAL);
@@ -538,7 +602,7 @@ static void redrawPrompt(void)
             // printf("called in windows\n");
             Sleep(500);
         #else
-            sleep(0.5);
+            sleep(1);
             // printf("called in linux\n");
         #endif
     }
