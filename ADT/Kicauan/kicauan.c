@@ -127,7 +127,10 @@ boolean kicau(Word Author){
     Word tagar;
     readWord(&tagar, ';');
 
-
+    if(ListKicauan.NEFF == ListKicauan.CAPACITY){
+        ExpandListKicauan(&ListKicauan);
+    }
+    
     addKicauanLast(teks, Author, tagar);
     return 1;
 }
