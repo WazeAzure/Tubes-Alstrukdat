@@ -96,4 +96,6 @@ long long int getCurrentTime();
 
 DATETIME DetikToDATETIME(long long int sec);
 
+DATETIME CharToDATETIME(char s[]);
+
 #endif
