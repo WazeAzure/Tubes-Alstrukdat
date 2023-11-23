@@ -198,6 +198,8 @@ int main(){
             else if(strCompare(input[0].TabWord, command[19])){
                 // BALASAN
                 printf("called %s\n", command[19]);
+                int idKicau = WordToInt(input[1]);
+                showDaftarBalasant(idKicau);
             }
             else if(strCompare(input[0].TabWord, command[20])){
                 // HAPUS_BALASAN
