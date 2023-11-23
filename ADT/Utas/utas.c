@@ -288,25 +288,27 @@ void sambung_utas(Word idUtas,Word index){
     ListElemenUtas *currentUtas;
     currentUtas = &KICAU_DAFTAR_UTAS(*K);
     
-    if(userId(K->Author) != CurrentUserId){
-        printf("Anda tidak bisa menyambung utas ini.\n\n");
-        return;
-    }else if(Index-1 > lengthDaftarUtas(*currentUtas)){
-        printf("Index terlalu tinggi.\n\n");
-        return;
-    }else{
-        Word teks;
-        printf("Masukkan kicauan:\n");
-        do{
-            readWord(&teks,';');
-        }while(teks.Length == 0);
-        if(Index == 1){
-            insertFirstDaftarUtas(currentUtas,teks);
-            KICAU_DAFTAR_UTAS(*K) = *currentUtas;
+    if(Index>0){
+        if(userId(K->Author) != CurrentUserId){
+            printf("Anda tidak bisa menyambung utas ini.\n\n");
+            return;
+        }else if(Index-1 > lengthDaftarUtas(*currentUtas)){
+            printf("Index terlalu tinggi.\n\n");
+            return;
         }else{
-            insertAtDaftarUtas(currentUtas, teks, Index-1);
+            Word teks;
+            printf("Masukkan kicauan:\n");
+            do{
+                readWord(&teks,';');
+            }while(teks.Length == 0);
+            if(Index == 1){
+                insertFirstDaftarUtas(currentUtas,teks);
+                KICAU_DAFTAR_UTAS(*K) = *currentUtas;
+            }else{
+                insertAtDaftarUtas(currentUtas, teks, Index-1);
+            }
+            printf("\n\n");
         }
-        printf("\n\n");
     }
 }
 
