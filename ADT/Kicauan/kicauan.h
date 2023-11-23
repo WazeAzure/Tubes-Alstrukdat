@@ -6,10 +6,14 @@
 #include "../Wordmachine/wordmachine.h"
 #include "../Datetime/datetime.h"
 
-#include "../Balasan/balasan.h"
+// #include "../Balasan/balasan.h"
 #include "../Utas/utas.h"
+#include "../Balasan/pohontree.h"
 
-#include "../Tree/pohontree.h"
+typedef struct {
+    int id;
+    BALASAN *list_balasan;
+} PairBalasan;
 
 typedef struct {
     int id;
@@ -22,7 +26,8 @@ typedef struct {
 
     Word tagar;
 
-    TreeNode *daftar_balasan;
+    // list of daftar balasan
+    Tree daftar_balasan;
 
     // list of daftar utas
     ListElemenUtas daftar_utas;
@@ -43,12 +48,14 @@ typedef struct {
 #define KICAU_TEKS(kicau) (kicau).teks
 #define KICAU_NAMAAUTHOR(kicau) (kicau).Author
 #define KICAU_TIMECREATED(kicau) (kicau).timeCreated
+#define KICAU_DAFTAR_BALASAN(kicau) (kicau).daftar_balasan
+#define KICAU_DAFTAR_UTAS(kicau) (kicau).daftar_utas
 
 /* SELEKTOR LISTKICAUAN */
 #define KICAUAN_NEFF(l) (l).NEFF
 #define KICAUAN_CAPACITY(l) (l).CAPACITY
 #define KICAUAN_BUFFER(l) (l).buffer
-#define KICAUAN_ELMT(l, i) (l).buffer[i]
+#define KICAUAN_ELMT(l, i) (l).buffer[(i)]
 
 void CreateListKicauan(LISTKICAUAN* l, int CAPACITY);
 
@@ -58,11 +65,9 @@ KICAUAN* newKicau(Word teks, Word Author, Word tagar);
 
 void CreateKicauan(KICAUAN* kicauan, int idAuthor, Word Author, Word teks, Word tagar);
 
-void kicau(Word Author);
+boolean kicau(Word Author);
 
 void showKicauanContent(KICAUAN kicauan);
-
-void kicau(Word Author);
 
 void showAllListKicauan();
 

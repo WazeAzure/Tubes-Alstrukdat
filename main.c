@@ -5,6 +5,8 @@
 #include "ADT/Kicauan/kicauan.h"
 #include "ADT/Utas/utas.h"
 #include "ADT/HashTable/HashTable.h"
+#include "ADT/Balasan/pohontree.h"
+#include "ADT/DisjoinSetUnion/circle.h"
 
 // daftar fungsi C
 #include "util.c"
@@ -13,6 +15,8 @@
 #include "ADT/DaftarPertemanan/daftarpertemanan.h"
 #include "ADT/Utas/utas.c"
 #include "ADT/HashTable/HashTable.c"
+#include "ADT/Balasan/pohontree.c"
+#include "ADT/DisjoinSetUnion/circle.c"
 
 void initiateGlobalVariables(){
     // set matriks pertemanan
@@ -29,6 +33,12 @@ void initiateGlobalVariables(){
 
     // Inisialisasi Hash Table Tagar
     ht_new(&HashTable);
+
+    // Inisialisasi list id utas
+    CreateListIdUtas(&ListIdUtas, 10);
+
+    // Inisialisasi LingkaranPertemanan Disjoin Set Union
+    CreateCircle(&LingkaranPertemanan);
 }
 
 int main(){
@@ -48,7 +58,7 @@ int main(){
     input[1].Length = 0;
     input[2].Length = 0;
     
-    char command[30][30] = {"DAFTAR", "MASUK", "KELUAR", "TUTUP_PROGRAM",
+    char command[31][30] = {"DAFTAR", "MASUK", "KELUAR", "TUTUP_PROGRAM",
                             "GANTI_PROFIL", "LIHAT_PROFIL", "ATUR_JENIS_AKUN", "UBAH_FOTO_PROFIL",
                             "DAFTAR_TEMAN", "HAPUS_TEMAN",
                             "TAMBAH_TEMAN", "BATAL_TAMBAH_TEMAN", "DAFTAR_PERMINTAAN_PERTEMANAN", "SETUJUI_PERTEMANAN",
@@ -57,7 +67,7 @@ int main(){
                             "BUAT_DRAF", "LIHAT_DRAF",
                             "UTAS", "SAMBUNG_UTAS", "HAPUS_UTAS", "CETAK_UTAS",
                             "SIMPAN", "MUAT",
-                            "CARI_KICAUAN"};
+                            "CARI_KICAUAN", "KELOMPOK_TEMAN"};
     /* 
     not login hanya bisa : DAFTAR, MASUK, MUAT, SIMPAN, TUTUP_PROGRAM
     yes login hanya bisa : selain not login, SIMPAN, TUTUP_PROGRAM
@@ -160,8 +170,8 @@ int main(){
             else if(strCompare(input[0].TabWord, command[14])){
                 // KICAU
                 printf("called %s\n", command[14]);
-                kicau(USER(user, CurrentUserId).nama);
-                ht_insert(&HashTable, ListKicauan.buffer[ListKicauan.NEFF-1].tagar.TabWord, &ListKicauan.buffer[ListKicauan.NEFF-1]);
+                boolean status = kicau(USER(user, CurrentUserId).nama);
+                if(status) ht_insert(&HashTable, ListKicauan.buffer[ListKicauan.NEFF-1].tagar.TabWord, &ListKicauan.buffer[ListKicauan.NEFF-1]);
             }
             else if(strCompare(input[0].TabWord, command[15])){
                 // KICAUAN
@@ -181,6 +191,9 @@ int main(){
             else if(strCompare(input[0].TabWord, command[18])){
                 // BALAS
                 printf("called %s\n", command[18]);
+                int idKicau = WordToInt(input[1]);
+                // int idBalasan = WordToInt(input[2]);
+                balas(idKicau, input[2]);
             }
             else if(strCompare(input[0].TabWord, command[19])){
                 // BALASAN
@@ -203,24 +216,31 @@ int main(){
             else if(strCompare(input[0].TabWord, command[23])){
                 // UTAS
                 printf("called %s\n", command[23]);
+                // utas(WordToInt(input[1]));
                 int idKicau = WordToInt(input[1]);
                 utas(idKicau);
             }
             else if(strCompare(input[0].TabWord, command[24])){
                 // SAMBUNG_UTAS
                 printf("called %s\n", command[24]);
+                sambung_utas((input[1]), (input[2]));
             }
             else if(strCompare(input[0].TabWord, command[25])){
                 // HAPUS_UTAS
                 printf("called %s\n", command[25]);
+                hapus_utas(input[2], input[1]);
             }
             else if(strCompare(input[0].TabWord, command[26])){
                 // CETAK UTAS
                 printf("called %s\n", command[26]);
+                // KICAUAN k;
+                // k = KICAUAN_ELMT(ListKicauan ,KICAUAN_ELMT(ListIdUtas,WordToInt(input[1])));
+                cetak_utas(WordToInt(input[1]));
             }
             else if(strCompare(input[0].TabWord, command[27])){
                 // SIMPAN
                 printf("called %s\n", command[27]);
+                simpan();
             }
             else if(strCompare(input[0].TabWord, "showAllKicauan")){
                 showAllListKicauan();
@@ -229,6 +249,10 @@ int main(){
                 // CARI_KICAUAN
                 printf("called %s\n", command[29]);
                 cari_kicauan(input[1]);
+            } else if(strCompare(input[0].TabWord, command[30])){
+                // CARI_KICAUAN
+                printf("called %s\n", command[30]);
+                showCircle(LingkaranPertemanan, CurrentUserId);
             }
             else {
                 printErrMessage(input[0]);
@@ -238,3 +262,5 @@ int main(){
     }
     return 0;
 }
+
+//  gcc -o test  ADT/DaftarPertemanan/daftarpertemanan.c ADT/Datetime/datetime.c ADT/Draftkicauan/draftkicauan.c ADT/Foo/foo.c ADT/Kicauan/kicauan.c ADT/Matrix/matrix.c ADT/pcolor/pcolor.c ADT/Prioqueue/prioqueue.c ADT/User/user.c ADT/Wordmachine/Wordmachine.c globalVar.c main.c utilc

@@ -4,12 +4,11 @@
 #include "ADT/DaftarPertemanan/daftarpertemanan.h"
 #include "ADT/Kicauan/kicauan.h"
 #include "ADT/HashTable/HashTable.h"
+#include "ADT/DisjoinSetUnion/circle.h"
 
 extern int CurrentUserId;
 
 extern int CounterKicauan;
-
-extern int CounterUtas;
 
 extern int CounterBalasan;
 
@@ -24,3 +23,5 @@ extern LISTIDUTAS ListIdUtas;
 extern DAFTARPERTEMANAN DaftarPertemanan ;
 
 extern HT_Table HashTable;
+
+extern CIRCLE LingkaranPertemanan;

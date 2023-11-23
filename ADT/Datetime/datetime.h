@@ -82,6 +82,7 @@ boolean DLT(DATETIME D1, DATETIME D2);
 /* Mengirimkan true jika D1<D2, false jika tidak */
 boolean DGT(DATETIME D1, DATETIME D2);
 /* Mengirimkan true jika D1>D2, false jika tidak */
+DATETIME DetikToDATETIME(long long int sec);
 DATETIME DATETIMENextNDetik(DATETIME D, int N);
 /* Mengirim salinan D dengan detik ditambah N */
 DATETIME DATETIMEPrevNDetik(DATETIME D, int N);
@@ -92,5 +93,9 @@ long int DATETIMEDurasi(DATETIME DAw, DATETIME DAkh);
 /* Prekondisi: DAkh > DAw */
 
 long long int getCurrentTime();
+
+DATETIME DetikToDATETIME(long long int sec);
+
+DATETIME CharToDATETIME(char s[]);
 
 #endif

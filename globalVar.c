@@ -1,10 +1,8 @@
 #include "globalVar.h"
 
-int CurrentUserId = -1;
+int CurrentUserId = 0;
 
 int CounterKicauan = 0;
-
-int CounterUtas = 0;
 
 int CounterBalasan = 0;
 
@@ -19,3 +17,5 @@ LISTIDUTAS ListIdUtas;
 DAFTARPERTEMANAN DaftarPertemanan;
 
 HT_Table HashTable;
+
+CIRCLE LingkaranPertemanan;

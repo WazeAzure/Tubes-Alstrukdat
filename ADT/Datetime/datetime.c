@@ -101,6 +101,62 @@ long long int DATETIMEToDetik(DATETIME D){
     return total_seconds;
 }
 
+DATETIME CharToDATETIME(char s[]){
+    DATETIME d;
+    TIME t;
+
+    int len = strLen(s);
+
+    int i;
+    int temp = 0;
+    int pos = 0;
+    for(i=0; i<len; i++){
+        // printf("%c\n", s[i]);
+        if(s[i] == '/'){
+            if(pos == 0){
+                Day(d) = temp;
+                temp = 0;
+                pos++;
+                continue;
+            } else if (pos == 1){
+                Month(d) = temp;
+                temp = 0;
+                pos++;
+                continue;
+            }
+        } else if(s[i] == ' '){
+            if(pos == 2){
+                Year(d) = temp;
+                temp = 0;
+                pos++;
+            }
+            continue;
+        } else if(s[i] == ':'){
+            if(pos == 3){
+                Hour(t) = temp;
+                temp = 0;
+                pos++;
+                continue;
+            } else if (pos == 4){
+                printf("called\n");
+                Minute(t) = temp;
+                temp = 0;
+                pos++;
+                continue;
+            }
+        } else {
+            temp = temp * 10 + s[i] - '0';
+        }
+    }
+    if(pos == 5){
+        Second(t) = temp;
+        temp = 0;
+        pos++;
+    }
+    Time(d) = t;
+    return d;
+}
+
 boolean DNEQ(DATETIME D1, DATETIME D2){
     return !DEQ(D1, D2);
 }

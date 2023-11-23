@@ -10,6 +10,7 @@ int main(){
     }
     printf("Neff %d\n", l.nEFF);
     printf("cap %d\n", l.CAPACITY);
+    
 
     return 0;
 }
