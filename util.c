@@ -520,58 +520,58 @@ void printErrMessage(Word w){
 }
 
 // ----------------------- SIMPAN & LOAD  ----------------
-// static void redrawPrompt(void)
-// {
-//     int i;
-//     int totalDots = 3;
+static void redrawPrompt(void)
+{
+    int i;
+    int totalDots = 3;
 
-//     printf("Mohon tunggu ");
+    printf("Mohon tunggu ");
 
-//     for (i = 0; i < totalDots; ++i) {
-//         printf(".");
-//         fflush(stdout); // Flush the output buffer to make sure dots are printed immediately
+    for (i = 0; i < totalDots; ++i) {
+        printf(".");
+        fflush(stdout); // Flush the output buffer to make sure dots are printed immediately
 
-//         // You can replace the sleep function with actual loading operations
-//         // For demonstration purposes, sleep is used to simulate loading time
-//         // Sleep for 0.5 second
-//         #if defined(_WIN32)
-//             // printf("called in windows\n");
-//             Sleep(500);
-//         #else
-//             sleep(0.5);
-//             // printf("called in linux\n");
-//         #endif
-//     }
-//     endl;
-// }
+        // You can replace the sleep function with actual loading operations
+        // For demonstration purposes, sleep is used to simulate loading time
+        // Sleep for 0.5 second
+        #if defined(_WIN32)
+            // printf("called in windows\n");
+            Sleep(500);
+        #else
+            sleep(0.5);
+            // printf("called in linux\n");
+        #endif
+    }
+    endl;
+}
 
-// static void redrawPromptFiles(void)
-// {
-//     int i;
-//     int totalDots = 3;
-//     char arr[5][20] = {"pengguna.config", "draf.config", "kicauan.config", "utas.config", "balasan.config"};
+static void redrawPromptFiles(void)
+{
+    int i;
+    int totalDots = 3;
+    char arr[5][20] = {"pengguna.config", "draf.config", "kicauan.config", "utas.config", "balasan.config"};
 
-//     for(int f=0; f<5; f++){
-//         printf("%d. Creating %s ", f+1, arr[f]);
-//         for (i = 0; i < totalDots; ++i) {
-//             printf(".");
-//             fflush(stdout); // Flush the output buffer to make sure dots are printed immediately
+    for(int f=0; f<5; f++){
+        printf("%d. Creating %s ", f+1, arr[f]);
+        for (i = 0; i < totalDots; ++i) {
+            printf(".");
+            fflush(stdout); // Flush the output buffer to make sure dots are printed immediately
 
-//             // You can replace the sleep function with actual loading operations
-//             // For demonstration purposes, sleep is used to simulate loading time
-//             // Sleep for 0.5 second
-//             #if defined(_WIN32)
-//                 // printf("called in windows\n");
-//                 Sleep(500);
-//             #else
-//                 sleep(1);
-//                 // printf("called in linux\n");
-//             #endif
+            // You can replace the sleep function with actual loading operations
+            // For demonstration purposes, sleep is used to simulate loading time
+            // Sleep for 0.5 second
+            #if defined(_WIN32)
+                // printf("called in windows\n");
+                Sleep(500);
+            #else
+                sleep(1);
+                // printf("called in linux\n");
+            #endif
              
-//         }
-//         endl;
-//     }
-// }
+        }
+        endl;
+    }
+}
 
 void createFolder(Word folder){
     int check;
@@ -733,7 +733,7 @@ void simpan(){
     if(!isFolderExist(folder)){
         printf("Belum terdapat \"%s\". Akan dilakukan pembuatan \"%s\" terlebih dahulu.\n", folder.TabWord, folder.TabWord);
         createFolder(folder);
-        // redrawPrompt();
+        redrawPrompt();
     }
     // create empty file
     createFiles(folder);
@@ -744,5 +744,5 @@ void simpan(){
     tulisKicauan(folder);
 
 
-    // redrawPromptFiles();
+    redrawPromptFiles();
 }
