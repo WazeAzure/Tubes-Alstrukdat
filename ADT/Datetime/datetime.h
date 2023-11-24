@@ -91,7 +91,7 @@ DATETIME DATETIMEPrevNDetik(DATETIME D, int N);
 long int DATETIMEDurasi(DATETIME DAw, DATETIME DAkh);
 /* Mengirim DAkh-DAw dlm Detik, dengan kalkulasi */
 /* Prekondisi: DAkh > DAw */
-
+long long int DATETIMEToDetik(DATETIME D);
 long long int getCurrentTime();
 
 DATETIME DetikToDATETIME(long long int sec);
