@@ -295,22 +295,22 @@ void sambung_utas(Word idUtas,Word index){
         printf("Index tidak valid.\n\n");
         return;
     }else if(Index-1 > lengthDaftarUtas(*currentUtas)){
-        printf("%d %d\n", Index, lengthDaftarUtas(*currentUtas));
         printf("Index terlalu tinggi.\n\n");
         return;
-    }else{
-        Word teks;
-        printf("Masukkan kicauan:\n");
-        do{
-            readWord(&teks,';');
-        }while(teks.Length == 0);
-        if(Index == 1){
-            insertFirstDaftarUtas(currentUtas,teks);
-            KICAU_DAFTAR_UTAS(*K) = *currentUtas;
         }else{
-            insertAtDaftarUtas(currentUtas, teks, Index-1);
+            Word teks;
+            printf("Masukkan kicauan:\n");
+            do{
+                readWord(&teks,';');
+            }while(teks.Length == 0);
+            if(Index == 1){
+                insertFirstDaftarUtas(currentUtas,teks);
+                KICAU_DAFTAR_UTAS(*K) = *currentUtas;
+            }else{
+                insertAtDaftarUtas(currentUtas, teks, Index-1);
+            }
+            printf("\n\n");
         }
-        printf("\n\n");
     }
 }
 
