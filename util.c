@@ -1052,7 +1052,7 @@ void simpan(){
     tulisPengguna(folder);
     tulisKicauan(folder);
     tulisUtas(folder);
-    tulisDraf(folder);
+    // tulisDraf(folder);
 
     redrawPromptFiles();
 }
