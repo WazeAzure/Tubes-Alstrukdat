@@ -204,6 +204,9 @@ int main(){
             else if(strCompare(input[0].TabWord, command[20])){
                 // HAPUS_BALASAN
                 printf("called %s\n", command[20]);
+                int idKicau = WordToInt(input[1]);
+                int idBalasan = WordToInt(input[2]);
+                hapusBalasan(idKicau, idBalasan);
             }
             else if(strCompare(input[0].TabWord, command[21])){
                 // BUAT_DRAF

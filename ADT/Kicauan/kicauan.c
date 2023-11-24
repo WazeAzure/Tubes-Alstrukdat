@@ -21,7 +21,11 @@ void CreateListKicauan(LISTKICAUAN* l, int CAPACITY){
     KICAUAN_CAPACITY(*l) = CAPACITY;
     KICAUAN_NEFF(*l) = 0;
     KICAUAN_BUFFER(*l) = (KICAUAN*)malloc(sizeof(KICAUAN) * CAPACITY);
+    #if defined(_WIN32)
+    printf("size - %lld\n", sizeof(KICAUAN_BUFFER(*l)));
+    #else
     printf("size - %ld\n", sizeof(KICAUAN_BUFFER(*l)));
+    #endif
 }
 
 void dealocateListKicauan(LISTKICAUAN *l){
