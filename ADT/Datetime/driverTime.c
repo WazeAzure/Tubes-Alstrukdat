@@ -1,10 +1,19 @@
 #include <stdio.h>
-#include "time.h"
+#include "../../util.c"
+#include "../../globalVar.c"
+#include "../Wordmachine/wordmachine.c"
+#include "../Wordmachine/charmachine.c"
+#include "../pcolor/pcolor.c"
+#include "../User/user.c"
+#include "../DisjoinSetUnion/circle.c"
+#include "../Kicauan/kicauan.c"
+// #include "../Datetime/datetime.c"
 
 int main()
 {
     printf("------- DRIVER ADT TIME -------\n");
     TIME d,d1,d2;
+    DATETIME t1,t2;
 
     printf("Masukkan TIME yang diinginkan dengan format HH MM SS\n");
     BacaTIME(&d);
@@ -30,14 +39,15 @@ int main()
     printf("Masukkan detik untuk diubah menjadi TIME\n");
     int detik;
     scanf("%ld", &detik);
-    TulisDATETIME(DetikToTIME(detik));
+    DATETIME p = DetikToDATETIME(detik);
+    TulisDATETIME(p);
 
 
-    printf("Pengecekkan antar dua TIME\n");
+    printf("\nPengecekkan antar dua TIME\n");
     printf("Masukkan T1: \n");
-    BacaDATETIME(&d1);
+    BacaDATETIME(&t1);
     printf("Masukkan T2: \n");
-    BacaDATETIME(&d2);
+    BacaDATETIME(&t2);
 
     printf("Pengecekkan apabila DATETIME sama, 0 jika tidak sama, 1 jika sama\n");
     printf("Hasil: %d, %d\n", TEQ(d1,d2));
@@ -65,7 +75,7 @@ int main()
 
     printf("Durasi antar dua TIME:\n");
     long int durasi;
-    if (TGT(d1,d2))
+    if (TLT(d1,d2))
     {
 
         durasi = Durasi(d1,d2);
