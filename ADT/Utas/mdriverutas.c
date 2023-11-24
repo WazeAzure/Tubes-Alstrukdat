@@ -2,6 +2,15 @@
 #include "utas.c"
 #include "stdio.h"
 
+#include "../../globalVar.c"
+#include "../Wordmachine/charmachine.c"
+#include "../Wordmachine/wordmachine.c"
+#include "../DisjoinSetUnion/circle.c"
+#include "../../util.c"
+#include "../pcolor/pcolor.c"
+#include "../User/user.c"
+#include "../Kicauan/kicauan.c"
+
 int main(){
     Word idUtas;
     Word index;
@@ -22,8 +31,8 @@ int main(){
     if(isEmptyDaftarUtas(daftarUtas) && isEmptyListIdUtas(l)){
         printf("tidak ada kicauan yang diutas\n");
     }
-    printf('Banyak elemen list utas pada kicau %d adalah %d\n',kicauan.id,lengthDaftarUtas(daftarUtas));
-    printf('%d\n',lengthDaftarIdUtas(l));
+    printf("Banyak elemen list utas pada kicau %d adalah %d\n",kicauan.id,lengthDaftarUtas(daftarUtas));
+    printf("%d\n",lengthDaftarIdUtas(l));
     utas(2);
     sambung_utas(idUtas,index);
     insertAtDaftarUtas(&daftarUtas,teks,Index);
