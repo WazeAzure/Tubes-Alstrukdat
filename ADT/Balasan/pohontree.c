@@ -163,9 +163,9 @@ void searchIdParent(AddressTree kicauanUtama, int id_balasan, AddressTree* resul
 
 
 
-void insertBalasan(int idKicau, Word idBalasan, AddressTree node){
-    int id_balasan = WordToInt(idBalasan);
-    if(strCompare(idBalasan.TabWord, "-1")){
+void insertBalasan(int idKicau, int idBalasan, AddressTree node, int idTambahan){
+    int id_balasan = idBalasan;
+    if(idBalasan == -1){
         id_balasan = -1;
     }
     printf("isi id_balasan %d\n", id_balasan);
@@ -204,9 +204,15 @@ void insertBalasan(int idKicau, Word idBalasan, AddressTree node){
         }
     }
 
+    if(idTambahan != -10){
+        node->info.id = idTambahan;
+    }
 
     // -------------------- BALASAN SUDAH BERHASIL DITAMBAHKAN -------------
-    
+    if(idTambahan > KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan){
+        KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan = idTambahan;
+    }
+
     KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan++;
     printf("current inc_balasan: %d\n",KICAUAN_ELMT(ListKicauan, idKicau).inc_balasan);
 
@@ -279,7 +285,7 @@ void balas(int idKicau, Word idBalasan){
     printf("%s\n", t->info.isi.TabWord);
     printf("--------------------------------\n");
 
-    insertBalasan(idKicau, idBalasan, t);
+    insertBalasan(idKicau, WordToInt(idBalasan), t, -10);
 
     showDaftarBalasant(idKicau);
 }
@@ -321,6 +327,14 @@ void deallocTreeSection(AddressTree t){
     // printf("%d\n", CHILD(p)->info.id);
     // printf("%s\n", CHILD(p)->info.isi.TabWord);
     // printf("--------------------------------\n");
+
+    AddressTree p = t;
+    printf("------------START-----------------\n");
+    printf("| ID = %d\n", p->info.id );
+    printf("| %s\n", p->info.author.TabWord);
+    printf("| "); TulisDATETIME(p->info.date); printf("\n");
+    printf("| %s\n", p->info.isi.TabWord);
+    printf("------------END--------------------\n");
 
     t->child = NULL;
     t->sibling = NULL;

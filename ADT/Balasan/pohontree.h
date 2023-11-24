@@ -88,4 +88,6 @@ void balasanKicauanDetail(AddressTree p);
 
 void showDaftarBalasant(int idKicau);
 
+void insertBalasan(int idKicau, int idBalasan, AddressTree node, int idTambahan);
+
 #endif

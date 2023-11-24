@@ -21,6 +21,7 @@
         "kicauan.h": "c",
         "pohontree.h": "c",
         "windows.h": "c",
-        "util.h": "c"
+        "util.h": "c",
+        "stdlib.h": "c"
     }
 }
