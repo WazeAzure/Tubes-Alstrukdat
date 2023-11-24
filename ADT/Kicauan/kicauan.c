@@ -159,7 +159,7 @@ void sukaKicauan(Word input){
         return ;
     }
     
-    int idKicau = WordToInt(input);
+    int idKicau = WordToInt(input)-1;
     // printf("called hereasd ad as \n");
     if(idKicau >= KICAUAN_NEFF(ListKicauan) || idKicau < 0){
         printf("Tidak ditemukan kicauan dengan ID = %d;\n", idKicau);
@@ -188,7 +188,7 @@ void ubahKicauan(Word input){
         return ;
     }
 
-    int idKicau = WordToInt(input);
+    int idKicau = WordToInt(input)-1;
     // printf("called hereasd ad as \n");
     if(idKicau >= KICAUAN_NEFF(ListKicauan) || idKicau < 0){
         printf("Tidak ditemukan kicauan dengan ID = %d;\n", idKicau);
