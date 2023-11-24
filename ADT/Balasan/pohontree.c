@@ -37,17 +37,23 @@ void printTreeRec(AddressTree p, int h) {
         for (i = 0; i < h*2; i++) {
             printf("  ");
         }
-        printf("%d\n", (p)->info.id);
+        printf("| ID = %d\n", (p)->info.id);
 
         for (i = 0; i < h*2; i++) {
             printf("  ");
         }
-        printf("%s\n", (p)->info.author.TabWord);
+        printf("| %s\n", (p)->info.author.TabWord);
 
         for (i = 0; i < h*2; i++) {
             printf("  ");
         }
-        printf("%s\n", (p)->info.isi.TabWord);
+        printf("| "); TulisDATETIME(p->info.date); printf("\n");
+
+        for (i = 0; i < h*2; i++) {
+            printf("  ");
+        }
+        printf("| %s\n", (p)->info.isi.TabWord);
+        printf("\n");
 
         printTreeRec((p)->child, h+1);
         printTreeRec((p)->sibling,  h);
@@ -117,7 +123,7 @@ void addBalasanSiblings(AddressTree t, AddressTree *root){
 
 void searchId(AddressTree kicauanUtama, int id_balasan, AddressTree* result){
     if (kicauanUtama == NULL) {
-        printf("kicauanUtama null\n");
+        // printf("kicauanUtama null\n");
         return ;
     }
 
@@ -161,8 +167,6 @@ void searchIdParent(AddressTree kicauanUtama, int id_balasan, AddressTree* resul
     searchId((kicauanUtama)->child, id_balasan, result);
 }
 
-
-
 void insertBalasan(int idKicau, int idBalasan, AddressTree node, int idTambahan){
     int id_balasan = idBalasan;
     if(idBalasan == -1){
@@ -180,7 +184,6 @@ void insertBalasan(int idKicau, int idBalasan, AddressTree node, int idTambahan)
         if(node->info.id == 0){
             printf("root bernilai null\n");
             *kicauanUtama = node;
-            balasanKicauanDetail(*kicauanUtama);
         } else {
             printf("root not null\n");
             AddressTree p = *kicauanUtama;
@@ -203,6 +206,7 @@ void insertBalasan(int idKicau, int idBalasan, AddressTree node, int idTambahan)
             }
         }
     }
+    balasanKicauanDetail(*kicauanUtama);
 
     if(idTambahan != -10){
         node->info.id = idTambahan;
@@ -224,7 +228,7 @@ void insertBalasan(int idKicau, int idBalasan, AddressTree node, int idTambahan)
     printf("Selamat! balasan telah diterbitkan!\n");
     printf("Detail balasan\n");
 
-    // balasanKicauanDetail(t);
+    balasanKicauanDetail(node);
 }
 
 boolean balasValid(int idKicau, Word idBalasan){
@@ -265,29 +269,29 @@ void balas(int idKicau, Word idBalasan){
 
     BALASAN* b = createBalasan(balasan, idKicau);
 
-    printf("--------------------------------\n");
-    printf("%s\n", b->author.TabWord);
-    TulisDATETIME(b->date);
-    endl;
-    printf("%d\n", b->id);
-    printf("%s\n", b->isi.TabWord);
-    printf("--------------------------------\n");
+    // printf("--------------------------------\n");
+    // printf("%s\n", b->author.TabWord);
+    // TulisDATETIME(b->date);
+    // endl;
+    // printf("%d\n", b->id);
+    // printf("%s\n", b->isi.TabWord);
+    // printf("--------------------------------\n");
 
     // -------------- ADD BALASAN ----------------- //
 
     AddressTree t = newTreeNode(b);
 
-    printf("--------------TREEE NODE-------------\n");
-    printf("%s\n", t->info.author.TabWord);
-    TulisDATETIME(t->info.date);
-    endl;
-    printf("%d\n", t->info.id);
-    printf("%s\n", t->info.isi.TabWord);
-    printf("--------------------------------\n");
+    // printf("--------------TREEE NODE-------------\n");
+    // printf("%s\n", t->info.author.TabWord);
+    // TulisDATETIME(t->info.date);
+    // endl;
+    // printf("%d\n", t->info.id);
+    // printf("%s\n", t->info.isi.TabWord);
+    // printf("--------------------------------\n");
 
     insertBalasan(idKicau, WordToInt(idBalasan), t, -10);
 
-    showDaftarBalasant(idKicau);
+    // showDaftarBalasant(idKicau);
 }
 
 void balasanKicauanDetail(AddressTree p){
@@ -302,12 +306,12 @@ void balasanKicauanDetail(AddressTree p){
 void deallocTreeSection(AddressTree t){
     if(isOneElmt(t)){
         AddressTree p = t;
-        printf("------------START-----------------\n");
-        printf("| ID = %d\n", p->info.id );
-        printf("| %s\n", p->info.author.TabWord);
-        printf("| "); TulisDATETIME(p->info.date); printf("\n");
-        printf("| %s\n", p->info.isi.TabWord);
-        printf("------------END--------------------\n");
+        // printf("------------START-----------------\n");
+        // printf("| ID = %d\n", p->info.id );
+        // printf("| %s\n", p->info.author.TabWord);
+        // printf("| "); TulisDATETIME(p->info.date); printf("\n");
+        // printf("| %s\n", p->info.isi.TabWord);
+        // printf("------------END--------------------\n");
 
         t->child = NULL;
         t->sibling = NULL;

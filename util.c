@@ -1034,6 +1034,71 @@ void tulisUtas(Word folder){
 //     fclose(f);
 // }
 
+void countNBalasan(AddressTree kicauanUtama, int id_balasan, int * result){
+    if (kicauanUtama == NULL) {
+        return ;
+    }
+
+    *result += 1;
+    // cek siblings
+    countNBalasan((kicauanUtama)->sibling, id_balasan, result);
+
+    // cek childs
+    countNBalasan((kicauanUtama)->child, id_balasan, result);
+}
+
+void writeBalasan(AddressTree kicauanUtama, FILE *f){
+    if (kicauanUtama == NULL) {
+        return ;
+    }
+
+    fprintf(f, "%d\n", kicauanUtama->info.id);
+    fprintf(f, "%s\n", kicauanUtama->info.isi.TabWord);
+    
+    DATETIME D = kicauanUtama->info.date;
+    fprintf(f, "%d/%d/%d ", Day(D), Month(D), Year(D));
+    fprintf(f, "%d/%d/%d ", Day(D), Month(D), Year(D));
+    TIME T = Time(D);
+    fprintf(f, "%02d:%02d:%02d\r\n", Hour(T), Minute(T), Second(T));
+
+    writeBalasan(kicauanUtama->sibling, f);
+    writeBalasan(kicauanUtama->child, f);
+}
+
+void tulisBalasan(Word folder){
+    char balasan[] = "/balasan.config";
+    Word filename = ConcatWord(folder, CharToWord(balasan));
+
+    char tempF[filename.Length];
+    WordToChar(filename, tempF);
+
+    FILE *f = fopen(tempF, "a");
+
+    // jumlah  banyak kicauan yang memiliki balasan
+    int nKicauBalas = 0;
+    for(int i=0; i<ListKicauan.NEFF; i++){
+        if(KICAUAN_ELMT(ListKicauan, i).daftar_balasan != NULL){
+            nKicauBalas++;
+        }
+    }
+    fprintf(f, "%d\r\n", nKicauBalas);
+
+    for(int i=0; i<ListKicauan.NEFF; i++){
+        if(KICAUAN_ELMT(ListKicauan, i).daftar_balasan != NULL){
+            KICAUAN temp = KICAUAN_ELMT(ListKicauan, i);
+            fprintf(f, "%d\r\n", temp.id+1);
+
+            int nBalasan = 0;
+            countNBalasan(temp.daftar_balasan, 0, &nBalasan);
+
+            fprintf(f, "%d\r\n", nBalasan);
+            writeBalasan(temp.daftar_balasan, f);
+        }
+    }
+    fclose(f);
+}
+
+
 void simpan(){
     Word folder;
     printf("Masukkan nama folder penyimpanan: ");
@@ -1052,7 +1117,8 @@ void simpan(){
     tulisPengguna(folder);
     tulisKicauan(folder);
     tulisUtas(folder);
-    tulisDraf(folder);
+    // tulisDraf(folder);
+    tulisBalasan(folder);
 
     redrawPromptFiles();
 }
