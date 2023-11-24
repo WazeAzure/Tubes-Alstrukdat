@@ -28,7 +28,7 @@ pair_ds ds_search(CIRCLE *c, int idUser){
 void ds_union(CIRCLE *c, int node1, int node2){
     pair_ds root1 = ds_search(c, node1);
     pair_ds root2 = ds_search(c, node2);
-    printf("nilai node - %d %d\n", node1, node2);
+    // printf("nilai node - %d %d\n", node1, node2);
     // printf("nilai root - %d %d\n", root1, root2);
     if(root1.count > root2.count){
         // gabungin mereka
