@@ -5,10 +5,10 @@
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
 
-#include "../Datetime/datetime.h"
+// #include "../Datetime/datetime.h"
 
 
-#include "../User/user.h"
+// #include "../User/user.h"
 
 #include "kicauan.h"
 #include "../../globalVar.h"
