@@ -123,12 +123,12 @@ void cari_kicauan(Word tagar){
     HT_item* item = ht_search(&HashTable, tagar.TabWord);
     
     AddressHT p = item->val;
-    int i=0;
+    // int i=0;
     while(p != NULL){
         showKicauanContent(p->info);
         printf("\n");
         p = p->next;
         // printf("urutan ke - %d\n", i);
-        i++;
+        // i++;
     }
 }

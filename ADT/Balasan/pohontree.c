@@ -305,7 +305,7 @@ void balasanKicauanDetail(AddressTree p){
 
 void deallocTreeSection(AddressTree t){
     if(isOneElmt(t)){
-        AddressTree p = t;
+        // AddressTree p = t;
         // printf("------------START-----------------\n");
         // printf("| ID = %d\n", p->info.id );
         // printf("| %s\n", p->info.author.TabWord);
