@@ -82,4 +82,5 @@ void hapus_utas(Word Index, Word idutas);
 
 void cetak_utas(int id_utas);
 
+void insertLastIdUtas(LISTIDUTAS *ListIdUtas, int val);
 #endif
