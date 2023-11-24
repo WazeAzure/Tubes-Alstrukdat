@@ -33,6 +33,7 @@ int main(){
     Word input;
     input.TabWord[0] = 0;
     sukaKicauan(input);
+    
     return 0;
 }
 // gcc -o kicauan ADT/Draftkicauan/draftkicauan.c ADT/User/user.c ADT/Wordmachine/charmachine.c ADT/Wordmachine/wordmachine.c ADT/Kicauan/kicauan.c ADT/Draftkicauan/mdrivekicauan.c globalVar.c main.c ADT/pcolor/pcolor.c
