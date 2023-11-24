@@ -5,10 +5,10 @@
 #include "../Wordmachine/charmachine.h"
 #include "../Wordmachine/wordmachine.h"
 
-#include "../Datetime/datetime.h"
+// #include "../Datetime/datetime.h"
 
 
-#include "../User/user.h"
+// #include "../User/user.h"
 
 #include "kicauan.h"
 #include "../../globalVar.h"
@@ -21,7 +21,7 @@ void CreateListKicauan(LISTKICAUAN* l, int CAPACITY){
     KICAUAN_CAPACITY(*l) = CAPACITY;
         KICAUAN_NEFF(*l) = 0;
     KICAUAN_BUFFER(*l) = (KICAUAN*)malloc(sizeof(KICAUAN) * CAPACITY);
-    printf("size - %ld\n", sizeof(KICAUAN_BUFFER(*l)));
+    printf("size - %lld\n", sizeof(KICAUAN_BUFFER(*l)));
 }
 
 void dealocateListKicauan(LISTKICAUAN *l){
@@ -85,7 +85,7 @@ void addKicauanLast(Word teks, Word Author, Word tagar){
 }
 
 void showKicauanContent(KICAUAN kicauan){
-    printf("| ID: %d\n", kicauan.id);
+    printf("| ID: %d\n", kicauan.id+1);
     printf("| idAuthor: %d\n", kicauan.idAuthor);
     printf("| %s\n", kicauan.Author.TabWord);
     printf("| "); TulisDATETIME(kicauan.timeCreated); printf("\n");

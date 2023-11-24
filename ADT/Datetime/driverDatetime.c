@@ -1,7 +1,18 @@
 #include <stdio.h>
+#include "../../util.c"
+#include "../../globalVar.c"
+#include "../Wordmachine/wordmachine.c"
+#include "../Wordmachine/charmachine.c"
+#include "../pcolor/pcolor.c"
+#include "../User/user.c"
+#include "../DisjoinSetUnion/circle.c"
+#include "../Kicauan/kicauan.c"
 #include "datetime.h"
 #include "time.h"
 #include <time.h>
+#include "../../util.c"
+
+
 
 int main()
 {
@@ -27,7 +38,7 @@ int main()
 
     printf("Masukkan detik untuk diubah menjadi DATETIME\n");
     int detik;
-    scanf("%lld", &detik);
+    scanf("%lld\n", &detik);
     TulisDATETIME(DetikToDATETIME(detik));
 
 
@@ -52,14 +63,6 @@ int main()
         printf("Kedua DATETIME sama\n");
     }
 
-    printf("Pengecekkan apabila D1 < D2, 0 jika salah, 1 jika benar\n");
-    if (DNEQ(d1,d2))
-    {
-        printf("%d\n", DLT(d1,d2));
-    } else
-    {
-        printf("Kedua DATETIME sama\n");
-    }
 
     printf("Durasi antar dua DATETIME:\n");
     long int durasi;
@@ -71,15 +74,6 @@ int main()
     {
         durasi = DATETIMEDurasi(d2,d1);
     }
-    printf("%ld\n", durasi);
-
-
-
-
-
-
-
-    
-    
+    printf("%ld\n", durasi); 
     
 }
