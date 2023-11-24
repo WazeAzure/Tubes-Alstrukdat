@@ -307,7 +307,7 @@ void bacaKicauan(FILE* f){
         // printf("work\n");
         // add kicauan;
         KICAUAN* new = newKicau(wtext, wauthor, wtagar);
-        new->idAuthor = KICAU_IDAUTHOR(KICAUAN_ELMT(ListKicauan, id_kicau));
+        new->idAuthor = userId(wauthor);
         new->id = id_kicau;
         new->like = nlike;
         new->timeCreated = d;
@@ -324,6 +324,70 @@ void bacaKicauan(FILE* f){
             fgetc(f);
             fgetc(f);
         #endif
+    }
+}
+
+void bacaUtas(FILE*f){
+    char nUtas[10];
+    fgets(nUtas, sizeof(nUtas), f);
+    strip(nUtas, '\r');
+    strip(nUtas, '\n');
+    int n_utas = WordToInt(CharToWord(nUtas));
+
+    int i, j;
+    for(i=0; i<n_utas; i++){
+        char id[100];
+        char jumlah[100];
+
+        fgets(id, sizeof(id), f);
+        strip(id, '\r');
+        strip(id, '\n');
+
+        fgets(jumlah, sizeof(jumlah), f);
+        strip(jumlah, '\r');
+        strip(jumlah, '\n');
+
+        int utasan = WordToInt(CharToWord(id));
+        int Jumlah = WordToInt(CharToWord(jumlah));
+        for (j=0; j<Jumlah; j++){
+            AddressUtas new = (AddressUtas)malloc(sizeof(NodeElemenUtas));
+            if (new != NULL) {
+                char teks[100];
+                char author[100];
+                char datetime[100];
+                
+                fgets(teks, sizeof(teks), f);
+                strip(teks, '\r');
+                strip(teks, '\n');
+                fgets(author, sizeof(author), f);
+                strip(author, '\r');
+                strip(author, '\n');
+                fgets(datetime, sizeof(datetime), f);
+                strip(datetime, '\r');
+                strip(datetime, '\n');
+
+                Word text = CharToWord(teks);
+                Word Author = CharToWord(author);
+                DATETIME Datetime = CharToDATETIME(datetime);
+
+                new->next = NULL;
+                new->teks = text;
+                new->author = Author;
+                new->timeCreated = Datetime;
+
+                AddressUtas p = ListKicauan.buffer[utasan-1].daftar_utas;
+                if (p == NULL) {
+                    ListKicauan.buffer[utasan-1].daftar_utas = new;
+                } else {
+                    while (NEXTDAFTARUTAS(p) != NULL) {
+                        p = NEXTDAFTARUTAS(p);
+                    }
+                    NEXTDAFTARUTAS(p) = new;
+                }
+                
+            }
+        }
+        insertLastIdUtas(&ListIdUtas, utasan-1);
     }
 }
 
@@ -346,7 +410,7 @@ boolean readFile(Word FileName, Word foldername){
         } else if(strCompare(FileName.TabWord, "/kicauan.config")){
             bacaKicauan(f);
         } else if(strCompare(FileName.TabWord, "/utas.config")){
-
+            bacaUtas(f);
         }
     } else {
         printf("%sfile \'%s\' not exist%s\n", RED, filename, NORMAL);
@@ -538,7 +602,7 @@ static void redrawPrompt(void)
             // printf("called in windows\n");
             Sleep(500);
         #else
-            sleep(0.5);
+            // sleep(1);
             // printf("called in linux\n");
         #endif
     }
@@ -707,21 +771,69 @@ void tulisKicauan(Word folder){
     int n=0;
     KICAUAN temp = KICAUAN_ELMT(ListKicauan, n);
     for(n=0; n<ListKicauan.NEFF-1; n++){
-        fprintf(f, "%d\n", KICAU_ID(temp));
+        fprintf(f, "%d\n", KICAU_ID(temp)+1);
         fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
         fprintf(f, "%d\n", LIKE(temp));
         fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
         DATETIME temp2 = KICAU_TIMECREATED(temp);
-        fprintf(f, "%d/%d/%d %d:%d:%d\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+        fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+        temp = KICAUAN_ELMT(ListKicauan, n+1);
     }
 
-    fprintf(f, "%d\n", KICAU_ID(temp));
+    fprintf(f, "%d\n", KICAU_ID(temp)+1);
     fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
     fprintf(f, "%d\n", LIKE(temp));
     fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
     DATETIME temp2 = KICAU_TIMECREATED(temp);
-    fprintf(f, "%d/%d/%d %d:%d:%d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+    fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
 
+    fclose(f);
+}
+
+void tulisUtas(Word folder){
+    char utas[] = "/utas.config";
+    Word filename = ConcatWord(folder, CharToWord(utas));
+
+    char tempF[filename.Length];
+    WordToChar(filename, tempF);
+
+    FILE *f = fopen(tempF, "a");
+
+    // jumlah utas
+    fprintf(f, "%d\n", ListIdUtas.nEFF);
+
+    int n=0;
+    int i=0;
+    int len;
+    AddressUtas temp = KICAUAN_ELMT(ListKicauan, (ListIdUtas.buffer[n])).daftar_utas;
+    for(n=0; n<ListIdUtas.nEFF-1; n++){
+        fprintf(f, "%d\n", ListIdUtas.buffer[n]+1);
+        len = lengthDaftarUtas(temp);
+        fprintf(f, "%d\n", len);
+        for (i = 0; i < len; i++){
+            fprintf(f, "%s\n", temp->teks.TabWord);
+            fprintf(f, "%s\n", temp->author.TabWord);
+            DATETIME temp2 = temp->timeCreated;
+            fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+            temp = NEXTDAFTARUTAS(temp);
+        }
+        temp = KICAUAN_ELMT(ListKicauan, (ListIdUtas.buffer[n+1])).daftar_utas;
+    }
+
+    fprintf(f, "%d\n", ListIdUtas.buffer[n]+1);
+    len = lengthDaftarUtas(temp);
+    fprintf(f, "%d\n", len);
+    for (i = 0; i < len-1; i++){
+        fprintf(f, "%s\n", temp->teks.TabWord);
+        fprintf(f, "%s\n", temp->author.TabWord);
+        DATETIME temp2 = temp->timeCreated;
+        fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+        temp = NEXTDAFTARUTAS(temp);
+    }
+    fprintf(f, "%s\n", temp->teks.TabWord);
+    fprintf(f, "%s\n", temp->author.TabWord);
+    DATETIME temp2 = temp->timeCreated;
+    fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
     fclose(f);
 }
 
@@ -742,6 +854,7 @@ void simpan(){
     // isi file
     tulisPengguna(folder);
     tulisKicauan(folder);
+    tulisUtas(folder);
 
 
     redrawPromptFiles();
