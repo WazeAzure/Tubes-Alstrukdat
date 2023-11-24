@@ -561,56 +561,60 @@ void hapusTeman(int idUser){
 }
 
 boolean CekPermintaanPertemanan(int idTeman){
-    int jumlah_permintaan = PERMINTAANPERTEMANAN(USER(user,idTeman)).jumlah_permintaan;
-    int i=0;
-    boolean found = false;
     PERMINTAANPERTEMANAN* q = &PERMINTAANPERTEMANAN(USER(user,idTeman));
     infotype x;
-    while(i < jumlah_permintaan && !found){
-        DequeuePermintaanPertemanan(q, &x);
+    Address P = FirstPermintaanPertemanan(*q);
+    while(P != NULL){
+        x = P->value;
         if(x.id == CurrentUserId){
             return false;
         }
+        P = NextPermintaanPertemanan(P);
     }
     return true;
 }
 
 
 void tambahTeman(int idUser){
-    Word namaTeman;
-    printf("Masukkan nama pengguna:\n");
-    readWord(&namaTeman, ';');
-    int idTeman = userId(namaTeman);
-    if(idTeman == -1){
-        printf("Pengguna bernama %s tidak ditemukan.\n\n",namaTeman.TabWord);
-    } else if(isTeman(idUser,idTeman)){
-        printf("Anda sudah berteman dengan %s.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
-    } else{
-        if(CekPermintaanPertemanan(idTeman)){
-            infotype X;
-            X.id = USER_ID(USER(user,idUser));
-            X.nama = USER_NAMA(USER(user,idUser));
-            X.jumlahTeman = JUMLAH_TEMAN(USER(user,idUser));
-            // prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
-            EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idTeman)), X); ;
-            printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
-        } else {
-            printf("Anda sudah pernah mengirimkan permintaan pertemanan kepada %s\n", USER_NAMA(USER(user, idTeman)).TabWord);
+    PERMINTAANPERTEMANAN* q = &PERMINTAANPERTEMANAN(USER(user,idUser));
+    if(JumlahPermintaanPertemanan(*q) == 0){
+        Word namaTeman;
+        printf("Masukkan nama pengguna:\n");
+        readWord(&namaTeman, ';');
+        int idTeman = userId(namaTeman);
+        if(idTeman == -1){
+            printf("Pengguna bernama %s tidak ditemukan.\n\n",namaTeman.TabWord);
+        } else if(isTeman(idUser,idTeman)){
+            printf("Anda sudah berteman dengan %s.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
+        } else{
+            if(CekPermintaanPertemanan(idTeman)){
+                infotype X;
+                X.id = USER_ID(USER(user,idUser));
+                X.nama = USER_NAMA(USER(user,idUser));
+                X.jumlahTeman = JUMLAH_TEMAN(USER(user,idUser));
+                // prinf("%d %s %d",X.id, X.nama.TabWord, X.jumlahTeman);
+                EnqueuePermintaanPertemanan(&PERMINTAANPERTEMANAN(USER(user,idTeman)), X); ;
+                printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n\n",USER_NAMA(USER(user,idTeman)).TabWord);
+            } else {
+                printf("Anda sudah pernah mengirimkan permintaan pertemanan kepada %s\n", USER_NAMA(USER(user, idTeman)).TabWord);
+            }
         }
+    } else{
+        printf("Terdapat permintaan pertemanan yang belum anda setujui. Silakan kosongkan daftar permintaan pertemanan untuk Anda terlebih dahulu \n");
     }
 }
 
-void showDaftarPermintaanPertemanan(int idUser){
-    if(!IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)))){
-        int jumlah_permintaan_pertemanan = JumlahPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
-        if(jumlah_permintaan_pertemanan != 0){
-            printf("Terdapat %d permintaan pertemanan untuk Anda.\n", jumlah_permintaan_pertemanan);
+    void showDaftarPermintaanPertemanan(int idUser){
+        if(!IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)))){
+            int jumlah_permintaan_pertemanan = JumlahPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
+            if(jumlah_permintaan_pertemanan != 0){
+                printf("Terdapat %d permintaan pertemanan untuk Anda.\n", jumlah_permintaan_pertemanan);
+            }
+                PrintPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
+        } else{
+            printf("Tidak ada permintaan pertemanan :(\n\n");
         }
-            PrintPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)));
-    } else{
-        printf("Tidak ada permintaan pertemanan :(\n\n");
     }
-}
 
 void setujuiPermintaanPertemanan(int idUser){
     if(!IsEmptyPermintaanPertemanan(PERMINTAANPERTEMANAN(USER(user,idUser)))){
