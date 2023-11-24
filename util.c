@@ -547,8 +547,10 @@ void bacaDraf(FILE*f){
             PushDraftKicau(&S, temp);
         }
         DraftKicau temps;
-        PopDraftKicau(&S, &temps);
-        PushDraftKicau(&(USER(user, authorID).draftKicauan), temps);
+        while (!DraftKicauanIsEmpty(S)){
+            PopDraftKicau(&S, &temps);
+            PushDraftKicau(&(USER(user, authorID).draftKicauan), temps);
+        }
     }
 }
 
@@ -1000,39 +1002,72 @@ void tulisUtas(Word folder){
     fclose(f);
 }
 
-// void tulisDraf(Word folder){
-//     char draf[] = "/draf.config";
-//     Word filename = ConcatWord(folder, CharToWord(kicauan));
+void tulisDraf(Word folder){
+    printf("KSLDJF");
+    char draf[] = "/draf.config";
+    Word filename = ConcatWord(folder, CharToWord(draf));
 
-//     char tempF[filename.Length];
-//     WordToChar(filename, tempF);
+    char tempF[filename.Length];
+    WordToChar(filename, tempF);
 
-//     FILE *f = fopen(tempF, "a");
+    FILE *f = fopen(tempF, "a");
 
-//     // jumlah kicauan
-//     fprintf(f, "%d\n", ListKicauan.NEFF);
-
-//     int n=0;
-//     KICAUAN temp = KICAUAN_ELMT(ListKicauan, n);
-//     for(n=0; n<ListKicauan.NEFF-1; n++){
-//         fprintf(f, "%d\n", KICAU_ID(temp)+1);
-//         fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
-//         fprintf(f, "%d\n", LIKE(temp));
-//         fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
-//         DATETIME temp2 = KICAU_TIMECREATED(temp);
-//         fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
-//         temp = KICAUAN_ELMT(ListKicauan, n+1);
-//     }
-
-//     fprintf(f, "%d\n", KICAU_ID(temp)+1);
-//     fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
-//     fprintf(f, "%d\n", LIKE(temp));
-//     fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
-//     DATETIME temp2 = KICAU_TIMECREATED(temp);
-//     fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
-
-//     fclose(f);
-// }
+    // jumlah draf
+    int i, ctr;
+    ctr = 0;
+    for (i = 0; i < user.CounterUser; i++){
+        if (!DraftKicauanIsEmpty(user.user[i].draftKicauan)){
+            ctr++;
+        }
+    }
+    fprintf(f, "%d\n", ctr);
+    printf("KSLDJF%d\n", ctr);
+    int ctr2 = 0;
+    for (i = 0; i < user.CounterUser; i++){
+        if (!DraftKicauanIsEmpty(user.user[i].draftKicauan)){
+            ctr2++;
+            if (ctr2 != ctr){
+                fprintf(f, "%s ", user.user[i].nama.TabWord);
+                AddressDraftKicau p = user.user[i].draftKicauan.addrTop;
+                int jml = 0;
+                while (p != NULL){
+                    jml++;
+                    p = p->next;
+                }
+                fprintf(f, "%d\n", jml);
+                int z;
+                p = user.user[i].draftKicauan.addrTop;
+                for (z = 0; z < jml; z++){
+                    fprintf(f, "%s\n", p->info.isiDraftKicauan.TabWord);
+                    DATETIME temp2 = p->info.timeCreated;
+                    fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+                    p = p->next;
+                }
+            } else {
+                fprintf(f, "%s ", user.user[i].nama.TabWord);
+                AddressDraftKicau p = user.user[i].draftKicauan.addrTop;
+                int jml = 0;
+                while (p != NULL){
+                    jml++;
+                    p = p->next;
+                }
+                fprintf(f, "%d\n", jml);
+                int z;
+                p = user.user[i].draftKicauan.addrTop;
+                for (z = 0; z < jml-1; z++){
+                    fprintf(f, "%s\n", p->info.isiDraftKicauan.TabWord);
+                    DATETIME temp2 = p->info.timeCreated;
+                    fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+                    p = p->next;
+                }
+                fprintf(f, "%s\n", p->info.isiDraftKicauan.TabWord);
+                DATETIME temp2 = p->info.timeCreated;
+                fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+            }
+        }
+    }
+    fclose(f);
+}
 
 void simpan(){
     Word folder;
