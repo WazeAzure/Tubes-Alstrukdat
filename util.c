@@ -1000,39 +1000,39 @@ void tulisUtas(Word folder){
     fclose(f);
 }
 
-void tulisDraf(Word folder){
-    char draf[] = "/draf.config";
-    Word filename = ConcatWord(folder, CharToWord(kicauan));
+// void tulisDraf(Word folder){
+//     char draf[] = "/draf.config";
+//     Word filename = ConcatWord(folder, CharToWord(kicauan));
 
-    char tempF[filename.Length];
-    WordToChar(filename, tempF);
+//     char tempF[filename.Length];
+//     WordToChar(filename, tempF);
 
-    FILE *f = fopen(tempF, "a");
+//     FILE *f = fopen(tempF, "a");
 
-    // jumlah kicauan
-    fprintf(f, "%d\n", ListKicauan.NEFF);
+//     // jumlah kicauan
+//     fprintf(f, "%d\n", ListKicauan.NEFF);
 
-    int n=0;
-    KICAUAN temp = KICAUAN_ELMT(ListKicauan, n);
-    for(n=0; n<ListKicauan.NEFF-1; n++){
-        fprintf(f, "%d\n", KICAU_ID(temp)+1);
-        fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
-        fprintf(f, "%d\n", LIKE(temp));
-        fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
-        DATETIME temp2 = KICAU_TIMECREATED(temp);
-        fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
-        temp = KICAUAN_ELMT(ListKicauan, n+1);
-    }
+//     int n=0;
+//     KICAUAN temp = KICAUAN_ELMT(ListKicauan, n);
+//     for(n=0; n<ListKicauan.NEFF-1; n++){
+//         fprintf(f, "%d\n", KICAU_ID(temp)+1);
+//         fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+//         fprintf(f, "%d\n", LIKE(temp));
+//         fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+//         DATETIME temp2 = KICAU_TIMECREATED(temp);
+//         fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+//         temp = KICAUAN_ELMT(ListKicauan, n+1);
+//     }
 
-    fprintf(f, "%d\n", KICAU_ID(temp)+1);
-    fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
-    fprintf(f, "%d\n", LIKE(temp));
-    fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
-    DATETIME temp2 = KICAU_TIMECREATED(temp);
-    fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+//     fprintf(f, "%d\n", KICAU_ID(temp)+1);
+//     fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+//     fprintf(f, "%d\n", LIKE(temp));
+//     fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+//     DATETIME temp2 = KICAU_TIMECREATED(temp);
+//     fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
 
-    fclose(f);
-}
+//     fclose(f);
+// }
 
 void simpan(){
     Word folder;
