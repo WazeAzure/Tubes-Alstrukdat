@@ -161,9 +161,9 @@ boolean DNEQ(DATETIME D1, DATETIME D2){
     return !DEQ(D1, D2);
 }
 
-boolean DLT(DATETIME D1, DATETIME D2){
-    return (DATETIMEToDetik(D1) < DATETIMEToDetik(D2));
-}
+// boolean DLT(DATETIME D1, DATETIME D2){
+//     return (DATETIMEToDetik(D1) < DATETIMEToDetik(D2));
+// }
 
 boolean DGT(DATETIME D1, DATETIME D2){
     return (DATETIMEToDetik(D1) > DATETIMEToDetik(D2));

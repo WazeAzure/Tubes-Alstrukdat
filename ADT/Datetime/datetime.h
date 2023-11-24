@@ -78,7 +78,7 @@ boolean DEQ(DATETIME D1, DATETIME D2);
 /* Mengirimkan true jika D1=D2, false jika tidak */
 boolean DNEQ(DATETIME D1, DATETIME D2);
 /* Mengirimkan true jika D1 tidak sama dengan D2 */
-boolean DLT(DATETIME D1, DATETIME D2);
+// boolean DLT(DATETIME D1, DATETIME D2);
 /* Mengirimkan true jika D1<D2, false jika tidak */
 boolean DGT(DATETIME D1, DATETIME D2);
 /* Mengirimkan true jika D1>D2, false jika tidak */
@@ -91,7 +91,7 @@ DATETIME DATETIMEPrevNDetik(DATETIME D, int N);
 long int DATETIMEDurasi(DATETIME DAw, DATETIME DAkh);
 /* Mengirim DAkh-DAw dlm Detik, dengan kalkulasi */
 /* Prekondisi: DAkh > DAw */
-
+long long int DATETIMEToDetik(DATETIME D);
 long long int getCurrentTime();
 
 DATETIME DetikToDATETIME(long long int sec);
