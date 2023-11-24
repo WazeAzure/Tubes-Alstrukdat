@@ -69,15 +69,15 @@ void buatDraft()
     isiDraft(x) = isi;
 
     // pilihan hapus, unggah, singgah
-    printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
 
     // membaca pilihan
     Word command;
     
     do
     {
+        printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
         readWord(&command, ';');
-    } while (strCompare(command.TabWord, "HAPUS") && strCompare(command.TabWord, "SIMPAN") && strCompare(command.TabWord, "TERBIT"));
+    } while (!strCompare(command.TabWord, "HAPUS") && !strCompare(command.TabWord, "SIMPAN") && !strCompare(command.TabWord, "TERBIT"));
     
     if (strCompare(command.TabWord, "HAPUS"))
     {
@@ -92,6 +92,10 @@ void buatDraft()
         printf("Draf telah berhasil disimpan\n");
     } else if (strCompare(command.TabWord, "TERBIT"))
     {
+        long long int time_second = getCurrentTime();
+        DATETIME timeDraftK = DetikToDATETIME(time_second);
+        timeDraft(x) = timeDraftK;
+        PushDraftKicau(S, x);
         terbitDraft(S);
     }
 }
@@ -113,26 +117,27 @@ void lihatDraft(Stack S)
         printWord(draf.isiDraftKicauan);
         printf("\n");
     }
+    Stack* temp = &DRAFT(USER(user, CurrentUserId));
 
     Word command;
     
     do
     {
-        printf("Apakah anda ingin mengubah, menyimpan, atau menerbitkan draf ini?\n");
+        printf("Apakah anda ingin mengubah, menghapus, atau menerbitkan draf ini? (KEMBALI untuk kembali)\n");
         readWord(&command,';');
-    } while (strCompare(command.TabWord, "HAPUS") != 0 && strCompare(command.TabWord, "UBAH") != 0 && strCompare(command.TabWord, "TERBIT") != 0 && strCompare(command.TabWord, "KEMBALI"));
+    } while (!strCompare(command.TabWord, "HAPUS") && !strCompare(command.TabWord, "UBAH") && !strCompare(command.TabWord, "TERBIT") && !strCompare(command.TabWord, "KEMBALI"));
 
     if (strCompare(command.TabWord, "HAPUS"))
     {
         DraftKicau val;
-        PopDraftKicau(&S,&val);
+        PopDraftKicau(temp,&val);
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord, "UBAH"))
     {
         ubahDraft();
     } else if (strCompare(command.TabWord, "TERBIT"))
     {
-        terbitDraft(&S);
+        terbitDraft(temp);
     } else if (strCompare(command.TabWord, "KEMBALI"))
     {
         printf("Kembali ke menu.\n");
@@ -145,6 +150,7 @@ void terbitDraft (Stack *S)
     DraftKicau x;
     PopDraftKicau(S,&x);
     Word tagar;
+    printf("Tagar: \n");
     readWord(&tagar, ';');
     KICAUAN* kicauBaru = newKicau(x.isiDraftKicauan, USER_NAMA(USER(user, CurrentUserId)), tagar);
 
@@ -167,7 +173,7 @@ void ubahDraft ()
     readWord(&newIsi,';');
 
     //mengganti draft awal dengan draft baru
-    DraftKicau val, new;
+    DraftKicau val;
 
     PopDraftKicau(S, &val);
 
@@ -175,15 +181,15 @@ void ubahDraft ()
 
 
     // pilihan hapus, unggah, singgah
-    printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
 
     // membaca pilihan
     Word command;
     
     do
     {
+        printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
         readWord(&command,';');
-    } while (strCompare(command.TabWord, "HAPUS") || strCompare(command.TabWord,"SIMPAN") || strCompare(command.TabWord, "TERBIT"));
+    } while (!strCompare(command.TabWord, "HAPUS") && !strCompare(command.TabWord,"SIMPAN") && !strCompare(command.TabWord, "TERBIT"));
     
     if (strCompare(command.TabWord, "HAPUS"))
     {
@@ -191,15 +197,17 @@ void ubahDraft ()
         printf("Draf telah berhasil dihapus!\n");
     } else if (strCompare(command.TabWord,"SIMPAN"))
     {
-
         int time_second = getCurrentTime();
         DATETIME timeDraftK = DetikToDATETIME(time_second);
-        timeDraft(new) = timeDraftK;
-
-        PushDraftKicau(S,new);
+        timeDraft(val) = timeDraftK;
+        PushDraftKicau(S,val);
         printf("Draf telah berhasil disimpan\n");
     } else if (strCompare(command.TabWord, "TERBIT"))
     {
+        int time_second = getCurrentTime();
+        DATETIME timeDraftK = DetikToDATETIME(time_second);
+        timeDraft(val) = timeDraftK;
+        PushDraftKicau(S,val);
         terbitDraft(S);
     }
 

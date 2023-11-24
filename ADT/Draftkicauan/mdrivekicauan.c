@@ -1,26 +1,58 @@
 #include <stdio.h>
 #include "../../util.h"
 
+#include "../../globalVar.c"
+#include "../Wordmachine/charmachine.c"
+#include "../Wordmachine/wordmachine.c"
+#include "../DisjoinSetUnion/circle.c"
+#include "../../util.c"
+#include "../pcolor/pcolor.c"
+#include "../User/user.c"
+#include "../Utas/utas.c"
+#include "../Kicauan/kicauan.c"
+
 int main() {
-    Stack S;
-    Word mawar;
-    Word maw;
-    ListUser l;
+    CreateEmptyDaftarPertemanan(&DaftarPertemanan);
+    CreateListKicauan(&ListKicauan, 100);
+    CreateListIdUtas(&ListIdUtas, 100);
+    createListUser(&user);
+    CreateListIdUtas(&ListIdUtas, 10);
+    Word nama;
+    Word sandi;
     KICAUAN k;
-    Word hai;
-    Word tes;
-    createListUser(&l);
-    addUser(&l,mawar,maw);
-    CreateKicauan(&k,1,mawar,hai,tes);
-    kicau(mawar);
-    DraftKicauanCreateEmpty(&S);
-    if(ADDR_TOP(S)==NULL){
+    printf("Masukkan nama: \n");
+    readWord(&nama, ';');
+    printf("\n");
+
+    // Handle kasus nama sudah terdaftar, loop sampai nama valid.
+    while (!isNamaValid(nama) || nama.Length == 0){
+        if (nama.Length == 0) {
+            printf("Nama tidak boleh kosong, isi kembali!\n\n");
+        } else {
+            printf("Wah, sayang sekali nama tersebut telah diambil.\n\n");
+        }
+        printf("Masukkan nama: \n");
+        readWord(&nama, ';');
+        printf("\n");
+    }
+    printf("\n");
+
+    // Membaca kata sandi dengan mesin kata
+    printf("Masukkan kata sandi: \n");
+    readWord(&sandi, ';');
+    printf("\n\n");
+
+    // Add user
+    CurrentUserId = 0;
+    addUser(&user,nama,sandi);
+    Word tes, tagar;
+    // CreateKicauan(&k,0,nama,tes,tagar);
+    // kicau(tes);
+    if(ADDR_TOP(DRAFT(USER(user, userId(nama))))==NULL){
         printf("DraftKicauan kosong berhasil dibuat\n");
     }
     buatDraft();
-    lihatDraft(S);
-    terbitDraft(&S);
-
+    lihatDraft(DRAFT(USER(user, userId(nama))));
     return 0;
 }
 
