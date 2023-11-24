@@ -1,7 +1,14 @@
 #include <stdio.h>
-#include "datetime.h"
-#include "time.h"
-#include <time.h>
+#include "../../util.c"
+#include "../../globalVar.c"
+#include "../Wordmachine/wordmachine.c"
+#include "../Wordmachine/charmachine.c"
+#include "../pcolor/pcolor.c"
+#include "../User/user.c"
+#include "../DisjoinSetUnion/circle.c"
+#include "../Kicauan/kicauan.c"
+
+
 
 int main()
 {
@@ -27,7 +34,7 @@ int main()
 
     printf("Masukkan detik untuk diubah menjadi DATETIME\n");
     int detik;
-    scanf("%lld", &detik);
+    scanf("%lld\n", &detik);
     TulisDATETIME(DetikToDATETIME(detik));
 
 
@@ -71,15 +78,6 @@ int main()
     {
         durasi = DATETIMEDurasi(d2,d1);
     }
-    printf("%ld\n", durasi);
-
-
-
-
-
-
-
-    
-    
+    printf("%ld\n", durasi); 
     
 }
