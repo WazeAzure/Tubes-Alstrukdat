@@ -85,7 +85,7 @@ void addKicauanLast(Word teks, Word Author, Word tagar){
 }
 
 void showKicauanContent(KICAUAN kicauan){
-    printf("| ID: %d\n", kicauan.id);
+    printf("| ID: %d\n", kicauan.id+1);
     printf("| idAuthor: %d\n", kicauan.idAuthor);
     printf("| %s\n", kicauan.Author.TabWord);
     printf("| "); TulisDATETIME(kicauan.timeCreated); printf("\n");

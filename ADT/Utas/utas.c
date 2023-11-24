@@ -162,7 +162,7 @@ void deleteFirstDaftarUtas(ListElemenUtas *daftarutas){
 
 void utas(int idKicau){
     boolean access = false;
-    
+    // idKicau = idKicau-1;
     if(idKicau>0 && idKicau<=ListKicauan.NEFF){
         idKicau = idKicau-1;
         if(ListKicauan.buffer[idKicau].idAuthor == CurrentUserId){

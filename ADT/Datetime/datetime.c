@@ -138,7 +138,7 @@ DATETIME CharToDATETIME(char s[]){
                 pos++;
                 continue;
             } else if (pos == 4){
-                printf("called\n");
+                // printf("called\n");
                 Minute(t) = temp;
                 temp = 0;
                 pos++;

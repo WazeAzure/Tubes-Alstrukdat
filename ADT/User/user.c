@@ -396,8 +396,8 @@ void ganti_profile(){
     // Update No HP
     printf("Masukkan No HP: \n");
     readHP(&inputHP, ';');
-    printf("%s\n", inputHP.TabWord);
-    printf("%d\n", inputHP.length);
+    // printf("%s\n", inputHP.TabWord);
+    // printf("%d\n", inputHP.length);
     while(!isHpValid(inputHP)) {
         printf("HP tidak valid. Masukkan lagi yuk!\n\n");
         printf("Masukkan HP Akun: \n");

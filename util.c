@@ -120,7 +120,7 @@ void bacaPengguna(FILE* f){
 
     LingkaranPertemanan.Neff = n_user;
 
-    printf("n_user %d\n", n_user);
+    // printf("n_user %d\n", n_user);
     // char line[100];
     int i;
     for(i=0; i<n_user; i++){
@@ -159,17 +159,17 @@ void bacaPengguna(FILE* f){
         }
         // fscanf(f, "%c", &currentChar);
 
-        printf("name: %s\n", name);
-        printf("%s\n", password);
-        printf("%s\n", bio);
-        printf("%s\n", hp.TabWord);
-        printf("%s\n", weton);
-        printf("%s\n", privacy);
-        printf("%s\n", prof_pict[0]);
-        printf("%s\n", prof_pict[1]);
-        printf("%s\n", prof_pict[2]);
-        printf("%s\n", prof_pict[3]);
-        printf("%s\n", prof_pict[4]);
+        // printf("name: %s\n", name);
+        // printf("%s\n", password);
+        // printf("%s\n", bio);
+        // printf("%s\n", hp.TabWord);
+        // printf("%s\n", weton);
+        // printf("%s\n", privacy);
+        // printf("%s\n", prof_pict[0]);
+        // printf("%s\n", prof_pict[1]);
+        // printf("%s\n", prof_pict[2]);
+        // printf("%s\n", prof_pict[3]);
+        // printf("%s\n", prof_pict[4]);
 
         Word wName = CharToWord(name);
         Word wPassword = CharToWord(password);
@@ -187,7 +187,7 @@ void bacaPengguna(FILE* f){
         createFoto(5, 5, &fotoProfile);
         setFotoProfil(&fotoProfile, prof_pict);
 
-        displayFoto(fotoProfile);
+        // displayFoto(fotoProfile);
 
         addUser(&user, wName, wPassword);
         setProfil(&user, i, wbio, hp, wweton, priv, fotoProfile);
@@ -212,7 +212,7 @@ void bacaPengguna(FILE* f){
 
     }
 
-    PrintDaftarPertemanan(DaftarPertemanan);
+    // PrintDaftarPertemanan(DaftarPertemanan);
     
     // permintaan pertemanan
     int banyakPermintaan;
@@ -222,7 +222,7 @@ void bacaPengguna(FILE* f){
     strip(nPermintaan, '\r');
     strip(nPermintaan, '\n');
     banyakPermintaan = WordToInt(CharToWord(nPermintaan));
-    printf("banyak permintaan %d\n", banyakPermintaan);
+    // printf("banyak permintaan %d\n", banyakPermintaan);
 
     char lineNum[100];
     int arr[3];
@@ -263,7 +263,7 @@ void bacaKicauan(FILE* f){
     strip(nKicauan, '\n');
     int n_kicauan = WordToInt(CharToWord(nKicauan));
 
-    printf("jumlah kicauan: %d\n", n_kicauan);
+    // printf("jumlah kicauan: %d\n", n_kicauan);
     int i;
     for(i=0; i<n_kicauan; i++){
         char idKicau[10];
@@ -296,13 +296,13 @@ void bacaKicauan(FILE* f){
         DATETIME d = CharToDATETIME(datetime);
         Word wtagar = CharToWord("\0");
 
-        printf("%d\n", id_kicau);
-        printf("%s\n", wtext.TabWord);
-        printf("%d\n", nlike);
-        printf("%s\n", wauthor.TabWord);
-        TulisDATETIME(d);
-        // endl;
-        printf("%s\n", wtagar.TabWord);
+        // printf("%d\n", id_kicau);
+        // printf("%s\n", wtext.TabWord);
+        // printf("%d\n", nlike);
+        // printf("%s\n", wauthor.TabWord);
+        // TulisDATETIME(d);
+        // // endl;
+        // printf("%s\n", wtagar.TabWord);
 
         // printf("work\n");
         // add kicauan;
