@@ -297,20 +297,19 @@ void sambung_utas(Word idUtas,Word index){
     }else if(Index-1 > lengthDaftarUtas(*currentUtas)){
         printf("Index terlalu tinggi.\n\n");
         return;
+    }else{
+        Word teks;
+        printf("Masukkan kicauan:\n");
+        do{
+            readWord(&teks,';');
+        }while(teks.Length == 0);
+        if(Index == 1){
+            insertFirstDaftarUtas(currentUtas,teks);
+            KICAU_DAFTAR_UTAS(*K) = *currentUtas;
         }else{
-            Word teks;
-            printf("Masukkan kicauan:\n");
-            do{
-                readWord(&teks,';');
-            }while(teks.Length == 0);
-            if(Index == 1){
-                insertFirstDaftarUtas(currentUtas,teks);
-                KICAU_DAFTAR_UTAS(*K) = *currentUtas;
-            }else{
-                insertAtDaftarUtas(currentUtas, teks, Index-1);
-            }
-            printf("\n\n");
+            insertAtDaftarUtas(currentUtas, teks, Index-1);
         }
+        printf("\n\n");
     }
 }
 
