@@ -1003,7 +1003,6 @@ void tulisUtas(Word folder){
 }
 
 void tulisDraf(Word folder){
-    printf("KSLDJF");
     char draf[] = "/draf.config";
     Word filename = ConcatWord(folder, CharToWord(draf));
 
@@ -1021,7 +1020,6 @@ void tulisDraf(Word folder){
         }
     }
     fprintf(f, "%d\n", ctr);
-    printf("KSLDJF%d\n", ctr);
     int ctr2 = 0;
     for (i = 0; i < user.CounterUser; i++){
         if (!DraftKicauanIsEmpty(user.user[i].draftKicauan)){
