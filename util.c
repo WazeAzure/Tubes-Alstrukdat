@@ -17,6 +17,26 @@ int strLen(char str[]){
     return i;
 }
 
+void strSplit(char str[], char delim, char *x, char *y){
+    int i = 0, j = 0;
+    boolean s = false;
+    while(str[i]){
+        if(str[i] == delim){
+            s = true;
+            x[i] = '\0';
+        } else {
+            if(s){
+                y[j] = str[i];
+                j++;
+            } else {
+                x[i] = str[i];
+            }
+        }
+        i++;
+    }
+    y[j] = '\0';
+}
+
 boolean strCompare(char str1[], char str2[]){
     // printf("%s\n", str1);
     // printf("%s\n", str2);
@@ -391,6 +411,80 @@ void bacaUtas(FILE*f){
     }
 }
 
+void bacaBalasan(FILE *f){
+    char nKicauan[4];
+    fgets(nKicauan, sizeof(nKicauan), f);
+    strip(nKicauan, '\r');
+    strip(nKicauan, '\n');
+    int n_kicau = WordToInt(CharToWord(nKicauan));
+
+    int i;
+    for(i=0; i<n_kicau; i++){
+        char idKicau[10];
+        fgets(idKicau, sizeof(idKicau), f);
+        strip(idKicau, '\r');
+        strip(idKicau, '\n');
+        int id_kicau = WordToInt(CharToWord(idKicau)) - 1;
+
+        char nBalasan[10];
+        fgets(nBalasan, sizeof(nBalasan), f);
+        strip(nBalasan, '\r');
+        strip(nBalasan, '\n');
+
+        int n_balas = WordToInt(CharToWord(nBalasan));
+        printf("n_balas: %d\n", n_balas);
+        int j;
+        for(j=0; j<n_balas; j++){
+            char idid[100];
+            char teks[100];
+            char author[100];
+            char datetime[100];
+            
+            fgets(idid, sizeof(idid), f);
+            strip(idid, '\r');
+            strip(idid, '\n');
+            fgets(teks, sizeof(teks), f);
+            strip(teks, '\r');
+            strip(teks, '\n');
+            fgets(author, sizeof(author), f);
+            strip(author, '\r');
+            strip(author, '\n');
+            fgets(datetime, sizeof(datetime), f);
+            strip(datetime, '\r');
+            strip(datetime, '\n');
+
+            char parentId[10], balasId[10];
+            strSplit(idid, ' ', parentId, balasId);
+            
+            int parent_id = WordToInt(CharToWord(parentId));
+            if(parent_id != -1){
+                parent_id --;
+            }
+            int balas_id = WordToInt(CharToWord(balasId)) -1;
+
+            Word text = CharToWord(teks);
+            Word Author = CharToWord(author);
+            DATETIME Datetime = CharToDATETIME(datetime);
+
+            BALASAN* balas = (BALASAN *)malloc(sizeof(BALASAN));
+            balas->author = Author;
+            balas->date = Datetime;
+            balas->isi = text;
+            balas->id = balas_id;
+            balas->idAuthor = userId(Author);
+
+            AddressTree t = (AddressTree)malloc(sizeof(TreeNode));
+            t->info = *balas;
+            t->sibling = NULL;
+            t->child = NULL;
+
+            printf("RUNNING -----------------------------\n");
+
+            insertBalasan(id_kicau, parent_id, t, balas_id);
+        }
+    }
+}
+
 boolean readFile(Word FileName, Word foldername){
     
     Word fname = ConcatWord(foldername, FileName);
@@ -406,7 +500,7 @@ boolean readFile(Word FileName, Word foldername){
         if(strCompare(FileName.TabWord, "/pengguna.config")){
             bacaPengguna(f);
         } else if(strCompare(FileName.TabWord, "/balasan.config")){
-            
+            bacaBalasan(f);
         } else if(strCompare(FileName.TabWord, "/kicauan.config")){
             bacaKicauan(f);
         } else if(strCompare(FileName.TabWord, "/utas.config")){
