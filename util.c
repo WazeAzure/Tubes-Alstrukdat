@@ -391,6 +391,74 @@ void bacaUtas(FILE*f){
     }
 }
 
+void bacaDraf(FILE*f){
+    int i, j, k, len;
+    char jumlah[100];
+
+    fgets(jumlah, sizeof(jumlah), f);
+    strip(jumlah, '\r');
+    strip(jumlah, '\n');
+    int Jumlah = WordToInt(CharToWord(jumlah));
+
+    for (i = 0; i < Jumlah; i++){
+        char jumlahDraf[100];
+        char NamaNDraf[100];
+        char author[100];
+
+        fgets(NamaNDraf, sizeof(NamaNDraf), f);
+        strip(NamaNDraf, '\r');
+        strip(NamaNDraf, '\n');
+
+        len = strLen(NamaNDraf);
+        j = len-1;
+        while (NamaNDraf[j] != ' ' && j >= 0){
+            j--;
+        }
+
+        for (k = 0; k < len-j-1; k++) {
+            jumlahDraf[k] = NamaNDraf[k + j + 1];
+        }
+        jumlahDraf[len-j-1] = '\0';
+        int jumlahdraf = WordToInt(CharToWord(jumlahDraf));
+
+        for (k = 0; k < j; k++){
+            author[k] = NamaNDraf[k];
+        } 
+        author[j] = '\0';
+        Word Author = CharToWord(author);
+
+        int authorID = userId(Author);
+
+        Stack S;
+        DraftKicauanCreateEmpty(&S);
+
+        for (j = 0; j < jumlahdraf; j++){
+            DraftKicau temp;
+            char teks[100];
+            char datetime[100];
+
+            fgets(teks, sizeof(teks), f);
+            strip(teks, '\r');
+            strip(teks, '\n');
+
+            fgets(datetime, sizeof(datetime), f);
+            strip(datetime, '\r');
+            strip(datetime, '\n');
+
+            Word text = CharToWord(teks);
+            DATETIME Datetime = CharToDATETIME(datetime);
+
+            temp.isiDraftKicauan = text;
+            temp.timeCreated = Datetime;
+
+            PushDraftKicau(&S, temp);
+        }
+        DraftKicau temps;
+        PopDraftKicau(&S, &temps);
+        PushDraftKicau(&(USER(user, authorID).draftKicauan), temps);
+    }
+}
+
 boolean readFile(Word FileName, Word foldername){
     
     Word fname = ConcatWord(foldername, FileName);
@@ -411,6 +479,8 @@ boolean readFile(Word FileName, Word foldername){
             bacaKicauan(f);
         } else if(strCompare(FileName.TabWord, "/utas.config")){
             bacaUtas(f);
+        } else if(strCompare(FileName.TabWord, "/draf.config")) {
+            bacaDraf(f);
         }
     } else {
         printf("%sfile \'%s\' not exist%s\n", RED, filename, NORMAL);
@@ -436,21 +506,21 @@ void loadConfigFile(){
     char char_kicauan[] = "/kicauan.config";
     char char_balasan[] = "/balasan.config";
     char char_utas[] = "/utas.config";
-    // char char_draf[] = "/draf.config";
+    char char_draf[] = "/draf.config";
 
     Word pengguna = CharToWord(char_pengguna);
     Word kicauan = CharToWord(char_kicauan);
     Word balasan = CharToWord(char_balasan);
     Word utas = CharToWord(char_utas);
-    // Word draf = CharToWord(char_draf);
+    Word draf = CharToWord(char_draf);
 
     boolean stat1 = readFile(pengguna, foldername);
     boolean stat2 = readFile(kicauan, foldername);
     boolean stat3 = readFile(balasan, foldername);
     boolean stat4 = readFile(utas, foldername);
-    // boolean stat5 = readFile(draf, foldername);
+    boolean stat5 = readFile(draf, foldername);
 
-    if(!(stat1 && stat2 && stat3 && stat4)){
+    if(!(stat1 && stat2 && stat3 && stat4 && stat5)){
         printf("Mohon pastikan semua file ada.\n");
         exit(1);
     }
@@ -628,7 +698,7 @@ static void redrawPromptFiles(void)
                 // printf("called in windows\n");
                 Sleep(500);
             #else
-                sleep(1);
+                // sleep(1);
                 // printf("called in linux\n");
             #endif
              
@@ -669,25 +739,25 @@ void createFiles(Word folder){
     char char_kicauan[] = "/kicauan.config";
     char char_balasan[] = "/balasan.config";
     char char_utas[] = "/utas.config";
-    // char char_draf[] = "/draf.config";
+    char char_draf[] = "/draf.config";
 
     Word pengguna = CharToWord(char_pengguna);
     Word kicauan = CharToWord(char_kicauan);
     Word balasan = CharToWord(char_balasan);
     Word utas = CharToWord(char_utas);
-    // Word draf = CharToWord(char_draf);
+    Word draf = CharToWord(char_draf);
 
     pengguna = ConcatWord(folder, pengguna);
     kicauan = ConcatWord(folder, kicauan);
     balasan = ConcatWord(folder, balasan);
     utas = ConcatWord(folder, utas);
-    // draf = ConcatWord(folder, draf);
+    draf = ConcatWord(folder, draf);
     
     createEmptyFile(pengguna);
     createEmptyFile(kicauan);
     createEmptyFile(balasan);
     createEmptyFile(utas);
-    // createEmptyFile(draf);
+    createEmptyFile(draf);
 }
 
 void tulisPengguna(Word folder){
@@ -837,6 +907,40 @@ void tulisUtas(Word folder){
     fclose(f);
 }
 
+void tulisDraf(Word folder){
+    char draf[] = "/draf.config";
+    Word filename = ConcatWord(folder, CharToWord(kicauan));
+
+    char tempF[filename.Length];
+    WordToChar(filename, tempF);
+
+    FILE *f = fopen(tempF, "a");
+
+    // jumlah kicauan
+    fprintf(f, "%d\n", ListKicauan.NEFF);
+
+    int n=0;
+    KICAUAN temp = KICAUAN_ELMT(ListKicauan, n);
+    for(n=0; n<ListKicauan.NEFF-1; n++){
+        fprintf(f, "%d\n", KICAU_ID(temp)+1);
+        fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+        fprintf(f, "%d\n", LIKE(temp));
+        fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+        DATETIME temp2 = KICAU_TIMECREATED(temp);
+        fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+        temp = KICAUAN_ELMT(ListKicauan, n+1);
+    }
+
+    fprintf(f, "%d\n", KICAU_ID(temp)+1);
+    fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+    fprintf(f, "%d\n", LIKE(temp));
+    fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+    DATETIME temp2 = KICAU_TIMECREATED(temp);
+    fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+
+    fclose(f);
+}
+
 void simpan(){
     Word folder;
     printf("Masukkan nama folder penyimpanan: ");
@@ -855,7 +959,7 @@ void simpan(){
     tulisPengguna(folder);
     tulisKicauan(folder);
     tulisUtas(folder);
-
+    tulisDraf(folder);
 
     redrawPromptFiles();
 }
