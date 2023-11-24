@@ -1,8 +1,27 @@
 #include <stdio.h>
-#include "../../util.h"
+#include "user.c"
+#include "../Wordmachine/charmachine.c"
+#include "../Wordmachine/wordmachine.c"
+#include "../DaftarPertemanan/daftarpertemanan.c"
+#include "../PermintaanPertemanan/permintaanpertemanan.c"
+#include "../Datetime/time.c"
+#include "../Datetime/datetime.c"
+#include "../Draftkicauan/draftkicauan.c"
+#include "../pcolor/pcolor.c"
+#include "../../globalVar.c"
 
-int main() {
+int main(){
+    // set matriks pertemanan
+    CreateEmptyDaftarPertemanan(&DaftarPertemanan);
 
+    // set daftar kicauan
+    CreateListKicauan(&ListKicauan, 100);
+
+    // set daftar id utas
+    CreateListIdUtas(&ListIdUtas, 100);
+
+    // Inisialisasi ListUser (Daftar Pengguna)
+    createListUser(&user);
     Word nama;
     Word sandi;
     KICAUAN k;
@@ -32,15 +51,4 @@ int main() {
     user.CounterUser = 0;
     CurrentUserId = 0;
     addUser(&user,nama,sandi);
-    Word tes, tagar;
-    CreateKicauan(&k,1,nama,tes,tagar);
-    kicau(tes);
-    if(ADDR_TOP(DRAFT(USER(user, userId(nama))))==NULL){
-        printf("DraftKicauan kosong berhasil dibuat\n");
-    }
-    buatDraft();
-    lihatDraft(DRAFT(USER(user, userId(nama))));
-    return 0;
 }
-
-// gcc -o draftkicau ADT/Draftkicauan/draftkicauan.c ADT/User/user.c ADT/Wordmachine/charmachine.c ADT/Wordmachine/wordmachine.c ADT/Kicauan/kicauan.c ADT/Draftkicauan/mdrivekicauan.c globalVar.c main.c ADT/pcolor/pcolor.c
