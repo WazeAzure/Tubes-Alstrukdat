@@ -49,7 +49,16 @@ void insertHeap(MAXHEAP *h, KICAUAN k)
 
 void displayHeap(MAXHEAP *h)
 {
-    for (int i=0;i< sizeHEAP(*h);i++)
+    int idx; 
+    if (SIZE_HEAP(*h) < 8)
+    {
+        idx = SIZE_HEAP(*h);
+    } else
+    {
+        idx = 8;
+    }
+
+    for (int i=0;i< idx;i++)
     {
         showKicauanContent(GETKICAU_HEAP(*h,i));
     }
@@ -57,7 +66,7 @@ void displayHeap(MAXHEAP *h)
 
 boolean validIndexHeap(int idx, MAXHEAP *h)
 {
-    return ( idx < sizeHEAP(*h) || idx > 0);
+    return ( idx < SIZE_HEAP(*h) || idx > 0);
 }
 
 void updateHEAP(MAXHEAP *h, KICAUAN updatedKicau)
