@@ -1,4 +1,3 @@
-#include "utas.h"
 #include "utas.c"
 #include "stdio.h"
 
@@ -12,45 +11,62 @@
 #include "../Kicauan/kicauan.c"
 
 int main(){
+    CreateListKicauan(&ListKicauan, 100);
+
+    char name[] = "justin hehe";
+    Word Author;
+    int len = strLen(name);
+
+    for(int i=0; i<len; i++){
+        Author.TabWord[i] = name[i];
+    }
+    Author.Length = len;
+    kicau(Author);
+    printf("ini kicauan\n");
+    kicauan();
+    Word input;
+    input.TabWord[0] = 0;
+    KICAUAN kicauan;
+    kicauan.id = 2;
+
+    printf("tes\n");
     Word idUtas;
     Word index;
     Word teks;
-    int IdUtas = WordToInt(idUtas);
+    scanf("masukkan idUtas %s\n", idUtas);
+    idUtas.TabWord[0] = 1;
+    int sum = 0;
     int Index = WordToInt(index); 
-    LISTIDUTAS l;
-    KICAUAN kicauan;
-    kicauan.id = 2;
-    CreateListIdUtas(&l, 10);
+    printf("s\n");
+    int cap;
+    scanf("%d", cap);
+    CreateListIdUtas(&ListIdUtas, cap);
     AddressUtas daftarUtas;
-    if(l.buffer == NULL){
+    if(ListIdUtas.buffer == NULL){
         printf("LIST KOSONG\n");
     }
-    printf("Neff %d\n", l.nEFF);
-    printf("cap %d\n", l.CAPACITY);
     CreateListElementUtas(&daftarUtas);
-    if(isEmptyDaftarUtas(daftarUtas) && isEmptyListIdUtas(l)){
+    if(isEmptyDaftarUtas(daftarUtas) && isEmptyListIdUtas(ListIdUtas)){
         printf("tidak ada kicauan yang diutas\n");
     }
     printf("Banyak elemen list utas pada kicau %d adalah %d\n",kicauan.id,lengthDaftarUtas(daftarUtas));
-    printf("%d\n",lengthDaftarIdUtas(l));
+    printf("%d\n",lengthDaftarIdUtas(ListIdUtas));
     utas(2);
     sambung_utas(idUtas,index);
     insertAtDaftarUtas(&daftarUtas,teks,Index);
-    cetak_utas(IdUtas);
+    cetak_utas(sum);
     printf(" Adress index ke %d : %p\n", Index, cariAddress(&daftarUtas,Index));
-    sambung_utas(idUtas,index);
-    sambung_utas(idUtas,index);
     hapus_utas(index,idUtas);
-    int len = lengthDaftarIdUtas(l);
-    cetak_utas(IdUtas);
+    int lent = lengthDaftarIdUtas(ListIdUtas);
+    cetak_utas(sum);
     if(isUtas(2)){
         printf("ini adalah utas\n");
     }
-    int lastidxidutas = getLastIdx(l);
+    int lastidxidutas = getLastIdx(ListIdUtas);
     printf("idUtas terakhir adalah %d\n",lastidxidutas);
     insertLastDaftarUtas(&daftarUtas,teks,2);
-    cetak_utas(IdUtas);
+    cetak_utas(sum);
     deleteFirstDaftarUtas(&daftarUtas);
-    cetak_utas(IdUtas);
+    cetak_utas(sum);
     return 0;
 }
