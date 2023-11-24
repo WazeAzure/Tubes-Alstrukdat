@@ -17,6 +17,26 @@ int strLen(char str[]){
     return i;
 }
 
+void strSplit(char str[], char delim, char *x, char *y){
+    int i = 0, j = 0;
+    boolean s = false;
+    while(str[i]){
+        if(str[i] == delim){
+            s = true;
+            x[i] = '\0';
+        } else {
+            if(s){
+                y[j] = str[i];
+                j++;
+            } else {
+                x[i] = str[i];
+            }
+        }
+        i++;
+    }
+    y[j] = '\0';
+}
+
 boolean strCompare(char str1[], char str2[]){
     // printf("%s\n", str1);
     // printf("%s\n", str2);
@@ -391,6 +411,147 @@ void bacaUtas(FILE*f){
     }
 }
 
+void bacaBalasan(FILE *f){
+    char nKicauan[4];
+    fgets(nKicauan, sizeof(nKicauan), f);
+    strip(nKicauan, '\r');
+    strip(nKicauan, '\n');
+    int n_kicau = WordToInt(CharToWord(nKicauan));
+
+    int i;
+    for(i=0; i<n_kicau; i++){
+        char idKicau[10];
+        fgets(idKicau, sizeof(idKicau), f);
+        strip(idKicau, '\r');
+        strip(idKicau, '\n');
+        int id_kicau = WordToInt(CharToWord(idKicau)) - 1;
+
+        char nBalasan[10];
+        fgets(nBalasan, sizeof(nBalasan), f);
+        strip(nBalasan, '\r');
+        strip(nBalasan, '\n');
+
+        int n_balas = WordToInt(CharToWord(nBalasan));
+        printf("n_balas: %d\n", n_balas);
+        int j;
+        for(j=0; j<n_balas; j++){
+            char idid[100];
+            char teks[100];
+            char author[100];
+            char datetime[100];
+            
+            fgets(idid, sizeof(idid), f);
+            strip(idid, '\r');
+            strip(idid, '\n');
+            fgets(teks, sizeof(teks), f);
+            strip(teks, '\r');
+            strip(teks, '\n');
+            fgets(author, sizeof(author), f);
+            strip(author, '\r');
+            strip(author, '\n');
+            fgets(datetime, sizeof(datetime), f);
+            strip(datetime, '\r');
+            strip(datetime, '\n');
+            char parentId[10], balasId[10];
+            strSplit(idid, ' ', parentId, balasId);
+            
+            int parent_id = WordToInt(CharToWord(parentId));
+            if(parent_id != -1){
+                parent_id --;
+            }
+            int balas_id = WordToInt(CharToWord(balasId)) -1;
+
+            Word text = CharToWord(teks);
+            Word Author = CharToWord(author);
+            DATETIME Datetime = CharToDATETIME(datetime);
+
+            BALASAN* balas = (BALASAN *)malloc(sizeof(BALASAN));
+            balas->author = Author;
+            balas->date = Datetime;
+            balas->isi = text;
+            balas->id = balas_id;
+            balas->idAuthor = userId(Author);
+
+            AddressTree t = (AddressTree)malloc(sizeof(TreeNode));
+            t->info = *balas;
+            t->sibling = NULL;
+            t->child = NULL;
+
+            printf("RUNNING -----------------------------\n");
+
+            insertBalasan(id_kicau, parent_id, t, balas_id);
+        }
+    }
+}
+
+void bacaDraf(FILE*f){
+    int i, j, k, len;
+    char jumlah[100];
+
+    fgets(jumlah, sizeof(jumlah), f);
+    strip(jumlah, '\r');
+    strip(jumlah, '\n');
+    int Jumlah = WordToInt(CharToWord(jumlah));
+
+    for (i = 0; i < Jumlah; i++){
+        char jumlahDraf[100];
+        char NamaNDraf[100];
+        char author[100];
+
+        fgets(NamaNDraf, sizeof(NamaNDraf), f);
+        strip(NamaNDraf, '\r');
+        strip(NamaNDraf, '\n');
+
+        len = strLen(NamaNDraf);
+        j = len-1;
+        while (NamaNDraf[j] != ' ' && j >= 0){
+            j--;
+        }
+
+        for (k = 0; k < len-j-1; k++) {
+            jumlahDraf[k] = NamaNDraf[k + j + 1];
+        }
+        jumlahDraf[len-j-1] = '\0';
+        int jumlahdraf = WordToInt(CharToWord(jumlahDraf));
+
+        for (k = 0; k < j; k++){
+            author[k] = NamaNDraf[k];
+        } 
+        author[j] = '\0';
+        Word Author = CharToWord(author);
+
+        int authorID = userId(Author);
+
+        Stack S;
+        DraftKicauanCreateEmpty(&S);
+
+        for (j = 0; j < jumlahdraf; j++){
+            DraftKicau temp;
+            char teks[100];
+            char datetime[100];
+
+            fgets(teks, sizeof(teks), f);
+            strip(teks, '\r');
+            strip(teks, '\n');
+
+            fgets(datetime, sizeof(datetime), f);
+            strip(datetime, '\r');
+            strip(datetime, '\n');
+
+            Word text = CharToWord(teks);
+            DATETIME Datetime = CharToDATETIME(datetime);
+
+            temp.isiDraftKicauan = text;
+            temp.timeCreated = Datetime;
+
+            PushDraftKicau(&S, temp);
+        }
+        DraftKicau temps;
+        PopDraftKicau(&S, &temps);
+        PushDraftKicau(&(USER(user, authorID).draftKicauan), temps);
+    }
+}
+
 boolean readFile(Word FileName, Word foldername){
     
     Word fname = ConcatWord(foldername, FileName);
@@ -406,11 +567,13 @@ boolean readFile(Word FileName, Word foldername){
         if(strCompare(FileName.TabWord, "/pengguna.config")){
             bacaPengguna(f);
         } else if(strCompare(FileName.TabWord, "/balasan.config")){
-            
+            bacaBalasan(f);
         } else if(strCompare(FileName.TabWord, "/kicauan.config")){
             bacaKicauan(f);
         } else if(strCompare(FileName.TabWord, "/utas.config")){
             bacaUtas(f);
+        } else if(strCompare(FileName.TabWord, "/draf.config")) {
+            bacaDraf(f);
         }
     } else {
         printf("%sfile \'%s\' not exist%s\n", RED, filename, NORMAL);
@@ -436,21 +599,21 @@ void loadConfigFile(){
     char char_kicauan[] = "/kicauan.config";
     char char_balasan[] = "/balasan.config";
     char char_utas[] = "/utas.config";
-    // char char_draf[] = "/draf.config";
+    char char_draf[] = "/draf.config";
 
     Word pengguna = CharToWord(char_pengguna);
     Word kicauan = CharToWord(char_kicauan);
     Word balasan = CharToWord(char_balasan);
     Word utas = CharToWord(char_utas);
-    // Word draf = CharToWord(char_draf);
+    Word draf = CharToWord(char_draf);
 
     boolean stat1 = readFile(pengguna, foldername);
     boolean stat2 = readFile(kicauan, foldername);
     boolean stat3 = readFile(balasan, foldername);
     boolean stat4 = readFile(utas, foldername);
-    // boolean stat5 = readFile(draf, foldername);
+    boolean stat5 = readFile(draf, foldername);
 
-    if(!(stat1 && stat2 && stat3 && stat4)){
+    if(!(stat1 && stat2 && stat3 && stat4 && stat5)){
         printf("Mohon pastikan semua file ada.\n");
         exit(1);
     }
@@ -628,7 +791,7 @@ static void redrawPromptFiles(void)
                 // printf("called in windows\n");
                 Sleep(500);
             #else
-                sleep(1);
+                // sleep(1);
                 // printf("called in linux\n");
             #endif
              
@@ -669,25 +832,25 @@ void createFiles(Word folder){
     char char_kicauan[] = "/kicauan.config";
     char char_balasan[] = "/balasan.config";
     char char_utas[] = "/utas.config";
-    // char char_draf[] = "/draf.config";
+    char char_draf[] = "/draf.config";
 
     Word pengguna = CharToWord(char_pengguna);
     Word kicauan = CharToWord(char_kicauan);
     Word balasan = CharToWord(char_balasan);
     Word utas = CharToWord(char_utas);
-    // Word draf = CharToWord(char_draf);
+    Word draf = CharToWord(char_draf);
 
     pengguna = ConcatWord(folder, pengguna);
     kicauan = ConcatWord(folder, kicauan);
     balasan = ConcatWord(folder, balasan);
     utas = ConcatWord(folder, utas);
-    // draf = ConcatWord(folder, draf);
+    draf = ConcatWord(folder, draf);
     
     createEmptyFile(pengguna);
     createEmptyFile(kicauan);
     createEmptyFile(balasan);
     createEmptyFile(utas);
-    // createEmptyFile(draf);
+    createEmptyFile(draf);
 }
 
 void tulisPengguna(Word folder){
@@ -837,6 +1000,40 @@ void tulisUtas(Word folder){
     fclose(f);
 }
 
+// void tulisDraf(Word folder){
+//     char draf[] = "/draf.config";
+//     Word filename = ConcatWord(folder, CharToWord(kicauan));
+
+//     char tempF[filename.Length];
+//     WordToChar(filename, tempF);
+
+//     FILE *f = fopen(tempF, "a");
+
+//     // jumlah kicauan
+//     fprintf(f, "%d\n", ListKicauan.NEFF);
+
+//     int n=0;
+//     KICAUAN temp = KICAUAN_ELMT(ListKicauan, n);
+//     for(n=0; n<ListKicauan.NEFF-1; n++){
+//         fprintf(f, "%d\n", KICAU_ID(temp)+1);
+//         fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+//         fprintf(f, "%d\n", LIKE(temp));
+//         fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+//         DATETIME temp2 = KICAU_TIMECREATED(temp);
+//         fprintf(f, "%02d/%02d/%d %02d:%02d:%02d\r\n", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+//         temp = KICAUAN_ELMT(ListKicauan, n+1);
+//     }
+
+//     fprintf(f, "%d\n", KICAU_ID(temp)+1);
+//     fprintf(f, "%s\n", KICAU_TEKS(temp).TabWord);
+//     fprintf(f, "%d\n", LIKE(temp));
+//     fprintf(f, "%s\n", KICAU_NAMAAUTHOR(temp).TabWord);
+//     DATETIME temp2 = KICAU_TIMECREATED(temp);
+//     fprintf(f, "%02d/%02d/%d %02d:%02d:%02d", Day(temp2), Month(temp2), Year(temp2), Hour(Time(temp2)), Minute(Time(temp2)), Second(Time(temp2)));
+
+//     fclose(f);
+// }
+
 void simpan(){
     Word folder;
     printf("Masukkan nama folder penyimpanan: ");
@@ -855,7 +1052,7 @@ void simpan(){
     tulisPengguna(folder);
     tulisKicauan(folder);
     tulisUtas(folder);
-
+    tulisDraf(folder);
 
     redrawPromptFiles();
 }
