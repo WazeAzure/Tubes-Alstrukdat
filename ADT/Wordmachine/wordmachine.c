@@ -132,14 +132,19 @@ int WordToInt(Word w){
     // printf("length %d\n", w.Length);
     int sum = 0;
     int i=0;
+    boolean isNeg = false;
     for(i=0; i<w.Length;i++){
+        // printf("---- %c\n", w.TabWord[i]);
         if(w.TabWord[i] == '-'){
-            sum *= -1;
-        } else {
+            isNeg = true;
+        } else{
             sum = (sum * 10) + (w.TabWord[i] - '0');
         }
     }
-    return sum;
+
+    if(isNeg) return -sum;
+
+    return sum ;
 }
 
 void WordToChar(Word str, char* arr_str){
