@@ -161,8 +161,6 @@ void searchIdParent(AddressTree kicauanUtama, int id_balasan, AddressTree* resul
     searchId((kicauanUtama)->child, id_balasan, result);
 }
 
-
-
 void insertBalasan(int idKicau, Word idBalasan, AddressTree node){
     int id_balasan = WordToInt(idBalasan);
     if(strCompare(idBalasan.TabWord, "-1")){
@@ -328,7 +326,38 @@ void deallocTreeSection(AddressTree t){
     
 }
 
+boolean isHapusBalasanValid(int idKicau, int idBalasan){
+
+    if(!(idKicau >= 0 && idKicau < ListKicauan.NEFF)){
+        printf("%sMaaf tidak ditemukan balasan pada kicauan %s\n", RED, NORMAL);
+        return false;
+    }
+
+    int temp222222 = idBalasan;
+    AddressTree found = NULL; 
+    searchId(KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan, temp222222, &found);
+    // int idAuthorKicauan = KICAUAN_ELMT(ListKicauan, idKicau).idAuthor;
+    if(temp222222 != -1 && found == NULL){
+        printf("%sBalasan tidak ditemukan%s\n", RED, NORMAL);
+        return false;
+    }
+
+    if (CurrentUserId != found->info.idAuthor){
+        printf("%sMaaf, ini Balasan punya punya siapa? jangan di hapus!%s\n", RED, NORMAL);
+        return false;
+    }
+
+
+    return true;
+
+}
+
 void hapusBalasan(int idKicau, int idBalasan){
+
+    if (!isHapusBalasanValid(idKicau, idBalasan)){
+        return ;
+    }
+
     AddressTree* kicauanUtama = &KICAUAN_ELMT(ListKicauan, idKicau).daftar_balasan;
 
     AddressTree root = NULL;
