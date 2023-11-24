@@ -101,7 +101,7 @@ void lihatDraft(Stack S)
     if (DraftKicauanIsEmpty(S))
     {
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
-        return ;
+        // return ;
     } else
     {
         DraftKicau draf = TOP(S);
