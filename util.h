@@ -8,6 +8,8 @@
 #include "globalVar.h"
 #include "ADT/DisjoinSetUnion/circle.h"
 
+#include "ADT/Balasan/pohontree.h"
+
 #define endl printf("\n")
 
 int strLen(char str[]);

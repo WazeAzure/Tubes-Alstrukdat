@@ -7,6 +7,10 @@
 #include "../User/user.c"
 #include "../DisjoinSetUnion/circle.c"
 #include "../Kicauan/kicauan.c"
+#include "datetime.h"
+#include "time.h"
+#include <time.h>
+#include "../../util.c"
 
 
 
@@ -59,14 +63,6 @@ int main()
         printf("Kedua DATETIME sama\n");
     }
 
-    printf("Pengecekkan apabila D1 < D2, 0 jika salah, 1 jika benar\n");
-    if (DNEQ(d1,d2))
-    {
-        printf("%d\n", DLT(d1,d2));
-    } else
-    {
-        printf("Kedua DATETIME sama\n");
-    }
 
     printf("Durasi antar dua DATETIME:\n");
     long int durasi;
