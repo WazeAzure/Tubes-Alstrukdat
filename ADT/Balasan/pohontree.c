@@ -322,6 +322,14 @@ void deallocTreeSection(AddressTree t){
     // printf("%s\n", CHILD(p)->info.isi.TabWord);
     // printf("--------------------------------\n");
 
+    AddressTree p = t;
+    printf("------------START-----------------\n");
+    printf("| ID = %d\n", p->info.id );
+    printf("| %s\n", p->info.author.TabWord);
+    printf("| "); TulisDATETIME(p->info.date); printf("\n");
+    printf("| %s\n", p->info.isi.TabWord);
+    printf("------------END--------------------\n");
+
     t->child = NULL;
     t->sibling = NULL;
     free(t);
